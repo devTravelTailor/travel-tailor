@@ -1,35 +1,36 @@
-"use client";
-
 import Calender from "../../components/Featured/Calender";
 import Spinner from "../../components/CustomUI/Spinner/Spinner";
-import { useState, useEffect } from "react";
-
 import styles from "./styles.module.css";
 
-export default function CalenderPage() {
-  const [months, setMonths] = useState([]);
+export const revalidate = 60; // Cache for 60 seconds
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/months/?page=1&limit=12`,
-        {
-          headers: {
-            Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
-          },
-        }
-      );
-      const data = await response.json();
-      console.log(data);
-      setMonths(data.data.items);
-    };
-    fetchData();
-  }, []);
+export default async function CalenderPage() {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/months/?page=1&limit=12`,
+    {
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+      },
+      next: { revalidate: 60 }, // ISR (Incremental Static Regeneration)
+    }
+  );
+
+  if (!res.ok) {
+    console.error("Failed to fetch months:", res.status);
+    return (
+      <main className={styles.calender}>
+        <Spinner />
+      </main>
+    );
+  }
+
+  const data = await res.json();
+  const months = data?.data?.items || [];
 
   return (
     <main>
       <div className={styles.calender}>
-        {months?.length > 0 ? <Calender months={months} /> : <Spinner />}
+        <Calender months={months} />
       </div>
     </main>
   );

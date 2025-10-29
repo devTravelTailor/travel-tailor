@@ -15,12 +15,12 @@ export default async function Main() {
     headers: {
       Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
     },
-    cache: "no-store",
+    // cache: "no-store",
 
     // Force cache (no revalidation)
-    // cache: "force-cache",
+    cache: "force-cache",
     // Or, if you want timed revalidation:
-    // next: { revalidate: 3 }, // revalidate every hour
+    next: { revalidate: 3 }, // revalidate every hour
   });
 
   if (!res.ok) {

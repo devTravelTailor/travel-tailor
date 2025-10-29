@@ -1,93 +1,54 @@
-'use client';
+// app/destinations/page.jsx
+import TextList from "../../components/TextList/TextList";
+import Spinner from "../../components/CustomUI/Spinner/Spinner";
+import styles from "./styles.module.css";
 
-import { useState, useEffect } from 'react';
-import List from '../../components/List/List';
-import TextList from '../../components/TextList/TextList';
-import Spinner from '../../components/CustomUI/Spinner/Spinner';
+export const revalidate = 120; // cache for 2 minutes
 
-import styles from './styles.module.css';
-
-export default function DestinationsPage() {
-  const [destinationData, setDestinationData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  // --- Data Fetching ---
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      setError(null);
-
-      try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/site_destinationslist/`,
-          {
-            headers: {
-              Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
-            },
-          },
-        );
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        // Parse the JSON response
-        const data = await response.json();
-
-        const destinationsArray = data.data;
-
-        setDestinationData(destinationsArray);
-      } catch (err) {
-        console.error('Failed to fetch destinations:', err);
-        setError(err.message || 'Failed to fetch destination data.');
-      } finally {
-        setIsLoading(false);
+export default async function DestinationsPage() {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/site_destinationslist/`,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+        },
+        next: { revalidate: 120 },
       }
-    };
+    );
 
-    fetchData();
-  }, []);
+    if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
 
-  console.log(destinationData);
+    const data = await res.json();
+    const destinationsArray = data.data;
 
-  return (
-    <section className={styles.destinations}>
-      {isLoading ? (
-        <Spinner />
-      ) : error ? (
-        // Display error message
-        <div
-          style={{
-            padding: 'var(--pd-page)',
-            color: 'red',
-            textAlign: 'center',
-          }}>
-          Error: {error}
+    if (!destinationsArray || destinationsArray.group.length === 0) {
+      return (
+        <section className={styles.destinations}>
+          <div className="text-center text-gray-500 p-10">
+            No destinations found.
+          </div>
+        </section>
+      );
+    }
+
+    return (
+      <section className={styles.destinations}>
+        <TextList
+          data={destinationsArray}
+          itemBasePath="/destinations"
+          itemKeyName="destinations"
+        />
+      </section>
+    );
+  } catch (error) {
+    console.error("Failed to fetch destinations:", error);
+    return (
+      <section className={styles.destinations}>
+        <div className="text-center text-red-500 p-10">
+          Failed to load destinations.
         </div>
-      ) : !destinationData || destinationData.group.length === 0 ? (
-        <div
-          style={{
-            padding: 'var(--pd-page)',
-            textAlign: 'center',
-            color: 'var(--color-grey)',
-          }}>
-          No destinations found.
-        </div>
-      ) : (
-        <>
-          {/* <List
-            data={destinationData}
-            itemBasePath="/destinations"
-            itemKeyName="destinations"
-          /> */}
-          <TextList
-            data={destinationData}
-            itemBasePath='/destinations'
-            itemKeyName='destinations'
-          />
-        </>
-      )}
-    </section>
-  );
+      </section>
+    );
+  }
 }

@@ -11,6 +11,7 @@ export default async function CalenderPage() {
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
       },
+      cache: "force-cache",
       next: { revalidate: 60 }, // ISR (Incremental Static Regeneration)
     }
   );

@@ -1,0 +1,367 @@
+/* styles.module.css for Tours component */
+
+.tours {
+    padding: 20px 0 20px 0;
+}
+
+.toursBox {
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+}
+
+.toursTitle {
+    padding: 0 var(--pd-page);
+}
+
+.toursContent {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.toursList {
+    display: flex;
+    overflow: auto;
+    gap: 20px;
+    width: 100%;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+}
+
+.toursList::-webkit-scrollbar {
+    width: 0;
+}
+
+.toursList .tourItem:first-child {
+    margin-left: 30px;
+}
+
+.toursList .tourItem:last-child {
+    margin-right: 40px;
+}
+
+.scrollNav {
+    margin: 0 var(--pd-page) 0 auto;
+}
+
+/* ////////////////////////////////////////////////////////// Destinations */
+.destinations {
+    padding: 20px 0 20px 0;
+}
+
+.destinationsBox {
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+}
+
+.destinationsTitle {
+    padding: 0 var(--pd-page);
+}
+
+.destinationsContent {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.destinationsList {
+    display: flex;
+    overflow: auto;
+    gap: 20px;
+    width: 100%;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+}
+
+.destinationsList::-webkit-scrollbar {
+    width: 0;
+}
+
+.destinationsList .destinationItem:first-child {
+    margin-left: 30px;
+}
+
+.destinationsList .destinationItem:last-child {
+    margin-right: 40px;
+}
+
+/* ////////////////////////////////////////////////////////// Highlights */
+.highlight {
+    padding: 40px var(--pd-page);
+    display: grid;
+    place-content: center;
+}
+
+.highlightBox {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.highlightContent {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.highlightContentMain {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.highlightTitle {
+    font-size: var(--fs-h2);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-black);
+    line-height: 1.1;
+}
+
+.highlightTitle span {
+    font-weight: var(--font-weight-medium);
+    color: var(--color-primary);
+    font-family: var(--font-alt);
+    font-size: calc(var(--fs-h2) + 8px);
+    line-height: 0;
+}
+
+.highlightBrief {
+    font-size: var(--fs-p2);
+    font-weight: var(--font-weight-regular);
+    color: var(--color-grey);
+}
+
+.highlightImg {
+    width: 100%;
+    height: 340px;
+    overflow: hidden;
+    border-radius: var(--rounded);
+    position: relative;
+}
+
+.highlightImg img {
+    object-fit: cover;
+    width: 140%;
+    height: 140%;
+    filter: brightness(0.9);
+    object-position: center;
+}
+
+
+/* ////////////////////////////////////////////////////////// Spotlights */
+
+.featuredSpotlights {
+    padding: 20px 0 20px 0;
+}
+
+.spotlightsBox {
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+}
+
+.spotlightsTitle {
+    padding: 0 var(--pd-page);
+}
+
+.spotlightsContent {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.spotlights {
+    display: flex;
+    overflow: auto;
+    gap: 20px;
+    width: 100%;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+}
+
+.spotlights::-webkit-scrollbar {
+    width: 0;
+}
+
+.spotlightsContent .spotlightItem:first-child {
+    margin-left: 30px;
+}
+
+.spotlightsContent .spotlightItem:last-child {
+    margin-right: 40px;
+}
+
+.scrollNav {
+    margin: 0 var(--pd-page) 0 auto;
+}
+
+/* ////////////////////////////////////////////////////////// Experiences */
+.experiences {
+    padding: 20px var(--pd-page);
+}
+
+.experiencesBox {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+/* Media Queries for Desktop */
+@media (min-width: 768px) {
+    .tours {
+        padding: 20px 0 20px 0;
+    }
+
+    .toursBox {
+        gap: 80px;
+    }
+
+    .toursTitle {
+        padding: 0 calc(var(--pd-page) + 20px);
+    }
+
+    .toursContent {
+        gap: 30px;
+    }
+
+    .toursList .tourItem:first-child {
+        margin-left: 60px;
+    }
+
+    .toursList .tourItem:last-child {
+        margin-right: 60px;
+    }
+
+    .scrollNav {
+        margin: 0 var(--pd-page) 0 auto;
+    }
+
+    /* ////////////////////////////////////////////////////////// Destinations */
+    .destinations {
+        padding: 20px 0 20px 0;
+    }
+
+    .destinationsBox {
+        gap: 80px;
+    }
+
+    .destinationsTitle {
+        padding: 0 calc(var(--pd-page) + 20px);
+    }
+
+    .destinationsContent {
+        gap: 30px;
+    }
+
+    .destinationsList .destinationItem:first-child {
+        margin-left: 60px;
+    }
+
+    .destinationsList .destinationItem:last-child {
+        margin-right: 60px;
+    }
+
+    /* ////////////////////////////////////////////////////////// Highlights */
+    .highlight {
+        padding: 40px calc(var(--pd-page) + 20px);
+        display: grid;
+        place-content: center;
+    }
+
+    .highlightBox {
+        flex-direction: row;
+        gap: 40px;
+    }
+
+    .highlightContent {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        justify-content: space-between;
+
+        max-width: 700px;
+        width: 90%;
+    }
+
+    .highlightContentMain {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .highlightTitle {
+        font-size: var(--fs-h2);
+        font-weight: var(--font-weight-medium);
+        color: var(--color-black);
+        line-height: 1.1;
+    }
+
+    .highlightTitle span {
+        font-weight: var(--font-weight-medium);
+        color: var(--color-primary);
+        font-family: var(--font-alt);
+        font-size: calc(var(--fs-h2) + 10px);
+        line-height: 0;
+    }
+
+    .highlightBrief {
+        font-size: var(--fs-p2);
+        font-weight: var(--font-weight-regular);
+        color: var(--color-grey);
+    }
+
+    .highlightImg {
+        min-width: 580px;
+        height: 400px;
+        overflow: hidden;
+        border-radius: var(--rounded);
+        position: relative;
+    }
+
+    .highlightImg img {
+        object-fit: cover;
+        width: 100%;
+        height: 140%;
+        filter: brightness(0.9);
+        object-position: center;
+    }
+
+
+    /* ////////////////////////////////////////////////////////// Spotlights */
+    .spotlightsTitle {
+        padding: 0 calc(var(--pd-page) + 20px);
+    }
+
+    .featuredSpotlights {
+        padding: 20px 0 20px 0;
+    }
+    
+    .spotlightsBox {
+        gap: 80px;
+    }
+    
+    .spotlightsContent {
+        gap: 30px;
+    }
+    
+    .spotlightsContent .spotlightItem:first-child {
+        margin-left: 60px;
+    }
+    
+    .spotlightsContent .spotlightItem:last-child {
+        margin-right: 60px;
+    }
+
+
+    /* ////////////////////////////////////////////////////////// Experiences */
+    .experiences {
+        padding: 40px calc(var(--pd-page) + 20px);
+    }
+    .experiencesBox {
+        display: flex;
+        flex-direction: column;
+        gap: 80px;
+    }
+}

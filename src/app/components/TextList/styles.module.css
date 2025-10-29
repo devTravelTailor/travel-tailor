@@ -1,0 +1,308 @@
+
+
+.textListContainer {
+  display: flex;
+  gap: var(--column-gap);
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: var(--pd-page);
+  font-family: inherit;
+  position: relative; /* For absolutely positioned children like image preview */
+}
+
+/* Left Column: Region Navigation */
+.regionNavigation {
+  flex: 0 0 var(--nav-column-width);
+  
+  align-self: flex-start; /* Aligns this column to the top */
+  position: sticky; /* Makes the navigation sticky */
+  top: var(--sticky-top-offset, 20px); /* Adjust based on your header height or desired top offset */
+  max-height: calc(100vh - var(--sticky-top-offset, 20px) - var(--pd-page)); /* Example max height */
+  overflow-y: auto; /* Scroll if too many regions */
+}
+
+.regionNavItem {
+  font-size: var(--fs-p1);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-grey);
+  padding: 14px 16px;
+  margin-bottom: 8px;
+  border-radius: var(--rounded-sm);
+  cursor: pointer;
+  transition: background-color 0.25s ease, color 0.25s ease, border-left-color 0.25s ease, transform 0.2s ease;
+  border-left: 3px solid transparent; /* Active/hover indicator */
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.regionNavItem:hover {
+  background-color: rgba(var(--color-grey-rgb), 0.07);
+  color: var(--color-black);
+  border-left-color: rgba(var(--color-grey-rgb), 0.4);
+  /* transform: translateX(3px); */ /* Optional: slight move on hover */
+}
+
+.activeRegion {
+  background-color: rgba(var(--color-primary-rgb), 0.08);
+  color: var(--color-primary);
+  font-weight: var(--font-weight-bold); /* Bolder for active */
+  border-left-color: var(--color-primary);
+}
+
+.activeRegion:hover { /* Ensure hover on active is consistent or distinct */
+  background-color: rgba(var(--color-primary-rgb), 0.12);
+  color: var(--color-primary);
+}
+
+/* Right Column: Destinations Display */
+.destinationsDisplay {
+  flex: 1; /* Takes up remaining space */
+  min-width: 0; /* Prevents content from breaking flex layout */
+}
+
+.currentRegionContent {
+  /* This div wraps the content of the selected region */
+  /* The old .regionSection's margin-bottom is not needed here as it's the main content block */
+}
+
+/* Original .regionSection styles - now part of .currentRegionContent */
+.regionHeader {
+  margin-bottom: 40px; /* Was 48px */
+  position: relative;
+}
+
+.regionTitle {
+  font-size: var(--fs-h2);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-black);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0;
+  /* cursor: pointer; -- Removed, not interactive here */
+  position: relative;
+  display: inline-block;
+}
+
+.regionLine {
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-primary) 0%, transparent 100%);
+  margin-top: 12px;
+  width: 60px;
+}
+
+/* Destinations Grid & Items - styles should largely remain the same */
+.destinationsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px 40px; /* row-gap column-gap */
+  align-items: start;
+}
+
+.destinationItem {
+  position: relative;
+  /* transition for transform for subtle lift on hover - moved from @media query */
+  transition: transform 0.2s ease-out;
+}
+.destinationItem:hover {
+   transform: translateY(-3px); /* Subtle lift effect */
+}
+
+
+.destinationLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(var(--color-grey-rgb), 0.15);
+  transition: border-bottom-color 0.3s ease;
+  /* group: true; -- This is not standard CSS, replaced by specific hover selectors */
+}
+
+.destinationLink:hover {
+  border-bottom-color: var(--color-primary);
+}
+
+.destinationText {
+  font-size: var(--fs-p1);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-black);
+  transition: color 0.3s ease; /* Transition color change */
+  flex: 1; /* Allow text to take available space */
+  padding-right: 8px; /* Space before indicator */
+}
+
+.destinationLink:hover .destinationText {
+  color: var(--color-primary);
+}
+
+.linkIndicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary);
+  opacity: 0; /* Hidden by default */
+  transition: opacity 0.3s ease, width 0.3s ease; /* CSS transition for opacity and Framer for width */
+  overflow: hidden;
+}
+
+.destinationLink:hover .linkIndicator {
+  opacity: 1; /* Show on parent hover */
+  /* The width animation is handled by Framer Motion's whileHover on the indicator itself */
+}
+
+/* Styles for BrowseAll (if used within the right column's content) */
+.browseAllContainer {
+  grid-column: 1 / -1; /* Spans all columns if inside destinationsGrid */
+  margin-top: 32px;
+  padding-top: 32px;
+  border-top: 1px solid rgba(var(--color-grey-rgb), 0.2);
+}
+
+.browseAllLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: var(--fs-p2);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-grey);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  padding: 12px 24px;
+  border: 1px solid rgba(var(--color-grey-rgb), 0.3);
+  border-radius: var(--rounded);
+  background: rgba(var(--color-grey-rgb), 0.05);
+}
+
+.browseAllLink:hover {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+  background: rgba(var(--color-primary-rgb), 0.05);
+}
+
+.browseAllIcon {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* Floating Image Preview - largely unchanged */
+.imagePreview {
+  position: fixed; /* Crucial for floating effect */
+  z-index: 1000;
+  pointer-events: none; /* So it doesn't interfere with mouse events on elements below */
+  filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.12)); /* Softer shadow */
+}
+
+.imageContainer {
+  position: relative;
+  border-radius: 16px; /* Slightly less rounding */
+  overflow: hidden;
+  background: var(--color-white);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.previewImage {
+  width: 280px;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+.imageOverlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.6) 70%); /* Darker gradient */
+  padding: 20px 16px 12px; /* Adjusted padding */
+}
+
+.imageTitle {
+  color: var(--color-white);
+  font-size: var(--fs-p2);
+  font-weight: var(--font-weight-medium);
+  margin: 0;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 992px) { /* Breakpoint for stacking columns */
+  .textListContainer {
+    flex-direction: column;
+    gap: var(--column-gap); /* Gap between stacked sections */
+  }
+
+  .regionNavigation {
+    flex: 0 0 auto; /* Reset flex basis */
+    width: 100%;
+    padding-right: 0;
+    border-right: none;
+    margin-bottom: calc(var(--column-gap) / 2); /* Space before destinations */
+    position: relative; /* Remove sticky on mobile or adjust */
+    top: auto;
+    max-height: none;
+    overflow-y: visible;
+
+    /* Optional: Horizontal scroll for nav items if too many */
+    /* display: flex; */
+    /* overflow-x: auto; */
+    /* padding-bottom: 10px; */ /* For scrollbar clearance */
+    /* white-space: nowrap; */ /* Keep items on one line for horizontal scroll */
+  }
+  /* If using horizontal scroll for nav: */
+  /* .regionNavItem { flex-shrink: 0; margin-right: 10px; } */
+  /* .regionNavItem:last-child { margin-right: 0; } */
+
+  .destinationsDisplay {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .textListContainer {
+    padding: var(--pd-thin);
+  }
+  
+  .regionHeader {
+    margin-bottom: 32px;
+  }
+  
+  .regionTitle {
+    font-size: var(--fs-h3);
+  }
+
+  .regionNavItem {
+      font-size: var(--fs-p2);
+      padding: 12px 10px;
+  }
+  
+  .destinationsGrid {
+    grid-template-columns: 1fr; /* Single column for destinations on mobile */
+    gap: 16px;
+  }
+  
+  .destinationText {
+    font-size: var(--fs-p2);
+  }
+  
+  .imagePreview {
+    display: none; /* Hide floating images on mobile for better UX */
+  }
+}
+
+@media (max-width: 480px) {
+  .destinationLink {
+    padding: 12px 0;
+  }
+  
+  .destinationText {
+    font-size: var(--fs-p3);
+  }
+  
+  .browseAllContainer {
+    margin-top: 24px;
+    padding-top: 24px;
+  }
+}

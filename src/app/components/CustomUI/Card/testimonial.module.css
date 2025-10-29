@@ -1,0 +1,116 @@
+.testimonial {
+  position: relative;
+  flex-shrink: 0;
+  width: 100%;
+  max-width: 380px;
+  height: 520px;
+  border-radius: var(--rounded, 30px);
+  overflow: hidden;
+  color: var(--color-white, #ffffff);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  cursor: pointer;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  display: flex;
+  justify-content: flex-end;
+  padding: 26px;
+}
+
+/* --- Image --- */
+.imageWrapper {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.imageWrapper > div {
+  border-radius: var(--rounded, 30px);
+}
+
+/* --- Gradient overlay (now holds the content inside it) --- */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.9) 15%,
+    rgba(0, 0, 0, 0) 70%
+  );
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 26px;
+}
+
+/* --- Content now lives inside overlay --- */
+.content {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Show on hover */
+.testimonial:hover .overlay {
+  opacity: 1;
+}
+
+.testimonial:hover .content {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Quote icon */
+.quote {
+  font-size: 80px;
+  font-weight: var(--font-weight-bold, 700);
+  color: var(--color-primary, #ed5729);
+  line-height: 0.5;
+  margin-bottom: 10px;
+}
+
+/* Review text */
+.reviewText {
+  font-size: 18px;
+  font-weight: var(--font-weight-medium, 500);
+  line-height: 1.4;
+  color: var(--color-white, #ffffff);
+}
+
+/* Attribution */
+.attribution {
+  font-size: var(--fs-p3, 14px);
+  color: var(--color-grey, #a0a0a0);
+  font-weight: var(--font-weight-regular, 400);
+}
+
+.name {
+  color: var(--color-primary, #ed5729);
+  font-weight: var(--font-weight-medium, 500);
+}
+
+/* Hover Hint */
+.hoverHint {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  color: var(--color-white);
+  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 12px;
+  opacity: 0.9;
+  z-index: 3;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.testimonial:hover .hoverHint {
+  opacity: 0;
+  transform: translateX(-50%) translateY(10px);
+}

@@ -1,0 +1,212 @@
+/* components/FoundersSection/FoundersSection.module.css */
+
+.foundersSection {
+    position: relative; /* Needed for absolute positioned children like bg shapes */
+    padding: calc(var(--pd-page) * 2.5) var(--pd-page); /* Generous padding */
+    background-color: var(--color-white);
+    max-width: 1200px; /* Max width */
+    margin: 60px auto; /* Space from section above, centered */
+    overflow: hidden; /* Contain background shapes */
+  }
+  
+  /* Background Shapes */
+  .bgShape {
+    position: absolute;
+    width: clamp(300px, 40vw, 600px); /* Responsive size */
+    height: clamp(300px, 40vw, 600px);
+    background-color: rgba(var(--color-primary-rgb), 0.04); /* Very subtle */
+    border-radius: 50%;
+    filter: blur(50px); /* Soft edges */
+    z-index: 0; /* Behind content */
+    pointer-events: none; /* Don't interfere with interaction */
+  }
+  /* Specific positioning for shapes (adjust as needed) */
+  .bgShape1 { top: 10%; left: -10%; }
+  .bgShape2 { bottom: 5%; right: -15%; }
+  
+  
+  .header {
+    text-align: center;
+    margin-bottom: clamp(40px, 8vh, 80px); /* Responsive margin */
+    position: relative; /* Ensure header is above bg shapes */
+    z-index: 1;
+  }
+  
+  .title {
+    font-size: clamp(var(--fs-h3), 5vw, var(--fs-h1)); /* Responsive title size */
+    font-weight: var(--font-weight-medium);
+    color: var(--color-black);
+    margin-bottom: var(--pd-thin);
+    line-height: 1.2;
+  }
+  
+  .intro {
+    font-size: var(--fs-p1);
+    color: var(--color-grey);
+    line-height: 1.7;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  
+  .intro em {
+    font-style: italic;
+    color: var(--color-primary);
+  }
+  
+  .profilesContainer {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(60px, 10vh, 120px); /* Responsive gap between profiles */
+    margin-bottom: clamp(60px, 10vh, 100px);
+    position: relative; /* Ensure profiles are above bg shapes */
+    z-index: 1;
+  }
+  
+  .profileItem {
+    display: grid;
+    grid-template-columns: 1fr; /* Mobile: stack */
+    grid-template-rows: auto auto;
+    gap: 20px;
+    align-items: center; /* Center items vertically when side-by-side */
+  }
+  
+  .imageContainer {
+    position: relative; /* Needed for Next Image layout='fill' */
+    width: 100%;
+    max-width: 350px; /* Limit width on mobile */
+    aspect-ratio: 4 / 5; /* Slightly taller aspect ratio */
+    border-radius: var(--rounded);
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    margin: 0 auto; /* Center on mobile */
+    z-index: 1; /* Image slightly above text BG for overlap effect */
+  }
+  
+  .profileImage {
+      /* Styles applied by Next Image */
+  }
+  
+  .textContainer {
+    background-color: var(--color-white);
+    padding: clamp(25px, 5vw, 40px);
+    border-radius: calc(var(--rounded) / 1.5);
+    box-shadow: 0 5px 25px rgba(var(--color-grey-rgb), 0.08);
+    margin-top: -40px; /* Negative margin for overlap on mobile */
+    position: relative;
+    z-index: 2; /* Text container above image */
+  }
+  
+  .name {
+    font-size: var(--fs-h3);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-primary);
+    margin-bottom: 10px;
+  }
+  
+  .quote {
+      font-size: var(--fs-p1);
+      font-style: italic;
+      color: var(--color-grey);
+      margin-bottom: 20px;
+      padding-left: 15px;
+      border-left: 2px solid rgba(var(--color-primary-rgb), 0.3);
+  }
+  
+  .bio {
+    font-size: var(--fs-p2);
+    color: var(--color-black);
+    line-height: 1.7;
+  }
+  
+  .bio em {
+      font-style: italic;
+      color: var(--color-primary);
+      font-weight: var(--font-weight-regular);
+  }
+  
+  .conclusion {
+      text-align: center;
+      max-width: 750px;
+      margin: 0 auto;
+      padding: 30px 0;
+      border-top: 1px solid rgba(var(--color-grey-rgb), 0.15);
+      position: relative; /* Ensure conclusion is above bg shapes */
+      z-index: 1;
+  }
+  
+  .conclusionTitle {
+      font-size: var(--fs-h4);
+      font-weight: var(--font-weight-medium);
+      color: var(--color-black);
+      margin-bottom: 15px;
+  }
+  
+  .conclusionText {
+      font-size: var(--fs-p2);
+      color: var(--color-grey);
+      line-height: 1.7;
+      margin-bottom: 25px;
+  }
+  
+  .promiseText {
+      font-size: var(--fs-p1);
+      color: var(--color-black);
+      line-height: 1.7;
+  }
+  .promiseText strong {
+      font-weight: var(--font-weight-medium);
+      color: var(--color-primary);
+      display: block;
+      margin-bottom: 8px;
+  }
+  
+  /* Desktop Layout Overrides */
+  @media (min-width: 900px) {
+    .profileItem {
+      grid-template-columns: repeat(12, 1fr); /* 12-column grid */
+      grid-template-rows: 1fr; /* Single row */
+      gap: 0; /* Remove gap, use grid positioning */
+      align-items: center; /* Center vertically */
+    }
+  
+    .imageContainer {
+       margin: 0; /* Reset margin */
+       max-width: none; /* Remove max width */
+       height: auto; /* Allow height to be determined by aspect ratio / grid */
+       aspect-ratio: 4 / 5.5; /* Adjust aspect ratio slightly for desktop if needed */
+       box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+    }
+  
+    .textContainer {
+      margin-top: 0; /* Reset negative margin */
+      padding: clamp(40px, 4vw, 60px);
+    }
+  
+    /* Aman: Image Left (cols 1-5), Text Right (cols 5-12, overlapping) */
+    .amanProfile .imageContainer {
+       grid-column: 1 / span 5;
+       grid-row: 1 / 2;
+       z-index: 1;
+    }
+    .amanProfile .textContainer {
+       grid-column: 5 / span 8; /* Span 8 columns, starting from col 5 */
+       grid-row: 1 / 2;
+       padding-left: clamp(60px, 8vw, 100px); /* Add padding for overlap */
+       z-index: 2;
+       text-align: left;
+    }
+  
+     /* Armani: Text Left (cols 1-8, overlapping), Image Right (cols 8-12) */
+     .armaniProfile .textContainer {
+         grid-column: 1 / span 8;
+         grid-row: 1 / 2;
+         padding-right: clamp(60px, 8vw, 100px); /* Add padding for overlap */
+         z-index: 2;
+         text-align: left; /* Keep text left aligned */
+     }
+     .armaniProfile .imageContainer {
+         grid-column: 8 / span 5;
+         grid-row: 1 / 2;
+         z-index: 1;
+     }
+  }

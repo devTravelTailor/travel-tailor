@@ -1,0 +1,64 @@
+.planCard {
+    position: relative;
+    width: 200px;
+    height: 270px;
+    border-radius: var(--rounded);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    flex-shrink: 0;
+    background: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.planCard:hover {
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.2);
+}
+
+.imageContainer {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.imageContainer img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.overlay { 
+    position: absolute;
+    top: 0; 
+    left: 0; 
+    right: 0; 
+    bottom: 0; 
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.3) 100%); 
+    pointer-events: none; 
+}
+
+.content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+
+    padding: 10px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 50%, transparent 100%);
+    color: white;
+    width: 100%;
+}
+
+.title {
+    font-size: var(--fs-p1);
+    font-weight: var(--font-weight-medium);
+}
+
+@media (min-width: 768px) {
+    .planCard {
+         width: 270px;
+        height: 340px;
+    }
+    .content {
+        padding: 20px;
+    }
+}
+

@@ -1,0 +1,310 @@
+.blogLayoutContainer {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 60px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--pd-page) 0;
+}
+
+.tocColumn {
+  width: 240px;
+}
+
+.contentColumn {
+  min-width: 0;
+  line-height: 1.7;
+}
+
+.contentColumn > *:not(:last-child) {
+  margin-bottom: 10px;
+}
+
+.contentColumn h2 {
+  font-size: var(--fs-h2);
+  font-weight: var(--font-weight-medium);
+  margin-top: 2em;
+  line-height: 1.3;
+  scroll-margin-top: calc(var(--header-height, 80px) + 20px);
+}
+
+.paragraph {
+  font-size: var(--fs-p2);
+  color: var(--color-black);
+}
+
+.strong {
+  font-weight: var(--font-weight-medium); /* Or bold if preferred */
+}
+
+.blogImage {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px; /* Optional: subtle rounding */
+  margin-top: 1em;
+  margin-bottom: 1em;
+  display: block; /* Prevent extra space below */
+}
+
+.list {
+  font-size: var(--fs-p2);
+  margin-left: 2em; /* Indent lists */
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.listItem {
+  margin-bottom: 0.5em;
+}
+
+.contentColumn a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: color 0.2s ease;
+}
+
+.contentColumn a:hover {
+  color: var(--color-black);
+}
+
+.blockquote {
+  border-left: 4px solid var(--color-primary);
+  padding-left: 1rem;
+  margin-left: 0;
+  margin-right: 0;
+  font-style: italic;
+  color: var(--color-grey);
+}
+
+.blockquote p {
+  font-size: var(--fs-p1);
+}
+
+@media (max-width: 1024px) {
+  .blogLayoutContainer {
+    grid-template-columns: 1fr;
+    gap: 0; /* Remove gap */
+  }
+
+  .tocColumn {
+    display: none; /* Already hidden via TOC component's CSS, but can be reinforced here */
+    width: auto;
+  }
+
+  .contentColumn {
+    padding: 0 var(--pd-page); /* Add horizontal padding when TOC is gone */
+  }
+}
+
+@media (max-width: 768px) {
+  .contentColumn h2 {
+    font-size: var(--fs-h3); /* Adjust heading size */
+    scroll-margin-top: calc(
+      var(--header-height, 60px) + 15px
+    ); /* Adjust scroll margin */
+  }
+  .paragraph,
+  .list {
+    font-size: var(--fs-p2); /* Ensure readable font size */
+  }
+  .blogLayoutContainer {
+    padding: var(--pd-thin) 0;
+  }
+} /* src/components/Blog/BlogBody.module.css */
+.blogLayoutContainer {
+  display: grid;
+  grid-template-columns: 240px 1fr; /* Fixed width TOC, flexible content */
+  gap: 40px; /* Space between TOC and content */
+  max-width: 1200px; /* Adjust max width as needed */
+  margin: 0 auto; /* Center the layout */
+  padding: var(--pd-page) 0; /* Use page padding vertically */
+}
+
+.tocColumn {
+  /* Styles for the TOC column itself, if needed */
+  /* The TOC component inside handles sticky positioning */
+  width: 240px; /* Ensure width matches grid template */
+}
+
+.contentColumn {
+  /* Styles for the main content area */
+  min-width: 0; /* Prevents content overflow issues in grid */
+  line-height: 1.7; /* Improve readability */
+}
+
+.contentColumn h2 {
+  font-size: var(--fs-h2);
+  font-weight: var(--font-weight-medium);
+  margin-top: 40px; /* More space before H2 */
+  margin-bottom: 10px;
+  line-height: 1.3;
+  scroll-margin-top: calc(
+    var(--header-height, 80px) + 20px
+  ); /* Offset for sticky header when scrolling to ID */
+}
+
+.paragraph {
+  font-size: var(--fs-p2); /* Use p2 for body text */
+  color: var(--color-black); /* Ensure readability */
+}
+
+.strong {
+  font-weight: var(--font-weight-medium); /* Or bold if preferred */
+}
+
+.blogImage {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px; /* Optional: subtle rounding */
+  margin-top: 1em;
+  margin-bottom: 1em;
+  display: block; /* Prevent extra space below */
+}
+
+.list {
+  font-size: var(--fs-p2);
+  margin-left: 2em; /* Indent lists */
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.listItem {
+  margin-bottom: 0.5em;
+}
+
+.contentColumn a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: color 0.2s ease;
+}
+
+.contentColumn a:hover {
+  color: var(--color-black);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+  .blogLayoutContainer {
+    grid-template-columns: 1fr; /* Stack columns */
+    gap: 0; /* Remove gap */
+  }
+
+  .tocColumn {
+    display: none; /* Already hidden via TOC component's CSS, but can be reinforced here */
+    width: auto;
+  }
+
+  .contentColumn {
+    padding: 0 var(--pd-page); /* Add horizontal padding when TOC is gone */
+  }
+}
+
+@media (max-width: 768px) {
+  .contentColumn h2 {
+    font-size: var(--fs-h3); /* Adjust heading size */
+    scroll-margin-top: calc(
+      var(--header-height, 60px) + 15px
+    ); /* Adjust scroll margin */
+  }
+  .paragraph,
+  .list {
+    font-size: var(--fs-p2);
+  }
+  .blogLayoutContainer {
+    padding: var(--pd-thin) 0;
+  }
+
+  .blockquote p {
+    font-size: var(--fs-p2);
+  }
+}
+
+/* --- WRAPPING + BREAKS (applies to everything inside the content) --- */
+.contentColumn,
+.contentColumn * {
+  overflow-wrap: anywhere; /* modern, breaks long tokens anywhere if needed */
+  word-break: break-word; /* safe fallback for older browsers */
+  hyphens: auto; /* nicer hyphenation when language is set */
+}
+
+/* Headings can be long: keep them inside the column */
+.contentColumn h1,
+.contentColumn h2,
+.contentColumn h3,
+.contentColumn h4,
+.contentColumn h5,
+.contentColumn h6 {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* Long URLs in text should wrap even inside links */
+.contentColumn a {
+  overflow-wrap: anywhere;
+  word-break: break-all; /* allow breaking anywhere for super-long URLs */
+}
+
+/* Images already have max-width:100%; ensure they never push layout */
+.blogImage {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* GFM tables can overflow—make them scroll horizontally if needed */
+.contentColumn table {
+  width: 100%;
+  border-collapse: collapse;
+  display: block; /* enables the overflow container */
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.contentColumn thead,
+.contentColumn tbody,
+.contentColumn tr {
+  width: 100%;
+}
+.contentColumn th,
+.contentColumn td {
+  padding: 0.5rem;
+  border-bottom: 1px solid var(--color-grey-200, #e5e7eb);
+  text-align: left;
+  vertical-align: top;
+}
+
+/* Code blocks (if any from GFM) */
+.contentColumn pre {
+  max-width: 100%;
+  overflow: auto; /* horizontal scroll instead of overflow */
+  padding: 0.75rem;
+  background: var(--color-grey-50, #f8fafc);
+  border-radius: 8px;
+}
+.contentColumn code {
+  white-space: pre-wrap; /* wrap long inline code tokens */
+  word-break: break-word;
+}
+
+/* Blockquote already styled; ensure no horizontal overflow */
+.blockquote {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* Grid safety on very small screens */
+@media (max-width: 1024px) {
+  .blogLayoutContainer {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .tocColumn {
+    display: none;
+  }
+  .contentColumn {
+    padding: 0 var(--pd-page);
+  }
+}

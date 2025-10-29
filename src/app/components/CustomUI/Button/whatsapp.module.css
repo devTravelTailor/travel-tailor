@@ -1,0 +1,103 @@
+/* src/components/WhatsAppButton/WhatsAppButton.module.css */
+
+.whatsAppButton {
+    display: inline-flex; 
+    align-items: flex-end;
+    justify-content: center;
+    text-decoration: none;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; 
+    cursor: pointer;
+    overflow: visible; 
+    /* flex-direction: column; */
+    gap: 8px;
+}
+
+.whatsAppIcon {
+    width: 50px; 
+    height: 50px;
+    margin-right: 8px;
+}
+
+.whatsAppButton:hover {
+    transform: translateY(-2px);
+}
+
+.sticky {
+    position: fixed; 
+    bottom: 20px; 
+    z-index: 1000; 
+}
+
+.left {
+    left: 20px; 
+}
+
+.right {
+    right: 20px; 
+}
+
+/* Optional: Style the SVG directly if needed, though fill is set inline */
+.whatsAppButton svg {
+    width: 28px; 
+    height: 28px;
+    fill: #ffffff; 
+}
+
+
+.whatsAppButton svg {
+    width: 28px; 
+    height: 28px;
+}
+
+.chatButton {
+    display: grid;
+    place-content: center;
+    padding: 8px 16px;
+    border: 1px solid var(--color-black);
+    background: var(--color-white);
+    border-radius: 20px;
+    width: 100%;
+
+    box-shadow: 2px 3px 0px #00E785;
+
+    font-size: 12px;
+    font-weight: var(--font-weight-medium);
+    margin-bottom: 6px;
+    opacity: 0;
+    transform: scale(0.4);
+    transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.chatButton.animate {
+    opacity: 1;
+    transform: scale(1);
+}
+
+
+@media (min-width: 768px) {
+
+    .whatsAppIcon {
+        width: 42px; 
+        height: 42px;
+        margin-right: 8px;
+    }
+
+    .chatButton {
+        display: grid;
+        place-content: center;
+        padding: 8px 16px;
+        border: 1px solid var(--color-black);
+        background: var(--color-white);
+        border-radius: 20px;
+        width: 100%;
+
+        box-shadow: 2px 3px 0px #00E785;
+
+        font-size: 14px;
+        font-weight: var(--font-weight-medium);
+        margin-bottom: 6px;
+        opacity: 0;
+        transform: scale(0.4);
+        transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+}

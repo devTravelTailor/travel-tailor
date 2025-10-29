@@ -1,0 +1,454 @@
+@tailwind utilities;
+@import "tailwindcss";
+@import "tailwindcss/preflight";
+@import "tw-animate-css";
+
+/*      ---break--- */
+@custom-variant dark (&:is(.dark *));
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+/* global.css */
+div[role="presentation"] iframe {
+  width: 100% !important;
+}
+/* Custom CSS to hide scrollbar */
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hidden {
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+}
+
+body {
+  background-color: var(--color-white);
+  overflow-x: hidden;
+}
+
+:root {
+  /*      typography */
+
+  --fs-h1: 38px;
+  --fs-h2: 32px;
+  --fs-h3: 24px;
+  --fs-h4: 22px;
+
+  --fs-p1: 18px;
+  --fs-p2: 16px;
+  --fs-p3: 14px;
+
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-grey: #a0a0a0;
+
+  --color-primary: #ed5729;
+
+  --color-primary-rgb: 237, 87, 41;
+  --color-grey-rgb: 160, 160, 160;
+
+  --font-weight-bold: 700;
+  --font-weight-medium: 500;
+  --font-weight-regular: 400;
+  --font-weight-light: 300;
+
+  --rounded: 30px;
+  --pd-page: 20px;
+  --pd-thin: 10px;
+  --header-height: 140px;
+
+  --nav-column-width: 260px;
+  --column-gap: 40px;
+  --rounded-sm: 6px;
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+
+  --font-alt: "Caveat", cursive;
+  --font-prime: "Open Sans", sans-serif;
+}
+
+[id] {
+  scroll-margin-top: 8rem; /* adjust for your sticky menu height */
+}
+
+.font-sans {
+  font-family: var(--font-prime);
+  font-size: var(--fs-h2);
+  font-weight: var(--font-weight-medium);
+}
+.font-handwriting {
+  font-family: var(--font-alt);
+}
+
+h1 {
+  font-size: var(--fs-h1);
+  font-weight: var(--font-weight-medium);
+}
+h2 {
+  font-size: var(--fs-h2);
+}
+h3 {
+  font-size: var(--fs-h3);
+}
+
+.p1 {
+  font-size: var(--fs-p1);
+}
+
+html {
+  scroll-behavior: auto;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  max-width: 100vw;
+  font-family: var(--font-prime);
+  color: var(--color-black);
+  overflow-x: hidden;
+}
+
+a {
+  text-decoration: none;
+  color: var(--color-black);
+}
+
+p {
+  font-size: var(--fs-p3);
+}
+
+.btn.color {
+  background-color: transparent;
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  font-size: var(--fs-p3);
+
+  padding: 8px 38px;
+}
+
+.btn.color:hover {
+  background-color: var(--color-primary);
+  transform: translateY(-2px);
+  color: var(--color-white);
+}
+
+@media (min-width: 768px) {
+  :root {
+    /* Typography */
+
+    /* --fs-h1: 72px;
+    --fs-h2: 40px;
+    --fs-h3: 32px;
+
+    --fs-p1: 20px;
+    --fs-p2: 18px;
+    --fs-p3: 16px; */
+
+    --fs-h1: 68px;
+    --fs-h2: 38px;
+    --fs-h3: 32px;
+    --fs-h4: 28px;
+
+    --fs-p1: 18px;
+    --fs-p2: 16px;
+    --fs-p3: 14px;
+
+    --pd-page: 40px;
+  }
+
+  .btn.color {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    font-size: var(--fs-p3);
+
+    padding: 8px 38px;
+  }
+
+  .btn.color:hover {
+    background-color: transparent;
+    border: 1px solid var(--color-primary);
+    transform: translateY(-2px);
+    color: var(--color-primary);
+  }
+}
+
+/* Button Component Styles */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 24px;
+  border-radius: 20px;
+  font-size: var(--fs-p3);
+  font-weight: var(--font-weight-regular);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  min-width: 180px;
+}
+
+/* Fill variant - solid background */
+.btn.fill {
+  background-color: var(--color-white);
+  color: var(--color-black);
+  border: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn.fill:hover {
+  background-color: #f5f5f5;
+  transform: translateY(-2px);
+}
+
+/* Color variant - primary color */
+/* .btn.color {
+  background-color: transparent;
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  font-size: var(--fs-p3);
+
+  padding: 8px 38px;
+} */
+
+/* .btn.color:hover {
+  background-color: var(--color-primary);
+  transform: translateY(-2px);
+  color: var(--color-white);
+} */
+
+/* Outline variant - bordered */
+.btn.outline {
+  background-color: transparent;
+  color: var(--color-black);
+  border: 1px solid var(--color-black);
+}
+
+.btn.outline:hover {
+  background-color: rgba(var(--color-grey-rgb), 0.09);
+  transform: translateY(-2px);
+}
+
+/* Custom clasees for BTN */
+.btn.fw {
+  width: 100%;
+}
+.btn.md {
+  width: 250px;
+}
+
+/* Arrow Button */
+
+/* Arrow Button Component Styles */
+.arrow-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 21px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 12px;
+  width: 68px;
+  height: 49px;
+
+  flex-shrink: 0;
+}
+
+/* Text variant with down arrow and blurred effect */
+.arrow-btn.text {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: var(--color-white);
+  border: none;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+/* Outline variant with left arrow */
+.arrow-btn.outline {
+  background-color: transparent;
+  color: var(--color-black);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+/* Filled variant with right arrow */
+.arrow-btn.filled {
+  background-color: var(--color-black);
+  color: var(--color-white);
+  border: none;
+}
+.arrow-btn.blurred {
+  background-color: rgba(var(--color-grey-rgb), 0.28);
+  color: var(--color-white);
+  border: none;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+/* Arrow direction styles */
+.arrow-btn svg {
+  width: 18px;
+  height: 18px;
+
+  transition: all 0.3s ease-in-out;
+}
+
+.arrow-btn.down svg {
+  width: 18px;
+  height: 18px;
+  transform: rotate(90deg);
+}
+
+.arrow-btn.left svg {
+  transform: rotate(180deg);
+}
+
+.arrow-btn.right svg {
+  transform: rotate(0deg);
+}
+
+.arrow-btn.right:hover svg {
+  transform: rotate(0deg) translateX(2px);
+}
+.arrow-btn.down:hover svg {
+  transform: rotate(90deg) translateX(2px);
+}
+.arrow-btn.left:hover svg {
+  transform: rotate(180deg) translateX(2px);
+}
+
+/* Label styling for buttons with text like "Scroll" */
+.arrow-btn-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.arrow-btn-label {
+  font-size: var(--fs-p3);
+  color: var(--color-white);
+  margin-top: 4px;
+}
+
+/* ////////////////////////////////////////////////////////// Scroll Controller */
+
+/* Base styles */
+.scroll-nav-box {
+  display: flex;
+  gap: 8px;
+}
+/*      ---break--- */
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+/*      ---break--- */
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+/*      ---break--- */
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}

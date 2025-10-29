@@ -1,0 +1,168 @@
+/* Ensure the outer container takes full width and prevents any horizontal overflow */
+.carouselContainer {
+  width: 100%;
+  max-width: 100vw;
+  overflow: hidden;
+  position: relative;
+  padding: 2rem 0;
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+/* Adjust carouselTrack: 
+   - Instead of width: fit-content, let it size naturally.
+   - The gap and animation are controlled via CSS variables.
+   - The animation keyframes now use the custom property --cycle-length for dynamic translation.
+*/
+.carouselTrack {
+  display: flex;
+  gap: var(--gap, 20px);
+  animation: carouselScroll var(--animation-duration, 300s) linear infinite;
+  align-items: center;
+  will-change: transform;
+  /* A tiny padding ensures no margin collapse */
+  padding: 0.1px;
+}
+
+/* Pause animation on hover */
+.paused {
+  animation-play-state: paused;
+}
+
+/* Remove animation during re-calculation */
+.noanimate {
+  animation: none;
+}
+
+/* Wrapper for each image ensuring proper shapes */
+.imageWrapper {
+  position: relative;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.shape-1 {
+  height: 500px;
+  width: 375px;
+}
+
+.shape-2 {
+  height: 450px;
+  width: 400px;
+}
+
+.shape-3 {
+  height: 380px;
+  width: 500px;
+}
+
+.shape-4 {
+  height: 520px;
+  width: 360px;
+}
+
+/* Hover effect */
+.imageWrapper:hover {
+  z-index: 10;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.carouselImage {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Updated keyframes to use the dynamic cycle length.
+   This ensures that the animated translation is exactly one set of images,
+   regardless of how many duplicate sets are rendered.
+*/
+@keyframes carouselScroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    /* The negative sign makes the track scroll left */
+    transform: translateX(calc(-1 * var(--cycle-length, 33.33%)));
+  }
+}
+
+/* Tablet styles */
+@media (max-width: 768px) {
+  .shape-1 {
+    height: 300px;
+    width: 210px;
+  }
+  
+  .shape-2 {
+    height: 300px;
+    width: 240px;
+  }
+  
+  .shape-3 {
+    height: 240px;
+    width: 300px;
+  }
+  
+  .shape-4 {
+    height: 270px;
+    width: 180px;
+  }
+  
+  .carouselTrack {
+    gap: 10px;
+  }
+  
+  .carouselContainer {
+    padding: 1.5rem 0;
+    width: 100%; /* Make the container full width on tablet */
+  }
+}
+
+/* Mobile styles */
+@media (max-width: 480px) {
+  .carouselContainer {
+    padding: 1rem 0;
+    width: 100%;
+    margin: 0 auto;
+  }
+  
+  .shape-1 {
+    height: 160px;
+    width: 112px;
+  }
+  
+  .shape-2 {
+    height: 160px;
+    width: 128px;
+  }
+  
+  .shape-3 {
+    height: 128px;
+    width: 160px;
+  }
+  
+  .shape-4 {
+    height: 144px;
+    width: 96px;
+  }
+  
+  .carouselTrack {
+    gap: 8px;
+  }
+}
+
+/* Extra small screens: scale down slightly if needed */
+@media (max-width: 360px) {
+  .shape-1, .shape-2, .shape-3, .shape-4 {
+    transform: scale(0.9);
+  }
+  
+  .carouselTrack {
+    gap: 4px;
+  }
+}

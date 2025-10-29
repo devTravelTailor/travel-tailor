@@ -1,0 +1,154 @@
+/* Mobile-first: Default styles for mobile */
+.grid {
+    display: grid;
+    grid-template-columns: 1fr; /* Single column for mobile */
+    gap: 10px;
+    width: 100%;
+    min-height: 89vh;
+  }
+  
+  /* Basic card styling */
+  .card {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--rounded); 
+    background-color: var(--color-grey); /* Light background as a fallback */
+  }
+  
+  /* Image wrapper and image styling */
+  .imageWrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .image {
+    object-fit: cover;
+    border-radius: inherit;
+    scale: 1.04;
+    transition: scale .6s ease-in-out;
+
+    filter: brightness(0.8);
+  }
+
+  .image:hover {
+    scale: 1;
+  }
+  .overlay .title {
+    position: absolute;
+    bottom: 10px;
+    left: 20px;
+    width: 100%;
+    padding: 10px;
+
+    font-size: var(--fs-h4);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-white);
+  }
+
+  
+  
+  /* Mobile layouts: Dynamic heights for visual interest */
+  .grid3 {
+    grid-template-rows: 300px 200px 250px; /* Varied heights for a dynamic flow */
+    grid-template-areas:
+      "a"
+      "b"
+      "c";
+  }
+  
+  .grid4 {
+    grid-template-rows: 250px 300px 200px 250px; /* Mix of heights to avoid monotony */
+    grid-template-areas:
+      "a"
+      "b"
+      "c"
+      "d";
+  }
+  
+  .grid5 {
+    grid-template-rows: 300px 200px 250px 200px 300px; /* Varied heights for rhythm */
+    grid-template-areas:
+      "a"
+      "b"
+      "c"
+      "d"
+      "e";
+  }
+  
+  .grid6 {
+    grid-template-rows: 250px 300px 200px 250px 200px 300px; /* Dynamic flow */
+    grid-template-areas:
+      "a"
+      "b"
+      "c"
+      "d"
+      "e"
+      "f";
+  }
+
+  .overlayMoment {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    color: var(--color-white);
+    gap: 8px;
+
+    background: linear-gradient(0deg, rgba(0,0,0,0.8898153011204482) 0%, rgba(255,255,255,0) 100%);
+    backdrop-filter: 18px;
+    -webkit-backdrop-filter: 18px;
+
+    cursor: default;
+  }
+
+  .overlayMoment .description {
+    font-size: var(--fs-p3);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .overlayMoment .title {
+    font-size: var(--fs-h4);
+    font-weight: var(--font-weight-medium);
+  }
+  
+  /* Desktop layouts for screens ≥ 768px */
+  @media (min-width: 768px) {
+    /* 3 Items: Full-width layout with varied heights */
+    .grid3 {
+      grid-template-columns: .44fr .56fr; /* Wider first column for emphasis */
+      grid-template-rows: .5fr .5fr; /* Two rows to fill space */
+      grid-template-areas:
+        "a b"
+        "a c"; /* Cards stretch across rows, no white space */
+    }
+  
+    /* 4 Items: Staggered layout with no gaps */
+    .grid4 {
+      grid-template-columns: .45fr .28fr .28fr; /* Middle column wider for balance */
+      grid-template-rows: .5fr .5fr; /* Two rows for depth */
+      grid-template-areas:
+        "a b b"
+        "a c d"; 
+    }
+  
+    /* 5 Items: Dynamic, space-filling layout */
+    .grid5 {
+      grid-template-columns: .45fr .28fr .28fr; /* Four equal columns */
+      grid-template-rows: .5fr .5fr; /* Three rows for variety */
+      grid-template-areas:
+        "a c c"
+        "b d e"; 
+    }
+  
+    /* 6 Items: Editorial-style layout with no white space */
+    .grid6 {
+        grid-template-columns: .45fr .28fr .28fr; /* Four equal columns */
+        grid-template-rows: .5fr .5fr; /* Three rows for variety */
+        grid-template-areas:
+          "a c e"
+          "b d f"; 
+    }
+  }

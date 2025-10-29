@@ -1,0 +1,331 @@
+/* Profile Header */
+.profileContainer {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  font-family: sans-serif;
+  width: 100%;
+}
+
+.coverImageWrapper {
+  position: relative;
+  height: 25rem;
+  background: #eee;
+}
+
+.coverImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profileImageSection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: -7rem; /* overlap effect */
+  margin-bottom: 20px;
+  z-index: 2;
+  position: relative;
+}
+
+.profileImgWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profileImg {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  border: 4px solid white;
+  object-fit: cover;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+.profileInfo {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-top: 5rem;
+}
+
+.profileText {
+  max-width: 720px;
+  width: 100%;
+}
+
+.profileName {
+  font-size: 28px;
+  font-weight: bold;
+  color: black;
+}
+
+.profileLocation {
+  font-size: 14px;
+  color: black;
+
+  margin-bottom: 12px;
+}
+
+.profileBio {
+  font-size: 15px;
+  color: #333;
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+.badgeList {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.badge {
+  background-color: #fff4f1;
+  color: #ed5729;
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 12px;
+}
+
+.profileStatsWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 1rem;
+}
+
+.profileStats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 14px;
+  color: #444;
+  justify-content: center;
+  text-align: center;
+}
+
+.profileStats div {
+  min-width: 120px;
+}
+
+.socialLinks {
+  margin-top: 12px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.socialLinks a {
+  text-decoration: none;
+  color: #ed5729;
+  font-weight: 500;
+}
+
+.socialLinks {
+  margin-top: 12px;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.socialIcon {
+  width: 32px;
+  height: 32px;
+  transition: transform 0.2s ease;
+}
+
+.socialIcon:hover {
+  transform: scale(1.1);
+}
+
+@media (min-width: 768px) {
+  .profileInfo {
+    padding: 32px 48px;
+  }
+  .profileImg {
+    width: 180px;
+    height: 180px;
+  }
+  .profileText {
+    max-width: 640px;
+  }
+}
+
+@media (max-width: 426px) {
+  .coverImageWrapper {
+    height: 15rem;
+  }
+  .profileInfo {
+    padding: 32px 48px;
+    margin-top: 2rem;
+  }
+  .profileImg {
+    margin-top: 1.5rem;
+  }
+  .profileText {
+    max-width: 640px;
+  }
+}
+
+/* Trip Card */
+
+.tourContent {
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  color: var(--color-white);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.tourContent .tagBox {
+  padding: 14px 24px;
+  width: max-content;
+  background-color: rgba(var(--color-grey-rgb), 0.32);
+  backdrop-filter: blur(16px);
+  align-self: flex-end;
+  border-radius: 19px;
+}
+
+.tourContentMain {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 99%;
+}
+
+.section {
+  margin: 3rem 0;
+  margin-bottom: 5rem;
+}
+
+.sectionTitle {
+  font-size: var(--fs-h2);
+  font-weight: var(--font-weight-medium);
+  line-height: 90%;
+  font-family: var(--font-prime);
+  color: var(--color-black);
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+.sectionTitle span {
+  font-family: var(--font-alt);
+  font-size: calc(var(--fs-h2) + 8px);
+  line-height: 0;
+  color: var(--color-primary);
+  font-weight: var(--font-weight-medium);
+  display: inline-block;
+}
+
+.sectionDescription {
+  font-size: var(--fs-p3);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-grey);
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto 2rem auto;
+  line-height: 1.6;
+}
+
+.gridWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  justify-content: space-evenly;
+  gap: 1.5rem; /* adds spacing between rows and columns */
+}
+
+.gridItem {
+  max-width: 100%;
+  height: 24rem;
+  overflow: hidden;
+  border-radius: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  flex: 1 1 100%;
+}
+
+/* Tablet */
+@media (min-width: 640px) {
+  .gridItem {
+    flex: 1 1 calc(50% - 0.75rem);
+    max-width: calc(50% - 0.75rem);
+    height: 28rem;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  .gridItem {
+    flex: 1 1 calc(25% - 1.125rem);
+    max-width: calc(25% - 1.125rem);
+    height: 30rem;
+  }
+}
+@media (min-width: 1440) {
+  .gridItem {
+    flex: 1 1 calc(25% - 1.125rem);
+    max-width: calc(25% - 1.125rem);
+    height: 32rem;
+  }
+}
+
+.centerBtn {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.customButton {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  padding: var(--pd-thin) 2.5rem;
+  font-size: var(--fs-p2);
+  font-weight: var(--font-weight-medium);
+  border: none;
+  border-radius: 99rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-family: var(--font-prime);
+  display: inline-block;
+  margin-left: 20px; /* as per your style */
+  order: 3;
+}
+
+.customButton:hover {
+  background-color: rgba(var(--color-primary-rgb), 0);
+  transform: translateY(-2px);
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+}
+.creatorBlogs {
+  height: 100%;
+  width: 100%;
+  margin: auto;
+}
+
+.blogItem {
+  margin-top: 2rem;
+  width: 23rem;
+}
+
+.blogGridWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  justify-content: space-evenly;
+  gap: 1.5rem; /* adds spacing between rows and columns */
+}

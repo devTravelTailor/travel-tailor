@@ -1,0 +1,289 @@
+
+.form {
+    padding: 30px 0; /* Define padding locally */
+  }
+
+  .form input {
+    font-family: var(--font-prime);
+  }
+
+  .form select {
+    font-family: var(--font-prime);
+  }
+  
+  .formTitle {
+    font-size: var(--fs-h2);
+    font-weight: var(--font-weight-medium);
+    margin-bottom: 8px; /* Local spacing */
+  }
+  .formSubtitle {
+      font-size: var(--fs-p1);
+      color: var(--color-grey); /* Use global grey */
+      margin-bottom: 30px; /* Local spacing */
+  }
+  
+  /* Form Message Styles (Error/Success) */
+  .formMessage {
+    padding: 16px; /* Local padding */
+    margin: 24px 0; /* Local margin */
+    border-radius: 4px; /* Local radius */
+    font-size: var(--fs-p3); /* Use global size */
+    border: 1px solid transparent;
+  }
+  .formMessage.error {
+    background-color: rgba(217, 83, 79, 0.1); /* Local error color */
+    color: #d9534f; /* Local error color */
+    border-color: rgba(217, 83, 79, 0.3);
+  }
+  .formMessage.success {
+    background-color: rgba(92, 184, 92, 0.1); /* Local success color */
+    color: #5cb85c; /* Local success color */
+    border-color: rgba(92, 184, 92, 0.3);
+  }
+  
+  
+  .formGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px 24px; /* Local gap */
+  }
+  
+  .formGroup {
+    margin-bottom: 0; /* Grid gap handles spacing */
+  }
+  
+  .span2 {
+    grid-column: span 2;
+  }
+  
+  .label {
+    display: block;
+    margin-bottom: 8px; /* Local spacing */
+    font-weight: var(--font-weight-medium);
+    font-size: var(--fs-p3);
+    color: var(--color-black);
+  }
+  
+  .required {
+    color: var(--color-primary); /* Use global primary color */
+    margin-left: 4px;
+  }
+  
+  .input,
+  .select,
+  .textarea {
+    width: 100%;
+    padding: 12px 15px; /* Local padding */
+    border: 1px solid #cccccc; /* Define border locally */
+    /* Use --rounded from globals if it semantically fits inputs, otherwise define locally */
+    border-radius: 8px; /* Define radius locally, adjust if --rounded is better */
+    font-size: var(--fs-p2);
+    background-color: var(--color-white);
+    transition: border-color 0.2s ease;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05); /* Local shadow */
+  }
+  .input::placeholder,
+  .textarea::placeholder {
+      color: var(--color-grey); /* Use global grey */
+      opacity: 0.8;
+  }
+  
+  /* Specific focus styles within the module */
+  .input:focus,
+  .select:focus,
+  .textarea:focus {
+    outline: none;
+    border-color: var(--color-primary);
+  }
+  
+  
+  .textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+  
+  .inputGroup {
+      display: flex;
+  }
+  .countryCodeSelect {
+      flex: 0 0 140px;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      border-right: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23a0a0a0'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd' /%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      background-size: 1em;
+      padding-right: 30px;
+  }
+  .contactInput {
+      flex: 1 1 auto;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+  }
+  
+  .slider {
+      width: 100%;
+      cursor: pointer;
+      margin-top: 8px;
+      accent-color: var(--color-primary); /* Uses global primary color */
+  }
+  .rangeLabels {
+      display: flex;
+      justify-content: space-between;
+      font-size: var(--fs-p3); /* Global size */
+      color: var(--color-grey); /* Global color */
+      margin-top: 4px;
+      padding: 0 5px;
+  }
+  
+  .inputError {
+    border-color: #d9534f; /* Local error color */
+  }
+  /* Optional: Keep box-shadow focus style even on error for consistency */
+  .inputError:focus {
+      box-shadow: 0 0 0 3px rgba(217, 83, 79, 0.4); /* Error focus color */
+  }
+  
+  .errorMessage {
+    color: #d9534f; /* Local error color */
+    font-size: var(--fs-p3); /* Global size */
+    margin-top: 4px;
+  }
+  
+  .submitContainer {
+    grid-column: span 2;
+    margin-top: 30px; /* Local margin */
+    text-align: left;
+  }
+  
+  /* Use global button classes (.btn.color) */
+  .submitButton {
+    /* Add specific overrides or additions if needed */
+    min-width: 200px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    font-family: var(--font-prime);
+  }
+  .submitButton:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+  }
+  
+ 
+  /* Apply spinner color for .btn.color */
+  .submitButton:hover .cssSpinner {
+      border-top-color: var(--color-primary); /* Match hover background */
+      border-color: rgba(var(--color-primary-rgb), 0.3);
+  }
+  
+  
+  
+  /* --- Responsive --- */
+  @media (max-width: 768px) {
+    .formGrid {
+      grid-template-columns: 1fr;
+      gap: 20px 0; /* Only row gap */
+    }
+    .span2 {
+      grid-column: span 1;
+    }
+     .formTitle {
+        font-size: var(--fs-h3); /* Use global size */
+     }
+     .formSubtitle {
+          font-size: var(--fs-p2); /* Use global size */
+     }
+  }
+
+
+
+
+
+  /* components/StickyContact/StickyContact.module.css */
+.stickyContainer {
+    position: sticky;
+    top: calc(var(--header-height, 100px) + var(--pd-page, 20px));
+    padding: var(--pd-page, 20px); /* Use global padding */
+    background-color: #f9f9f9; /* Define light bg locally */
+    border-radius: 8px; /* Define radius locally */
+    border: 1px solid #e0e0e0; /* Define border color locally */
+    height: fit-content;
+  }
+  
+  .contactSection {
+    text-align: center;
+    margin-bottom: 24px; /* Define margin locally */
+  }
+  
+  .contactSection:last-child {
+    margin-bottom: 0;
+  }
+  
+  .iconWrapper {
+    color: var(--color-primary); /* Use global primary color */
+    margin-bottom: 16px; /* Define margin locally */
+    display: inline-block; /* Allows margin bottom */
+  }
+  /* Style the SVG icon itself */
+  .iconWrapper svg {
+      display: block; /* Prevents extra space below inline svg */
+      width: 24px;
+      height: 24px;
+  }
+  
+  
+  .title {
+    font-size: var(--fs-p1); /* Use global font size */
+    font-weight: var(--font-weight-medium); /* Use global font weight */
+    margin-bottom: 8px; /* Define margin locally */
+    letter-spacing: 0.5px;
+    color: var(--color-black);
+  }
+  
+  .phoneNumber {
+    display: block;
+    font-size: var(--fs-h4); /* Use global font size */
+    font-weight: var(--font-weight-medium);
+    color: var(--color-black);
+    margin-bottom: 4px; /* Define margin locally */
+    transition: color 0.2s ease-in-out; /* Define transition locally */
+  }
+  .phoneNumber:hover {
+    color: var(--color-primary);
+  }
+  
+  .subText {
+    font-size: var(--fs-p3); /* Use global font size */
+    color: var(--color-grey); /* Use global grey color */
+  }
+  
+  .divider {
+    border: none;
+    border-top: 1px solid #e0e0e0; /* Define border color locally */
+    margin: 24px 0; /* Define margin locally */
+  }
+  
+  .hoursList {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 8px 0; /* Define margin locally */
+  }
+  
+  .hoursList li {
+    font-size: var(--fs-p2); /* Use global font size */
+    color: var(--color-black);
+    line-height: 1.6;
+  }
+  
+  /* --- Responsive --- */
+  @media (max-width: 992px) { /* Using a common breakpoint, adjust if needed */
+    .stickyContainer {
+      position: static;
+      margin-top: 40px; /* Define margin locally */
+      width: 100%;
+    }
+  }

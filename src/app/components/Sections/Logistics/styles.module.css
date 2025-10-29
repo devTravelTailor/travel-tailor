@@ -1,0 +1,68 @@
+/* components/LogisticsSection/LogisticsSection.module.css */
+.logisticsList {
+    display: grid; /* Use grid for potentially better alignment control */
+    grid-template-columns: 1fr; /* Default to single column */
+    gap: 25px; /* Consistent gap between items */
+    margin-top: 20px; /* Space above the list */
+  }
+  
+  .logisticsItem {
+    display: flex;
+    align-items: flex-start; /* Align icon to the top of the text */
+    gap: 15px; /* Gap between icon and text content */
+    padding: 15px; /* Padding inside each item */
+    background-color: rgba(var(--color-grey-rgb), 0.05); /* Subtle background */
+    border-radius: calc(var(--rounded) / 2); /* Slightly less rounded than buttons */
+    border: 1px solid rgba(var(--color-grey-rgb), 0.1); /* Subtle border */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .logisticsItem:hover {
+      background-color: rgba(var(--color-grey-rgb), 0.08);
+      transform: translateY(-3px); /* Slight lift on hover */
+  }
+  
+  .iconWrapper {
+    flex-shrink: 0; /* Prevent icon from shrinking */
+    color: var(--color-primary);
+    font-size: var(--fs-h4); /* Adjust icon size */
+    margin-top: 2px; /* Fine-tune vertical alignment */
+    width: 30px; /* Fixed width for alignment */
+    text-align: center;
+  }
+  
+  .itemContent {
+    display: flex;
+    flex-direction: column;
+    gap: 5px; /* Gap between title and description */
+  }
+  
+  .itemTitle {
+    font-size: var(--fs-p1); /* Use p1 size for item titles */
+    font-weight: var(--font-weight-medium);
+    color: var(--color-black);
+    margin: 0; /* Remove default margin */
+  }
+  
+  .itemDescription {
+    font-size: var(--fs-p3);
+    color: var(--color-grey);
+    line-height: 1.5;
+    margin: 0; /* Remove default margin */
+  }
+  
+  /* Responsive adjustments */
+  @media (min-width: 768px) {
+    .logisticsList {
+      /* Maybe 2 columns on larger screens if desired */
+       grid-template-columns: repeat(2, 1fr);
+       gap: 30px; /* Increase gap on larger screens */
+    }
+  }
+  
+  @media (min-width: 1024px) {
+      /* Example: Keep 2 columns or adjust further */
+      .logisticsList {
+         grid-template-columns: repeat(2, 1fr);
+      }
+  }

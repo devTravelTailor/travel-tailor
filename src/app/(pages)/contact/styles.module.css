@@ -1,0 +1,72 @@
+.status {
+    min-height: 500px;
+    display: grid;
+    place-content: center;
+    text-align: center;
+}
+
+.moments {
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+
+    padding: 0 var(--pd-page);
+}
+
+.pageWrapper {
+    padding: 30px 0; /* Vertical padding for the whole section */
+ }
+ 
+ .pageContainer {
+   display: flex;
+   gap: 40px; /* Local gap between columns */
+   align-items: flex-start;
+ 
+   /* Centering and padding */
+   max-width: 1200px; /* Define max width locally */
+   margin-left: auto;
+   margin-right: auto;
+   padding-left: var(--pd-page); /* Use global padding */
+   padding-right: var(--pd-page); /* Use global padding */
+ }
+ 
+ .formColumn {
+   flex: 2; /* Adjust ratio as needed */
+   min-width: 0;
+ }
+ 
+ .stickyColumn {
+   flex: 1; /* Adjust ratio as needed */
+   min-width: 280px; /* Local min-width */
+   position: sticky;
+   top: 160px;
+ }
+
+ @media (min-width: 768px) {
+   .moments {
+       margin-top: 100px;
+       gap: 60px;
+   }
+ }
+ 
+
+ @media (max-width: 992px) { /* Match breakpoint used in StickyContact */
+   .pageContainer {
+     flex-direction: column;
+     gap: 0; /* Stacking, margin handled by components */
+   }
+ 
+   /* Columns take full width when stacked */
+   .formColumn,
+   .stickyColumn {
+     flex-basis: auto;
+     width: 100%;
+     min-width: unset;
+   }
+   /* Ensure stickyColumn has margin when stacked (matches its internal margin-top) */
+    .stickyColumn {
+         margin-top: 40px;
+    }
+ }
+ 

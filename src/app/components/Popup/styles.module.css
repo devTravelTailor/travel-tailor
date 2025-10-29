@@ -1,0 +1,394 @@
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease-in-out;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.overlayVisible {
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 1;
+  visibility: visible;
+}
+
+
+.popup {
+  background: var(--color-white);
+  border-radius: 8px; 
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05), 0 20px 25px -5px rgba(0, 0, 0, 0.1); /* Enhanced shadow */
+  max-width: 500px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  transform: scale(0.9) translateY(-20px);
+  transition: all 0.3s ease-in-out;
+}
+
+.popupVisible {
+  transform: scale(1) translateY(0);
+}
+
+
+.closeButton {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: var(--color-grey);
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  z-index: 1;
+}
+
+.closeButton:hover {
+  background-color: #f9f9f9; 
+  color: var(--color-black);
+}
+
+/* Header */
+.header {
+  padding: 40px 40px 20px 40px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0; 
+}
+
+.title {
+  font-size: var(--fs-h2); 
+  font-weight: var(--font-weight-medium);
+  color: var(--color-black);
+  margin: 0 0 8px 0;
+  line-height: 1.2;
+  font-family: var(--font-prime);
+}
+
+.subtitle {
+  font-size: var(--fs-p1); 
+  color: var(--color-grey);
+  margin: 0 0 30px 0; 
+  line-height: 1.5;
+  font-family: var(--font-prime);
+}
+
+/* Form */
+.form {
+  padding: 30px 40px 40px 40px;
+}
+
+.formGroup {
+  margin-bottom: 20px; 
+}
+
+.formGroup:last-of-type {
+  margin-bottom: 30px; 
+}
+
+/* Labels */
+.label {
+  display: block;
+  font-size: var(--fs-p3); 
+  font-weight: var(--font-weight-medium);
+  color: var(--color-black);
+  margin-bottom: 8px;
+  font-family: var(--font-prime);
+}
+
+.required {
+  color: var(--color-primary);
+  margin-left: 4px; 
+}
+
+
+.input,
+.phoneInput,
+.textarea {
+  width: 100%;
+  padding: 12px 15px; 
+  border: 1px solid #cccccc; 
+  border-radius: 8px; 
+  font-size: var(--fs-p2); 
+  color: var(--color-black);
+  background-color: var(--color-white);
+  transition: border-color 0.2s ease; 
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05); 
+  box-sizing: border-box;
+  font-family: var(--font-prime);
+}
+
+.input:disabled,
+.phoneInput:disabled,
+.textarea:disabled,
+.countrySelect:disabled {
+  background-color: #f9f9f9;
+  color: var(--color-grey);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.input:focus,
+.phoneInput:focus,
+.textarea:focus {
+  outline: none;
+  border-color: var(--color-primary); /* Match lead form focus */
+}
+
+.input::placeholder,
+.phoneInput::placeholder,
+.textarea::placeholder {
+  color: var(--color-grey); /* Match lead form */
+  opacity: 0.8; /* Match lead form */
+}
+
+.countrySelect {
+  max-height: fit-content;
+}
+
+.inputError {
+  border-color: #d9534f; /* Match lead form error color */
+}
+
+.inputError:focus {
+  border-color: #d9534f;
+  box-shadow: 0 0 0 3px rgba(217, 83, 79, 0.4); /* Match lead form error focus */
+}
+
+/* Phone Container - Styled like Lead Form Input Group */
+.phoneContainer {
+  display: flex;
+}
+
+.countrySelect {
+  flex: 0 0 140px; /* Match lead form country select width */
+  padding: 12px 15px; /* Match input padding */
+  border: 1px solid #cccccc;
+  border-radius: 8px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-right: none;
+  font-size: var(--fs-p2);
+  color: var(--color-black);
+  background-color: var(--color-white);
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+  font-family: var(--font-prime);
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23a0a0a0'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd' /%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 1em;
+  padding-right: 30px;
+}
+
+.countrySelect:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.phoneInput {
+  flex: 1 1 auto;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+/* Textarea */
+.textarea {
+  resize: vertical;
+  min-height: 100px; /* Match lead form */
+  font-family: var(--font-prime);
+}
+
+/* Character Count */
+.characterCount {
+  text-align: right;
+  font-size: var(--fs-p3);
+  color: var(--color-grey);
+  margin-top: 4px;
+}
+
+/* Error Messages */
+.error {
+  display: block;
+  color: #d9534f; /* Match lead form error color */
+  font-size: var(--fs-p3);
+  margin-top: 4px;
+}
+
+/* Submit Button - Use Global Button Classes */
+.submitButton {
+  width: 100%;
+  /* Apply your global .btn.color classes here or use the same styling */
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  border: none;
+  padding: 12px 24px; /* Adjust to match your global button padding */
+  border-radius: 8px;
+  font-size: var(--fs-p2);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 52px;
+  min-width: 200px; /* Match lead form submit button */
+  font-family: var(--font-prime);
+}
+
+.submitButton:hover:not(:disabled) {
+  /* Apply your global button hover styles */
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.submitButton:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.submitButton:disabled,
+.submitting {
+  opacity: 0.7; /* Match lead form disabled opacity */
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Success state for submit button */
+.submitButton.success {
+  background-color: #5cb85c; /* Match success color */
+  cursor: default;
+}
+
+.submitButton.success:hover {
+  background-color: #5cb85c;
+  transform: none;
+  opacity: 1;
+}
+
+/* Loading Spinner */
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid var(--color-white);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Success Checkmark */
+.checkmark {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* Form Message Styles (Error/Success) - Match Lead Form */
+.formMessage {
+  padding: 16px;
+  margin: 24px 0;
+  border-radius: 4px;
+  font-size: var(--fs-p3);
+  border: 1px solid transparent;
+}
+
+.formMessage.error {
+  background-color: rgba(217, 83, 79, 0.1);
+  color: #d9534f;
+  border-color: rgba(217, 83, 79, 0.3);
+}
+
+.formMessage.success {
+  background-color: rgba(92, 184, 92, 0.1);
+  color: #5cb85c;
+  border-color: rgba(92, 184, 92, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .overlay {
+    padding: 10px;
+  }
+  
+  .popup {
+    margin: 0;
+    border-radius: 8px;
+    max-height: 95vh;
+  }
+  
+  .header {
+    padding: 30px 24px 20px 24px;
+  }
+  
+  .title {
+    font-size: var(--fs-h3); /* Match lead form responsive title */
+  }
+  
+  .subtitle {
+    font-size: var(--fs-p2); /* Match lead form responsive subtitle */
+  }
+  
+  .form {
+    padding: 24px;
+  }
+  
+  .closeButton {
+    top: 15px;
+    right: 15px;
+  }
+  
+  .phoneContainer {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .countrySelect {
+    min-width: 100%;
+    border-radius: 8px; /* Reset border radius for mobile */
+    border-right: 1px solid #cccccc; /* Add border back */
+  }
+  
+  .phoneInput {
+    border-radius: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 24px 20px 16px 20px;
+  }
+  
+  .title {
+    font-size: var(--fs-h4); 
+  }
+  
+  .form {
+    padding: 20px;
+  }
+  
+  .formGroup {
+    margin-bottom: 20px;
+  }
+}

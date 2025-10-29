@@ -1,0 +1,6 @@
+.status {
+    min-height: 500px;
+    display: grid;
+    place-content: center;
+    text-align: center;
+}

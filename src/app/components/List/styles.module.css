@@ -1,0 +1,350 @@
+.container {
+  display: flex;
+  gap: calc(var(--pd-page) * 1.5); /* Space between sidebar and content */
+  max-width: 1600px; /* Adjust max-width as needed */
+  margin: 0 auto;
+  padding: 0 var(--pd-page); /* Overall container horizontal padding */
+}
+
+/* --- Sticky Sidebar --- */
+.sidebar {
+  width: 240px; /* Fixed width for sidebar */
+  flex-shrink: 0; /* Prevent sidebar from shrinking */
+  position: sticky;
+  top: var(--header-height); /* Stick below the fixed header */
+  /* Calculate height to fill viewport below header, minus some bottom padding */
+  height: calc(100vh - var(--header-height) - var(--pd-page));
+  overflow-y: auto; /* Allow sidebar nav to scroll if it's long */
+  padding-top: var(--pd-thin); /* Space below header */
+  padding-right: var(--pd-thin); /* Space before content area */
+}
+
+.sidebarTitle {
+    font-size: 1.1rem;
+    font-weight: var(--font-weight-medium);
+    color: var(--color-black);
+    margin-bottom: var(--pd-thin);
+    padding-left: var(--pd-thin); /* Align with nav links */
+}
+
+/* --- Sidebar Navigation List --- */
+.navList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  position: relative; /* Positioning context for the active highlight */
+}
+
+.navItem {
+    position: relative; /* Each item is a positioning context for the highlight */
+    margin-bottom: 2px; /* Small gap between items */
+}
+
+/* Individual Navigation Link */
+.navLink {
+  display: block;
+  padding: 8px var(--pd-thin);
+  text-decoration: none;
+  color: var(--color-grey-dark);
+  font-size: 0.95rem;
+  border-radius: 6px; /* Slightly rounded corners */
+  transition: color 0.2s ease, background-color 0.2s ease;
+  position: relative; /* Ensure text is above the highlight */
+  z-index: 2;
+  font-weight: var(--font-weight-regular);
+  white-space: nowrap; /* Prevent wrapping in sidebar */
+  overflow: hidden; /* Hide overflow */
+  text-overflow: ellipsis; /* Add ellipsis if text too long */
+}
+
+.navLink:hover {
+  color: var(--color-black);
+  background-color: var(--color-grey-light); /* Subtle background on hover */
+}
+
+/* Style for the TEXT of the active link */
+.navLink.activeText {
+  color: var(--color-primary); /* Active text color */
+  font-weight: var(--font-weight-medium);
+}
+
+/* Hover state specifically for the active link text (optional) */
+.navLink.activeText:hover {
+  background-color: transparent; /* Remove hover background if highlight is present */
+}
+
+
+/* Framer Motion highlight element */
+.activeHighlight {
+  position: absolute;
+  top: 0;
+  left: 0px; /* Align with navItem edge */
+  right: 0px; /* Align with navItem edge */
+  bottom: 0;
+  background-color: var(--color-primary-light); /* Light background for highlight */
+  border-radius: 6px; /* Match link radius */
+  z-index: 1; /* Position behind the text */
+  /* Opacity/transform controlled by framer-motion */
+}
+
+/* --- Main Content Area --- */
+.contentArea {
+  flex-grow: 1; /* Allow content to take remaining space */
+  min-width: 0; /* Important for flex item wrapping/sizing */
+  padding-top: var(--pd-thin); /* Match sidebar top padding */
+}
+
+/* --- Category Section --- */
+.categorySection {
+  margin-bottom: calc(var(--pd-page) * 2.5);
+  /* scroll-margin-top is set via inline style in the component */
+  /* style={{ scrollMarginTop: 'var(--header-height)' }} */
+}
+
+.categoryTitle {
+  font-size: var(--fs-h2);
+  font-weight: var(--font-weight-medium);
+  margin-bottom: 26px;
+  color: var(--color-black);
+  border-bottom: 1px solid var(--color-grey-light); /* Optional separator */
+  padding-bottom: calc(var(--pd-thin) * 0.5); /* Space below title text */
+}
+
+/* --- Item Grid --- */
+.itemGrid {
+  display: grid;
+  grid-template-columns: 1fr; /* Default: 1 column */
+  /* gap: calc(var(--pd-page) * 0.75); Gap between items */
+
+  gap: 20px;
+}
+
+/* --- Media Queries for Responsive Grid --- */
+/* Mobile-first approach: Start with 1 column */
+
+/* Small tablets and up */
+@media (min-width: 600px) {
+  /* Keep 1 column if sidebar is present or stacked */
+}
+
+/* Tablets where sidebar is likely visible */
+@media (min-width: 900px) {
+  .itemGrid {
+    /* Start 2 columns earlier because sidebar takes width */
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Standard desktops */
+@media (min-width: 1200px) {
+  .itemGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+/* Large desktops */
+@media (min-width: 1400px) {
+    .itemGrid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+/* --- Individual Item Card Styling --- */
+.itemCard {
+  display: block; /* Needed for Link */
+  position: relative;
+  border-radius: 15px;
+  overflow: hidden; /* Clip image and overlay */
+  background-color: var(--color-grey-light); /* Fallback bg */
+  transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+  text-decoration: none; /* Remove underline from link */
+  color: var(--color-white); /* Default text color over image */
+  box-shadow: 0 2px 5px rgba(0,0,0, 0.05);
+}
+/* 
+.itemCard:hover,
+.itemCard:focus-visible {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+} */
+
+/* Hover effect for image zoom */
+.itemCard:hover .itemImage {
+   transform: scale(1); /* Zoom out slightly to normal scale */
+}
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3; 
+  background-color: var(--color-grey-light); 
+}
+
+/* Next.js Image specific styling (when using fill) */
+.itemImage {
+   
+   transform: scale(1.04); /* Start slightly zoomed in */
+   transition: transform 0.6s ease-in-out; /* Smooth zoom transition */
+}
+
+/* Placeholder for when no image is available */
+.placeholderImage {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-grey-light);
+  color: var(--color-grey-dark);
+  font-size: var(--fs-p3);
+}
+
+/* Dark gradient overlay at the bottom */
+.overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60%; /* Adjust height as needed */
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0) 100%);
+    z-index: 1; /* Below title */
+    transition: opacity 0.6s ease;
+    pointer-events: none; /* Allow clicks to pass through */
+}
+
+/* Optional: Darker overlay on hover */
+/* .itemCard:hover .overlay {
+    opacity: 0.85;
+} */
+
+/* Title text on the card */
+.itemTitle {
+  position: absolute;
+  bottom: var(--pd-thin); /* Position title from bottom */
+  left: var(--pd-thin); /* Position title from left */
+  right: var(--pd-thin); /* Ensure text wraps if needed */
+  font-size: var(--fs-p1);
+  font-weight: var(--font-weight-medium);
+  z-index: 2; /* Above overlay */
+  margin: 0;
+  color: var(--color-white); /* Ensure title is white */
+  line-height: 1.3; /* Improve readability */
+}
+
+
+/* --- Responsiveness for Overall Layout --- */
+@media (max-width: 768px) { /* Tablet breakpoint - Adjust as needed */
+  .container {
+    flex-direction: column; /* Stack sidebar and content */
+    padding: 0; /* Remove horizontal padding for full width */
+    gap: 0; /* No gap when stacked */
+  }
+
+  .sidebar {
+    position: relative; /* Unstick the sidebar */
+    top: auto; /* Reset sticky top */
+    width: 100%;
+    height: auto; /* Allow height to adjust to content */
+    overflow-y: visible; /* No vertical scroll needed */
+    border-right: none; /* Remove vertical border */
+    border-bottom: 1px solid var(--color-grey-light); /* Add bottom border */
+    padding: var(--pd-thin) var(--pd-page); /* Add padding */
+    margin-bottom: var(--pd-page); /* Space below sidebar */
+  }
+
+  .sidebarTitle {
+     /* Optionally hide or style differently on mobile */
+     /* display: none; */
+     margin-bottom: calc(var(--pd-thin) * 0.5);
+     padding-left: 0; /* Reset padding */
+  }
+
+  /* Make nav scroll horizontally */
+  .navList {
+    display: flex;
+    overflow-x: auto; /* Enable horizontal scroll */
+    padding-bottom: 10px; /* Space for potential scrollbar */
+    margin-bottom: -10px; /* Counteract padding-bottom for layout */
+    position: static; /* Reset position */
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: var(--color-grey) var(--color-grey-light); /* Firefox */
+  }
+  /* Style scrollbar for WebKit browsers */
+  .navList::-webkit-scrollbar {
+      height: 6px;
+  }
+  .navList::-webkit-scrollbar-track {
+      background: var(--color-grey-light);
+      border-radius: 3px;
+  }
+  .navList::-webkit-scrollbar-thumb {
+      background-color: var(--color-grey);
+      border-radius: 3px;
+  }
+
+
+   .navItem {
+        flex-shrink: 0; /* Prevent nav items from shrinking */
+        position: static; /* Reset position */
+        margin-bottom: 0; /* Remove vertical margin */
+        margin-right: 8px; /* Space between horizontal items */
+    }
+
+   /* Hide Framer Motion highlight on mobile */
+   .activeHighlight {
+       display: none;
+   }
+
+    .navLink {
+        white-space: nowrap; /* Keep text on one line */
+         /* Re-add background for active state on mobile since highlight is hidden */
+         padding: 6px 12px; /* Adjust padding for horizontal layout */
+    }
+     .navLink.activeText {
+       background-color: var(--color-primary-light); /* Simple background fallback */
+       color: var(--color-primary); /* Ensure text color is distinct */
+       border-radius: 6px;
+     }
+     /* Remove hover background for non-active links on mobile touch */
+     .navLink:hover {
+         background-color: transparent;
+     }
+     .navLink.activeText:hover {
+         background-color: var(--color-primary-light); /* Keep active bg on hover */
+     }
+
+
+  .contentArea {
+     padding: 0 var(--pd-page) var(--pd-page); /* Add horizontal and bottom padding */
+     padding-top: 0; /* Remove top padding as sidebar provides space */
+  }
+
+  .categorySection {
+     /* Reset scroll margin if needed, although inline style should override */
+     /* scroll-margin-top: 0 !important; */
+  }
+
+   /* Adjust grid for mobile - maybe allow slightly smaller items */
+   .itemGrid {
+    /* Use auto-fill with minmax for better flexibility */
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+   }
+}
+
+/* --- Utility Styles for Messages --- */
+.emptyMessage, .errorMessage {
+    padding: calc(var(--pd-page) * 2) var(--pd-page); /* More vertical padding */
+    text-align: center;
+    color: var(--color-grey-dark);
+    font-size: 1.1rem;
+    min-height: 200px; /* Ensure it takes some space */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.errorMessage {
+    color: #dc3545; /* Bootstrap danger color */
+    font-weight: var(--font-weight-medium);
+    background-color: #f8d7da; /* Light red background */
+    border: 1px solid #f5c6cb; /* Reddish border */
+    border-radius: 8px;
+}

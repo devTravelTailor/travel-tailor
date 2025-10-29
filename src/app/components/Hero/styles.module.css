@@ -1,0 +1,447 @@
+.heroHome, .toursHero, .destinationsHero, .monthHero {
+    margin: 0 var(--pd-thin);
+    border-radius: var(--rounded);
+    min-height: 84vh;
+    position: relative;
+    overflow: hidden;
+}
+
+.heroHomeImgContainer, .toursHeroImgContainer, .destinationsHeroBg, .monthHeroBg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+}
+
+.heroHomeImg, .toursHeroImg, .destinationsHeroImg, .monthHeroImg{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.heroHomeContent, .toursHeroContent, .destinationsHeroContent {
+    min-height: 84vh;
+    padding: 60px var(--pd-page) 30px var(--pd-page);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.heroHomeContentMain {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 60px;
+}
+
+.heroHomeContentMainTitle {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 12px;
+    color: var(--color-white);
+    line-height: 1.07;
+}
+
+.heroHomeNav {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 20px;
+    align-items: flex-end;
+}
+
+.progressBars {
+    display: flex;
+    gap: 6px;
+    width: 100%;
+}
+
+.progressBar {
+    width: 100%;
+    height: 4px;
+    border-radius: var(--rounded);
+    background-color: rgba(var(--color-grey-rgb), 0.8);
+    position: relative;
+    cursor: pointer;
+}
+
+.progressBar .progress {
+    background-color: var(--color-white);
+    height: 100%;
+    border-radius: var(--rounded);
+    width: 0%;
+    transition: all 7s ease;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.progressBar .progress.filled {
+    width: 100%;
+}
+
+.progressBar .progress.active {
+    width: 100%;
+    left: 0;
+    animation: fillProgress 7s linear;
+}
+
+/* ToursHero */
+.toursHero::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background: linear-gradient(0deg, rgba(0,0,0,0.8898153011204482) 0%, rgba(255,255,255,0) 100%);
+    z-index: -1;
+}
+
+.toursHeroContent {
+    justify-content: flex-end;
+    gap: 16px;
+}
+
+.toursHeroContentMain {
+    text-align: center;
+    align-items: center;
+}
+
+.toursHeroContentMainTitle h1 {
+    font-size: var(--fs-h3);
+    font-weight: var(--font-weight-regular);
+    color: var(--color-white);
+}
+
+.toursHeroNav {
+    display: flex;
+    justify-content: center;
+}
+
+.navArrows {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    gap: 10px;
+    align-items: flex-end;
+}
+
+.scrollIndicator {
+    display: none;
+}
+
+.navSlideProgress {
+    width: 120px;
+    height: 100%;
+    display: grid;
+    place-items: center;
+}
+
+.navProgressBar {
+    width: 120px;
+    height: 4px;
+    border-radius: var(--rounded);
+    background-color: rgba(var(--color-grey-rgb), 0.8);
+    position: relative;
+    overflow: hidden;
+}
+
+.navProgressBar .navProgress {
+    background-color: var(--color-white);
+    height: 100%;
+    border-radius: var(--rounded);
+}
+
+/* ////////////////////////////////////////////////////////// Destinations Hero */
+.destinationsHeroBg::after, .monthHeroBg::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background: linear-gradient(0deg, rgba(0,0,0,0.8898153011204482) 0%, rgba(255,255,255,0) 100%);
+}
+.destinationsHeroContent {
+    justify-content: flex-end;
+    gap: 8px;
+    color: var(--color-white);
+    text-align: center;
+}
+
+.monthHeroDescription{
+    font-size: var(--fs-p3);
+    font-weight: var(--font-weight-regular);
+    margin-bottom: 8px;
+
+    text-align: center;
+}
+
+.destinationsHeroBtn {
+    display: none;
+}
+
+
+.monthHero {
+    min-height: 60vh;
+}
+
+.monthHeroBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.monthHeroContent {
+    position: absolute;
+    bottom: 14px;
+    color: var(--color-white);
+}
+
+/* ////////////////////////////////////////////////////////// Blog Hero */
+.blogHeroBox {
+    display: flex;
+    flex-direction: column;
+    padding: var(--pd-page);
+    gap: 24px;
+}
+
+
+.blogHeroHeader {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.blogHeroTitle {
+    line-height: 1.02;
+    font-size: var(--fs-h2);
+    font-weight: var(--font-weight-medium);
+}
+
+.blogHeroDescription {
+    font-size: var(--fs-p2);
+    font-weight: var(--font-weight-regular);
+    color: var(--color-grey);
+}
+
+.blogHeroContent {
+    width: 100%;
+    height: 320px;
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--rounded);
+    padding: 14px var(--pd-page);
+    display: flex;
+    align-items: flex-end;
+}
+
+.blogHeroBg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-color: rgba(var(--color-grey-rgb), 0.9);
+    backdrop-filter: 18px;
+    -webkit-backdrop-filter: 18px;
+}
+
+.blogHeroBg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    filter: brightness(0.77);
+}
+
+.bhText {
+    display: flex;
+    gap: 20px;
+}
+
+.blogHeroContent .bhBox {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    color: var(--color-white);
+}
+
+.blogHeroContent .bhBox p:last-child {
+    font-size: var(--fs-p2);
+    font-weight: var(--font-weight-medium);
+}
+
+
+
+.vSmall {
+    min-height: 62vh !important;
+}
+
+.vSmall .toursHeroContent {
+    min-height: 62vh !important;
+}
+
+
+@keyframes fillProgress {
+    0% {
+        width: 0%;
+        left: 0;
+    }
+    100% {
+        width: 100%;
+        left: 0;
+    }
+}
+
+@media (min-width: 768px) {
+
+    .heroHomeContent, .toursHeroContent, .destinationsHeroContent {
+        min-height: 89vh;
+    }
+
+    .heroHomeContent {
+        padding: 80px 44px 26px 44px;
+    }
+
+    .heroHomeImg {
+        object-position: center;
+    }
+    
+    .heroHomeContentMain {
+        gap: 60px;
+    }
+    
+    .heroHomeContentMainTitle {
+        gap: 16px;
+        max-width: 60%;
+    }
+
+    .heroHomeContentMainTitle p {
+        font-size: var(--fs-p1);
+        font-weight: var(--font-weight-light);
+        max-width: 74%;
+    }
+    
+    .progressBars {
+        display: flex;
+        gap: 22px;
+        width: 55%;
+    }
+    
+    .progressBar {
+        width: 100%;
+        height: 4px;
+        border-radius: var(--rounded);
+        background-color: rgba(var(--color-grey-rgb), 0.9);
+        backdrop-filter: 18px;
+        -webkit-backdrop-filter: 18px;
+    }
+    
+    .progressBar .progress {
+        background-color: var(--color-white);
+        height: 100%;
+        border-radius: var(--rounded);
+        transition: all 0.3s ease;
+        width: 0%;
+    }
+
+
+
+    /* ToursHero */
+    .toursHeroContentMainTitle h1 {
+        font-size: var(--fs-h4);
+        font-weight: var(--font-weight-regular);
+        color: var(--color-white);
+    }
+
+    .scrollIndicator {
+        display: block;
+        position: absolute;
+        bottom: 30px;
+        right: 30px;
+    }
+
+
+    .monthHeroDescription {
+        font-size: var(--fs-p2);
+        font-weight: var(--font-weight-regular);
+        margin-bottom: 8px;
+    }
+
+    /* Destinations Hero */
+    .destinationsHeroContent {
+        align-items: center;
+    }
+    .destinationsHeroDescription {
+        max-width: 600px;
+        font-size: var(--fs-p2);
+        font-weight: var(--font-weight-light);
+    }
+    .destinationsHeroBtn {
+        display: block;
+        position: absolute;
+        bottom: 30px;
+        right: 30px;
+    }
+
+
+    /* ////////////////////////////////////////////////////////// Blog Hero */
+    .blogHeroBox {
+        padding: var(--pd-page) calc(var(--pd-page) + 20px);
+        gap: 38px;
+    }
+
+
+    .blogHeroHeader {
+        gap: 20px;
+        max-width: 80%;
+    }
+
+    .blogHeroTitle {
+        line-height: 1.02;
+        font-size: var(--fs-h1);
+        font-weight: var(--font-weight-regular);
+    }
+
+    .blogHeroContent {
+        width: 100%;
+        height: 480px;
+        padding: 24px var(--pd-page);
+    }
+
+    .blogHeroBg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        background-color: rgba(var(--color-grey-rgb), 0.9);
+        backdrop-filter: 18px;
+        -webkit-backdrop-filter: 18px;
+    }
+
+    .bhText {
+        display: flex;
+        gap: 40px;
+    }
+
+    .blogHeroContent .bhBox {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        color: var(--color-white);
+    }
+
+    .blogHeroContent .bhBox p:last-child {
+        font-size: var(--fs-p2);
+        font-weight: var(--font-weight-medium);
+    }
+}

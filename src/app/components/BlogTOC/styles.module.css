@@ -1,0 +1,151 @@
+/* src/components/Blog/TableOfContents.module.css */
+.tocContainer {
+  position: sticky;
+  top: calc(
+    var(--header-height, 100px) + 20px
+  ); /* Adjust based on your actual header height + offset */
+  max-height: calc(
+    100vh - var(--header-height, 100px) - 40px
+  ); /* Prevent overlapping footer */
+  overflow-y: auto;
+  padding-right: 20px; /* Add some space before content */
+  border-right: 1px solid rgba(var(--color-grey-rgb), 0.2); /* Subtle separator */
+}
+
+/* Hide scrollbar visually but keep functionality */
+.tocContainer::-webkit-scrollbar {
+  width: 4px;
+}
+.tocContainer::-webkit-scrollbar-track {
+  background: transparent;
+}
+.tocContainer::-webkit-scrollbar-thumb {
+  background: rgba(var(--color-grey-rgb), 0.3);
+  border-radius: 4px;
+}
+.tocContainer::-webkit-scrollbar-thumb:hover {
+  background: rgba(var(--color-grey-rgb), 0.5);
+}
+
+.tocTitle {
+  font-size: var(--fs-p1); /* Smaller than H3, acts as a label */
+  font-weight: var(--font-weight-medium);
+  margin-bottom: 18px;
+  color: var(--color-black);
+}
+
+.tocList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tocItem {
+  margin-bottom: 20px;
+}
+
+.tocLink {
+  font-size: var(--fs-p3);
+  color: var(--color-grey);
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+  display: block; /* Makes the whole area clickable */
+  line-height: 1.5;
+}
+
+.tocLink:hover {
+  color: var(--color-primary);
+  /* Consider adding an active state using JS if needed later */
+}
+
+/* Basic responsiveness: Hide TOC on smaller screens or adjust layout */
+@media (max-width: 1024px) {
+  .tocContainer {
+    display: none; /* Simple hiding, could be moved elsewhere if needed */
+  }
+}
+
+/* src/components/Blog/TableOfContents.module.css */
+
+.tocContainer {
+  position: sticky;
+  top: calc(var(--header-height, 100px) + 20px);
+  max-height: calc(100vh - var(--header-height, 100px) - 40px);
+  overflow-y: auto;
+  padding-right: 20px;
+  border-right: 1px solid rgba(var(--color-grey-rgb), 0.2);
+
+  /* Prevent horizontal overflow from long tokens */
+  min-width: 0;
+}
+
+.tocTitle {
+  font-size: var(--fs-p1);
+  font-weight: var(--font-weight-medium);
+  margin-bottom: 18px;
+  color: var(--color-black);
+}
+
+.tocList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tocItem {
+  margin-bottom: 14px; /* a bit tighter when clamped to 2 lines */
+}
+
+/* --- 2-line clamp with ellipsis + overflow safety --- */
+.tocLink {
+  font-size: var(--fs-p3);
+  color: var(--color-grey);
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+  display: -webkit-box; /* for line clamp */
+  -webkit-line-clamp: 2; /* clamp to 2 lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden; /* hide the rest */
+  text-overflow: ellipsis; /* show "..." */
+  white-space: normal; /* allow wrapping */
+  line-height: 1.5;
+  max-width: 100%;
+
+  /* break long words/URLs instead of overflowing */
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.tocLink:hover,
+.tocLink:focus {
+  color: var(--color-primary);
+  outline: none;
+}
+
+/* Optional: visible focus ring for keyboard users */
+.tocLink:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Custom scrollbar (kept) */
+.tocContainer::-webkit-scrollbar {
+  width: 4px;
+}
+.tocContainer::-webkit-scrollbar-track {
+  background: transparent;
+}
+.tocContainer::-webkit-scrollbar-thumb {
+  background: rgba(var(--color-grey-rgb), 0.3);
+  border-radius: 4px;
+}
+.tocContainer::-webkit-scrollbar-thumb:hover {
+  background: rgba(var(--color-grey-rgb), 0.5);
+}
+
+/* Hide TOC on smaller screens (unchanged) */
+@media (max-width: 1024px) {
+  .tocContainer {
+    display: none;
+  }
+}

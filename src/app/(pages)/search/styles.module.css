@@ -1,0 +1,191 @@
+
+  .searchContainer {
+    max-width: 1400px; /* Consistent max-width */
+    margin: 0 auto;
+    padding: var(--pd-page);
+    padding-top: calc(var(--pd-page) * 2); /* More space at top */
+  }
+  
+  /* --- Unified Search Bar Styling --- */
+  .formWrapper {
+    display: flex;
+    align-items: center; /* Vertically center items */
+    max-width: 800px;
+    margin: 0 auto calc(var(--pd-page) * 2) auto;
+    background-color: var(--color-grey-light); /* Light background for the whole bar */
+    border-radius: 50px;
+    padding: 5px 8px 5px 15px; 
+    border: 1px solid var(--color-grey); 
+    overflow: hidden;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .formWrapper:focus-within {
+    /* Apply focus style to the wrapper when input inside is focused */
+    border-color: var(--color-primary);
+  }
+  
+  /* Style for the icon container/image if needed */
+  .searchIcon {
+    margin-right: 8px; /* Space between icon and input */
+    flex-shrink: 0; /* Prevent icon from shrinking */
+    display: flex; /* Helps vertical alignment if needed */
+    align-items: center; /* Helps vertical alignment if needed */
+    color: var(--color-grey-dark); /* Give icon a color */
+  }
+  
+  
+  .searchInput {
+    flex-grow: 1; /* Allow input to take available space */
+    padding: 10px 5px; /* Vertical padding, minimal horizontal */
+    font-size: 1.05rem;
+    border: none; /* Remove individual border */
+    background-color: transparent; /* Inherit wrapper background */
+    border-radius: 0; /* Remove individual radius */
+    outline: none; /* Remove default outline */
+    color: var(--color-black); /* Text color */
+    min-width: 50px; /* Prevent input from becoming too small */
+    font-family: var(--font-prime);
+  }
+  
+  /* Hide browser's default clear/cancel button */
+  .searchInput::-webkit-search-decoration,
+  .searchInput::-webkit-search-cancel-button,
+  .searchInput::-webkit-search-results-button,
+  .searchInput::-webkit-search-results-decoration {
+    -webkit-appearance:none;
+  }
+  .searchInput::-ms-clear { display: none; width:0; height:0; }
+  .searchInput::-ms-reveal { display: none; width:0; height:0; }
+  
+  
+  .searchButton {
+    padding: 8px 20px; /* Adjust padding for visual balance */
+    font-size: var(--fs-p3);
+    font-weight: var(--font-weight-regular);
+    background-color: var(--color-primary); /* Use primary color */
+    color: var(--color-white);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
+    white-space: nowrap;
+    margin-left: 5px; 
+    flex-shrink: 0;
+
+    font-family: var(--font-prime);
+  }
+  
+  .searchButton:hover:not(:disabled) {
+    background-color: var(--color-white);
+    color: var(--color-primary);
+    border: 1px solid var(--color-primary);
+  }
+  
+  .searchButton:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    background-color: var(--color-grey); /* Grey out disabled button */
+  }
+  
+  /* --- Results Area (mostly unchanged) --- */
+  .resultsArea {
+    margin-top: calc(var(--pd-page) * 1.5); /* Space below form */
+  }
+  
+  .categorySection {
+    margin-bottom: calc(var(--pd-page) * 2.5);
+  }
+  
+  .categoryTitle {
+    font-size: var(--fs-h2);
+    font-weight: var(--font-weight-medium);
+    margin-bottom: 26px;
+    color: var(--color-black);
+    border-bottom: 1px solid var(--color-grey-light);
+    padding-bottom: calc(var(--pd-thin) * 0.5);
+  }
+
+  .categoryTitle span {
+    font-size: var(--fs-p2);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-primary);
+  }
+  
+  .resultsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: calc(var(--pd-page) * 0.75);
+  }
+  
+  .loadingMessage,
+  .errorMessage,
+  .noResultsMessage,
+  .promptMessage {
+    text-align: center;
+    font-size: 1.1rem;
+    color: var(--color-grey-dark);
+    padding: calc(var(--pd-page) * 2) var(--pd-page);
+    min-height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .errorMessage {
+    color: #dc3545;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 8px;
+    font-weight: var(--font-weight-medium);
+  }
+  
+  .noResultsMessage,
+  .promptMessage {
+     font-style: italic;
+  }
+  
+  /* --- Responsiveness --- */
+  /* Keep the unified bar layout even on smaller screens */
+  /* Remove the stacking behavior if you always want the unified bar */
+  @media (max-width: 600px) {
+    /* Remove or comment out the rules that stacked the elements */
+    /* .formWrapper {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .searchButton {
+        width: 100%;
+    } */
+  
+    /* Adjust grid for results if needed */
+    .resultsGrid {
+       gap: calc(var(--pd-page) * 0.5);
+       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+    /* Optional: reduce button padding slightly on small screens */
+    .searchButton {
+      padding: 8px 15px;
+    }
+    .searchInput {
+      font-size: 1rem; /* Slightly smaller font */
+    }
+  }
+  
+  @media (max-width: 480px) {
+     .resultsGrid {
+         grid-template-columns: 1fr; /* Stack to 1 column */
+     }
+      /* Further adjustments if needed for the search bar itself */
+     .formWrapper {
+        padding: 4px 6px 4px 12px; /* Slightly tighter padding */
+     }
+     .searchButton {
+       padding: 6px 12px;
+       font-size: 0.9rem;
+     }
+     .searchInput {
+       padding: 8px 4px;
+       font-size: 0.95rem;
+     }
+  }

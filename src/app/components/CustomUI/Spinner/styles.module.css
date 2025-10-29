@@ -1,0 +1,18 @@
+/* src/app/components/UI/Spinner/Spinner.module.css */
+
+.spinnerContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px; /* Space between dots */
+    height: 50px; /* Give it some explicit height */
+    width: 100%; /* Take available width for centering */
+  }
+  
+  .spinnerDot {
+    display: block;
+    width: 10px;
+    height: 10px;
+    background-color: var(--color-primary); /* Use primary color */
+    border-radius: 50%;
+  }

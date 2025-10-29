@@ -1,0 +1,599 @@
+#featuredTrips {
+    padding: 40px 0 60px 0;
+}
+
+.tripsTitle {
+    padding: 0 var(--pd-page);
+}
+
+.tripsBox, .destinations {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 60px;
+}
+
+.tripsBox:first-child, .destinations:first-child {
+    margin-left: var(--pd-page);
+}
+
+.tripsContent, .destinationsBox, .experiencesBox, .spotlights, .reviewCards, .blogs {
+    display: flex;
+    overflow: auto;
+    gap: 20px;
+    width: 100%;
+
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+}
+
+
+.boxItem:first-child {
+    margin-left: var(--pd-page);
+}
+.boxItem:last-child {
+    margin-right: var(--pd-page);
+}
+
+
+
+.tripsContent::-webkit-scrollbar, .destinationsBox::-webkit-scrollbar, .experiencesBox::-webkit-scrollbar, .spotlights::-webkit-scrollbar, .reviewCards::-webkit-scrollbar, .blogs::-webkit-scrollbar {
+    width: 0;
+}
+
+
+/*                          /////////////////Moments */ 
+
+#momentsHome {
+    padding: 60px 0 60px 0;
+}
+
+.momentsHomeBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+}
+
+
+/*                          /////////////////Group Home */
+
+#groupHome {
+    padding: 40px 0 40px 0;
+    background-color: rgba(var(--color-grey-rgb), 0.2);
+    position: relative;
+    z-index: 1;
+}
+
+.groupHomeBox {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.groupHomeNav {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 14px;
+    align-items: center;
+    justify-content: center;
+    padding: 0 var(--pd-page);
+}
+
+.tabNavigation {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    overflow: auto;
+}
+
+.tabNavigation .tab {
+    padding: 6px 8px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: var(--fs-p3);
+}
+
+
+.tabNavigation .tab.active {
+    background-color: var(--color-primary);
+}
+
+.tabNavigation .tab .tabLabel {
+    font-size: var(--fs-p3);
+    font-weight: var(--font-weight-regular);
+}
+
+.tabNavigation .tab .tabLabel.active {
+    color: var(--color-white);
+}
+
+.expCard {
+    width: 140px;
+    height: 220px;
+    overflow: hidden;
+    border-radius: calc(var(--rounded) / 2);
+    flex-shrink: 0;
+    position: relative;
+
+    color: var(--color-white);
+}
+
+.expCard .experiencesBg {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.experiencesBg img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    object-position: center bottom;
+    filter: brightness(0.74);
+    scale: 1.04;
+
+    transition: scale .6s ease-in-out;
+}
+
+.expCard:hover .experiencesBg img{
+    scale: 1;
+}
+
+.experienceContent {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+
+    padding: 10px;
+}
+
+.experienceTitle {
+    font-size: var(--fs-p2);
+    font-weight: var(--font-weight-medium);
+}
+
+
+
+.calender {
+    /* display: flex;
+    flex-wrap: wrap; */
+    display: grid;
+    grid-template-columns: repeat(3, minmax(100px, 1fr));
+
+
+    gap: 14px;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0 5px;
+}
+
+.monthCard {
+    position: relative;
+    /* width: 180px;
+    height: 240px; */
+    width: auto;
+    height: 180px;
+    border-radius: calc(var(--rounded) / 2);
+    overflow: hidden;
+    cursor: pointer;
+
+    color: var(--color-white);
+}
+
+.monthCardBg {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.monthCardBg img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    object-position: center;
+    filter: brightness(0.74);
+    scale: 1.04;
+    transition: scale .6s ease-in-out;
+}
+
+.monthCard:hover .monthCardBg img {
+    scale: 1;
+}
+
+.monthCardContent {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+    padding: 10px;
+}
+
+.monthCardTitle {
+    font-size: var(--fs-p2);
+    font-weight: var(--font-weight-medium);
+}
+
+
+/* ////////////////////////////////////////////////////////// Reviews */
+
+#reviews {
+    padding: 20px 0 10px 0;
+}
+
+.reviewsBox {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.reviewsContent {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.reviewCards .reviewItem:first-child {
+    margin-left: 30px;
+}
+
+.reviewCards .reviewItem:last-child {
+    margin-right: 40px;
+}
+
+
+
+
+.scrollNav {
+    margin: 0 var(--pd-page) 0 auto;
+}
+
+
+
+/* ////////////////////////////////////////////////////////// Blogs */
+
+.featuredBlogs {
+    padding: 40px 0 60px 0;
+}
+
+.blogsBox {
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+}
+
+.blogsTitle {
+    padding: 0 var(--pd-page);
+}
+
+.blogsContent {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.blogsContent .blogItem:first-child {
+    margin-left: 30px;
+}
+
+.blogsContent .blogItem:last-child {
+    margin-right: 40px;
+}
+
+
+
+
+/* ////////////////////////////////////////////////////////// Trip Days */
+#tripDays {
+    padding: 80px var(--pd-page);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.tripDaysBox {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.dayContainer {
+    position: relative;
+    width: 100%;
+}
+
+/* The dashed connector will only show on desktop */
+.dashedConnector {
+    display: none;
+}
+
+
+/* ////////////////////////////////////////////////////////// Inclusions */
+.inclusions {
+    padding: 60px var(--pd-page) 60px var(--pd-page);
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+}
+
+.inclusionsBox {
+    background-color: rgba(var(--color-primary-rgb), .122);
+    border-radius: var(--rounded);
+    padding: 40px 30px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.inclusionsContent, .exclusionsContent {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.inclusionsContentBox, .exclusionsContentBox {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.inclusionsContentTitle, .exclusionsContentTitle {
+    font-size: var(--fs-p1);
+    font-weight: var(--font-weight-medium);
+    margin-bottom: 10px;
+}
+
+.inclusionsContentItem, .exclusionsContentItem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.inclusionsContentImg, .exclusionsContentImg {
+    width: 20px;
+    height: 20px;
+}
+
+
+
+
+
+@media (min-width: 768px) {
+    #featuredTrips {
+        padding: 90px var(--pd-page) 60px var(--pd-page);
+    }
+
+    .tripsTitle {
+        padding: 0 20px;
+    }
+
+    .tripsBox:first-child, .destinations:first-child {
+        margin-left: 0;
+    }
+    
+    .tripsBox {
+        gap: 60px;
+    }
+    
+    .tripsContent {
+        margin-top: 20px;
+        gap: 44px;
+        align-items: center;
+    }
+
+
+    /*                          /////////////////Moments */ 
+    #momentsHome {
+        padding: 80px 0 60px 0;
+    }
+    
+    .momentsHomeBox {
+        gap: 60px;
+    }
+
+
+    /*                          /////////////////Group Home */
+    #groupHome {
+        padding: 60px var(--pd-page) 40px var(--pd-page);
+        background-color: rgba(var(--color-grey-rgb), 0.18);
+    }
+    /* .groupHomeBox {
+        align-items: center;
+    } */
+
+    .tabNavigation {
+        gap: 16px;
+    }
+
+    .tab:hover {
+        background-color: var(--color-primary);
+        color: var(--color-white);
+    }
+
+
+    /* .monthCard {
+        width: 220px;
+        height: 260px;
+    } */
+
+
+    .spotlights {
+        justify-content: center;
+    }
+
+
+
+    #reviews {
+        padding: 30px 0 0px 0;
+    }
+    
+    .reviewsBox {
+        display: flex;
+        flex-direction: column;
+        gap: 100px;
+    }
+    
+    .reviewsContent {
+        gap: 30px;
+    }
+
+    .reviewCards .reviewItem:first-child {
+        margin-left: 60px;
+    }
+    
+    .scrollNav {
+        margin: 0 var(--pd-page) 0 auto;
+    }
+
+
+    .blogsTitle {
+        padding: 0 calc(var(--pd-page) + 20px);
+    }
+
+    .featuredBlogs {
+        padding: 60px 0 60px 0;
+    }
+    
+    .blogsBox {
+        gap: 80px;
+    }
+    
+    .blogsContent {
+        gap: 30px;
+    }
+    
+    .blogsContent .blogItem:first-child {
+        margin-left: 60px;
+    }
+    
+    .blogsContent .blogItem:last-child {
+        margin-right: 60px;
+    }
+
+
+    .expCard {
+        width: 240px;
+        height: 350px;
+        border-radius: calc(var(--rounded) - 10px);
+    }
+
+    .experienceTitle {
+        font-size: var(--fs-h4);
+    }
+
+    .calender {
+        grid-template-columns: repeat(4, minmax(240px, 1fr));
+        padding: 10px;
+    }
+
+    .monthCard {
+        position: relative;
+        /* width: 180px;
+        height: 240px; */
+        width: auto;
+        height: 240px;
+        border-radius: calc(var(--rounded) - 10px);
+        overflow: hidden;
+        cursor: pointer;
+    
+        color: var(--color-white);
+    }
+
+    .monthCardTitle {
+        font-size: var(--fs-h4);
+        font-weight: var(--font-weight-medium);
+    }
+
+
+
+
+    /* ////////////////////////////////////////////////////////// Trip Days */
+    #tripDays {
+        padding: 80px calc(var(--pd-page) + 20px);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 60px;
+    }
+
+    .tripDaysBox {
+        display: flex;
+        flex-direction: column;
+        gap: 100px;
+    }
+
+    .dayContainer {
+        padding-bottom: 50px; /* Add spacing for the connector */
+    }
+    
+    .dashedConnector {
+        display: block;
+        position: absolute;
+        top: 90%; /* Start from the bottom of the day card */
+        left: 25%; /* Position in line with the day image (adjust as needed) */
+        width: 2px; /* Width of the dashed line */
+        height: 200px; /* Length of the connector - adjust based on your gap */
+        background-image: linear-gradient(to bottom, #000 50%, transparent 50%);
+        background-size: 2px 10px; /* Controls the dash size */
+        background-repeat: repeat-y;
+    }
+    
+    /* No connector after the last visible item */
+    .dayContainer:last-child .dashedConnector {
+        display: none;
+    }
+    
+
+    /* ////////////////////////////////////////////////////////// Inclusions */
+    .inclusions {
+        padding: 60px calc(var(--pd-page) + 20px) 100px calc(var(--pd-page) + 20px);
+        display: flex;
+        flex-direction: column;
+        gap: 60px;
+    }
+
+    .inclusionsBox {
+        background-color: rgba(var(--color-primary-rgb), .122);
+        border-radius: var(--rounded);
+        padding: 50px 100px 50px 60px;
+
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        
+    }
+
+    .inclusionsContentBox, .exclusionsContentBox {
+        max-width: 400px;
+    }
+
+    .exclusionsContent {
+        justify-content: space-between;
+    }
+    .inclusionsBtn {
+        min-width: 300px;
+    }
+}
+
+
+@media (min-width: 1024px) {
+    
+    .calender {
+        grid-template-columns: repeat(6, minmax(180px, 1fr));
+        padding: 10px;
+    }
+}
+
+

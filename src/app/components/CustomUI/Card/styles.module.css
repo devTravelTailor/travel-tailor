@@ -1,0 +1,422 @@
+.usp {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.uspIconCircle {
+    display: grid;
+    place-content: center;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background-color: rgba(var(--color-grey-rgb), 0.2);
+}
+
+.uspIconImg {
+    width: 28px;
+    height: 26px;
+    object-fit: contain;
+}
+
+.uspContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.uspTitle {
+    font-size: var(--fs-p2);
+    font-weight: var(--font-weight-regular);
+    color: var(--color-black);
+}
+
+.uspDescription {
+    font-size: var(--fs-p3);
+    font-weight: var(--font-weight-regular);
+    color: var(--color-grey);
+    max-width: 200px;
+}
+
+
+/*     //////////////////////////////////// Tour Card */
+
+.tour {
+    position: relative;
+    width: 308px;
+    height: 470px;
+    overflow: hidden;
+    flex-shrink: 0;
+    border-radius: var(--rounded);
+}
+
+.tourBg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.tourBg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center bottom;
+    filter: brightness(0.74);
+    scale: 1.04;
+
+    transition: scale 0.6s ease-in-out;
+}
+
+.tour:hover .tourBg img {
+    scale: 1;
+}
+
+.tourContent {
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    color: var(--color-white);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.tourContent .tagBox {
+    padding: 14px 24px;
+    width: max-content;
+    background-color: rgba(var(--color-grey-rgb), 0.32);
+    backdrop-filter: blur(16px);
+    align-self: flex-end;
+    border-radius: 19px;
+}
+
+.tourContentMain {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 99%;
+}
+
+.tourTitle {
+    font-size: var(--fs-h3);
+    font-weight: var(--font-weight-medium);
+}
+
+.tourDescription {
+    font-size: var(--fs-p3);
+    font-weight: var(--font-weight-regular);
+    max-width: 80%;
+}
+
+
+/* ///////////////////////////////////////// Preview Card */
+
+.preview {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 300px;
+    flex-shrink: 0;
+}
+
+
+.previewImgBox {
+    width: 100%;
+    height: 330px;
+    overflow: hidden;
+    border-radius: var(--rounded);
+    flex-shrink: 0;
+}
+
+.previewImgBox img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center bottom;
+    filter: brightness(0.70);
+    transition: scale 0.6s ease-in-out;
+    scale: 1.04;
+}
+
+.previewImgBox:hover img {
+    scale: 1;
+}
+
+.previewInfo {
+    max-width: 99%;
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    height: 100%;
+    justify-content: space-between;
+}
+
+.previewContent {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.previewTitle {
+    font-size: var(--fs-h4);
+    font-weight: var(--font-weight-medium);
+}
+
+.previewDescription {
+    font-size: var(--fs-p3);
+    color: var(--color-grey);
+    word-wrap: break-word;
+}
+
+
+.review {
+    width: 320px;
+    height: 410px;
+    flex-shrink: 0;
+    overflow: hidden;
+    border-radius: var(--rounded);
+    padding: 32px 20px 20px 32px;
+
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: rgba(var(--color-primary-rgb), .122);
+}
+
+.reviewContent {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.reviewContent .message {
+    font-size: var(--fs-p3);
+    font-weight: var(--font-weight-regular);
+    line-height: 19px;
+}
+
+.reviewIcon {
+    width: 34px;
+    height: 34px;
+    opacity: 0.4;
+}
+
+.source {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    margin: 30px 0 0 0;
+    padding: 30px 0 10px 0;
+    border-top: 1px solid rgba(var(--color-grey-rgb), 0.5);
+}
+
+.source p {
+    font-size: var(--fs-p3);
+    font-weight: var(--font-weight-medium);
+}
+
+.reviewSourceIcon {
+    height: 22px;
+    width: auto;
+}
+
+
+/*                                              Brief Card */
+
+.brief {
+    padding: 20px var(--pd-page) 20px var(--pd-page);
+}
+
+.briefBox {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.briefContent {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 99%;
+}
+
+.briefTitle {
+    font-size: var(--fs-h2);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-black);
+}
+
+.briefDescription {
+    font-size: var(--fs-p2);
+    font-weight: var(--font-weight-regular);
+    color: var(--color-grey);
+}
+
+.briefImgBox {
+    width: 100%;
+    height: 260px;
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--rounded);
+    flex-shrink: 0;
+    display: grid;
+    place-content: center;
+}
+
+.briefImgBox img {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    object-fit: cover;
+    object-position: center bottom;
+    filter: brightness(0.70);
+    transition: scale 0.6s ease-in-out;
+    scale: 1.08;
+}
+
+.briefImgBox:hover img {
+    scale: 1;
+}
+
+/*                                              Day Card */ 
+.day{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.dayImgBox {
+    width: 100%;
+    height: 260px;
+    border-radius: var(--rounded);
+    overflow: hidden;
+}
+
+.dayImgBox img {
+    width: 100%;
+    height: 160%;
+    object-fit: cover;
+    object-position: top;
+    filter: brightness(0.80);
+}
+
+.dayContent {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 20px;
+}
+
+
+
+
+@media (min-width: 768px) {
+
+    /*     //////////////////////////////////// Tour Card */
+    .tour {
+        width: 370px;
+        height: 520px;
+    }
+
+    .preview {
+        width: 368px;
+    }
+
+    .previewImgBox {
+        height: 350px;
+    }
+
+    /* Brief Card */
+    .brief {
+        padding: 60px calc(var(--pd-page) + 20px) 20px calc(var(--pd-page) + 20px);
+    }
+    .briefBox {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 80px;
+        width: 100%;
+    }
+
+    .briefContent {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        max-width: 780px;
+    }
+
+    .briefImgBox {
+        width: 340px;
+        height: 410px;
+        position: relative;
+        overflow: hidden;
+        border-radius: var(--rounded);
+        flex-shrink: 0;
+        display: grid;
+        place-content: center;
+    }
+
+
+    /* ///////////////////////////////////////// Day */
+    .day{
+        display: flex;
+        gap: 48px;
+        flex-direction: row;
+    }
+
+    .dayImgBox {
+        height: 370px;
+        min-width: 680px;
+        border-radius: var(--rounded);
+        overflow: hidden;
+    }
+
+    .dayImgBox img {
+        width: 100%;
+        height: 140%;
+        object-fit: cover;
+        object-position: center;
+        filter: brightness(0.80);
+    }
+
+    .dayContent {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        padding: 10px;
+    }
+    .dayTitle {
+        font-size: var(--fs-h2);
+        font-weight: var(--font-weight-medium);
+    }
+
+    .dayBrief {
+        font-size: var(--fs-p2);
+        font-weight: var(--font-weight-regular);
+        color: var(--color-grey);
+    }
+
+
+}
+
+
+
+
+

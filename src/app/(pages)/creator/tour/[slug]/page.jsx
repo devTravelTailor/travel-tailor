@@ -32,10 +32,10 @@ export default function TourPage() {
   // sticky menu config
   const sections = [
     { id: "overview", label: "Overview" },
-    { id: "highlights", label: "Highlights" },
-    { id: "stays", label: "Stays" },
-    { id: "reviews", label: "Reviews" },
-    { id: "faq", label: "FAQ" },
+    { id: "itinerary", label: "Itinerary" },
+    { id: "inclusions", label: "Inclusions" },
+    // { id: "reviews", label: "Reviews" },
+    { id: "map", label: "Map" },
     { id: "gallery", label: "Gallery" },
   ];
   const [active, setActive] = useState("overview");
@@ -72,7 +72,7 @@ export default function TourPage() {
       if (!res.ok) throw new Error(`Failed (${res.status} ${res.statusText})`);
 
       const apiData = await res.json();
-      console.log("res", apiData);
+      // console.log("res", apiData);
 
       // allow API to return {tour: {...}} or the object directly
       const mapped = toTourModel(apiData?.data || apiData);
@@ -132,28 +132,30 @@ export default function TourPage() {
   }
 
   return (
-    <div className="min-h-screen max-w-screen bg-gray-100">
+    <div className="min-h-screen max-w-screen  bg-gray-100">
       {/* Sticky Menu */}
 
       {/* Hero Section */}
-      <div className="">
-        <TourHero
-          id={tour.id}
-          price={tour.price}
-          title={tour.title}
-          duration={tour.overview.duration}
-          subtitle={tour.subtitle}
-          curatedBy={tour.creator}
-          location={tour.location}
-          rating={tour.rating}
-          reviewCount={tour.reviewCount}
-          bookingCount={tour.bookingCount}
-          badges={tour.badges}
-          heroImage={tour.images.hero}
-        />
-      </div>
+      {tour && (
+        <div className="">
+          <TourHero
+            id={tour.id}
+            price={tour.price}
+            title={tour.title}
+            duration={tour.overview.duration}
+            subtitle={tour.subtitle}
+            curatedBy={tour.creator}
+            location={tour.location}
+            rating={tour.rating}
+            reviewCount={tour.reviewCount}
+            bookingCount={tour.bookingCount}
+            badges={tour.badges}
+            heroImage={tour.images.hero}
+          />
+        </div>
+      )}
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-10 py-8">
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-12">
@@ -206,9 +208,11 @@ export default function TourPage() {
             </section>
 
             {/* Tour Highlights */}
-            <section id="highlights" className="scroll-mt-28">
-              <TourHighlights highlights={tour.highlights} />
-            </section>
+            {tour.highlights.length > 0 && (
+              <section id="highlights" className="scroll-mt-28">
+                <TourHighlights highlights={tour.highlights} />
+              </section>
+            )}
 
             {/* Itinerary */}
             <section id="itinerary" className="scroll-mt-28">
@@ -228,23 +232,29 @@ export default function TourPage() {
             </section>
 
             {/* Hotel Stays */}
-            <section id="stays" className="scroll-mt-28">
-              <TourStays stays={tour.stays} />
-            </section>
+            {tour.stays.length > 0 && (
+              <section id="stays" className="scroll-mt-28">
+                <TourStays stays={tour.stays} />
+              </section>
+            )}
 
             {/* Memorable Moments */}
-            <section id="moments" className="scroll-mt-28">
-              <TourMoments moments={tour.moments} />
-            </section>
+            {tour.moments.length > 0 && (
+              <section id="moments" className="scroll-mt-28">
+                <TourMoments moments={tour.moments} />
+              </section>
+            )}
 
             {/* Reviews */}
-            <section id="reviews" className="scroll-mt-28">
-              <TourReviews
-                reviews={tour.reviews}
-                overallRating={tour.rating}
-                totalReviews={tour.reviewCount}
-              />
-            </section>
+            {tour.reviews.length > 0 && (
+              <section id="reviews" className="scroll-mt-28">
+                <TourReviews
+                  reviews={tour.reviews}
+                  overallRating={tour.rating}
+                  totalReviews={tour.reviewCount}
+                />
+              </section>
+            )}
 
             {/* Make Review */}
             <section id="make-review" className="scroll-mt-28">
@@ -252,20 +262,26 @@ export default function TourPage() {
             </section>
 
             {/* FAQ */}
-            <section id="faq" className="scroll-mt-28">
-              <TourFAQ faqs={tour.faq} />
-            </section>
+            {tour.faq.length > 0 && (
+              <section id="faq" className="scroll-mt-28">
+                <TourFAQ faqs={tour.faq} />
+              </section>
+            )}
 
             {/* Location Map */}
-            <section id="map" className="scroll-mt-28">
-              <TourMap mapEmbed={tour.mapEmbed} />
-            </section>
+            {tour.mapEmbed && (
+              <section id="map" className="scroll-mt-28">
+                <TourMap mapEmbed={tour.mapEmbed} />
+              </section>
+            )}
 
             {/* Image Gallery */}
-            <section id="gallery" className="scroll-mt-28">
-              <h2 className="text-2xl font-semibold mb-4 mt-6">Gallery</h2>
-              <ImageGallery images={tour.images.gallery} />
-            </section>
+            {tour.images.gallery && (
+              <section id="gallery" className="scroll-mt-28">
+                <h2 className="text-2xl font-semibold mb-4 mt-6">Gallery</h2>
+                <ImageGallery images={tour.images.gallery} />
+              </section>
+            )}
           </div>
 
           {/* Booking Sidebar */}
@@ -301,7 +317,7 @@ export default function TourPage() {
                 getDateRange={tour.dateRange}
                 creatorId={tour.creator.id}
               />
-              <div className="w-full mt-4  shadow-md hover:shadow-lg transition-shadow duration-300">
+              <div className="w-full mt-4  shadow-xs transition-shadow duration-300">
                 <UserCard
                   avatar={tour.creator.profileImg}
                   name={tour.creator.name}
@@ -363,7 +379,7 @@ function mapBlocks(blocks) {
 function mapItinerary(arr) {
   if (!Array.isArray(arr)) return [];
   return arr.map((d) => ({
-    day: Number(d?.day) || 1,
+    day: d?.day,
     blocks: mapBlocks(d?.blocks),
   }));
 }

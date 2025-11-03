@@ -36,17 +36,17 @@ export default function TourItinerary({ itinerary }) {
             >
               <div className="flex items-center gap-4">
                 <div className="w-10 h-10 bg-orange-500 text-white rounded-lg flex items-center justify-center font-medium">
-                  {day.day}
+                  {idx + 1}
                 </div>
                 <div>
                   <h3 className="text-lg font-medium text-foreground">
-                    Day {day.day}
+                    {day.day}
                   </h3>
                   <p className="text-sm text-muted-foreground font-medium">
                     {day.title}
                   </p>
                   <p className="text-xs text-muted-foreground mt-1 font-medium">
-                    {day.blocks?.length || 0} activities • Full day
+                    {day.blocks?.length || 0} activities
                   </p>
                 </div>
               </div>

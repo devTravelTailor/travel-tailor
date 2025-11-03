@@ -34,7 +34,7 @@ const TextList = ({ data, itemBasePath, itemKeyName }) => {
   };
 
   const selectedRegion = data.group[selectedRegionIndex];
-  console.log(data, selectedRegion, selectedRegionIndex, itemKeyName);
+  // console.log(data, selectedRegion, selectedRegionIndex, itemKeyName);
 
   return (
     <div className={styles.textListContainer}>

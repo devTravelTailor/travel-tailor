@@ -47,7 +47,7 @@ const Page = () => {
         if (!res.ok) throw new Error(`Failed (${res.status})`);
 
         const { data } = await res.json();
-        console.log("data", data);
+        // console.log("data", data);
 
         const items = Array.isArray(data?.items) ? data.items : [];
         const pages = data?.totalPages ?? 1;

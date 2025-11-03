@@ -21,7 +21,7 @@ export default function BentoGrid({ moments = [] }) {
 
   const areaMapping = gridAreaMapping[count];
 
-  console.log(moments);
+  // console.log(moments);
 
   return (
     <div className={`${styles.grid} ${styles[`grid${count}`]}`}>

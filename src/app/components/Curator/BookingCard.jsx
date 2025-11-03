@@ -39,7 +39,7 @@ export default function EnquireNow({
   getDateRange,
   creatorId,
 }) {
-  console.log("tourType", tourType, getDateRange);
+  // console.log("tourType", tourType, getDateRange);
 
   const [dateRange, setDateRange] = useState(getDateRange);
   const [guests, setGuests] = useState({ adults: 2, children: 0 });
@@ -103,7 +103,7 @@ export default function EnquireNow({
       tour: tourId,
       tourCreatedBy: creatorId,
     };
-    console.log("Enquiry Payload:", payload);
+    // console.log("Enquiry Payload:", payload);
 
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/enquiries`,
@@ -118,7 +118,7 @@ export default function EnquireNow({
     );
     const result = await res.json(); // 👈 parse JSON response
 
-    console.log(result);
+    // console.log(result);
 
     if (!result.success) {
       console.error("Failed to send enquiry:", res);
@@ -135,7 +135,7 @@ export default function EnquireNow({
 
   return (
     <>
-      <Card className="w-full max-w-2xl shadow-lg border-border">
+      <Card className="w-full max-w-2xl shadow-xs border-border">
         <CardHeader className="flex flex-col gap-1">
           <CardTitle className="text-lg sm:text-xl md:text-2xl font-semibold text-foreground">
             Plan Your Journey

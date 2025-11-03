@@ -6,7 +6,7 @@ import Tour from "../CustomUI/Card/Tour";
 import parsePrice from "../../util/parsePrice";
 
 function Destinations({ destinations }) {
-  console.log("destinations", destinations);
+  // console.log("destinations", destinations);
 
   return (
     <div className={styles.destinations}>

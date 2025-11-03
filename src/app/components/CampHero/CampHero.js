@@ -14,7 +14,7 @@ function CampHero({ heroData, children }) {
   const [hero, setHero] = useState(heroData[0]);
   const imagesPreloaded = useRef(false);
 
-  console.log(hero);
+  // console.log(hero);
 
   // Autoplay timer effect
   useEffect(() => {

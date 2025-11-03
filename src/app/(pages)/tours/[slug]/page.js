@@ -75,7 +75,7 @@ export async function generateStaticParams() {
 
     const tours = await response.json();
 
-    console.log(tours);
+    // console.log(tours);
 
     return tours.map((tour) => ({
       slug: tour.slug,

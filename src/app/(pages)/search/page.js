@@ -115,7 +115,7 @@ function SearchPageContent() {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      console.log("Search results:", data);
+      // console.log("Search results:", data);
       setSearchResults(data.data);
 
       router.push(`/search?q=${encodeURIComponent(trimmedQuery)}`);
@@ -204,7 +204,9 @@ function SearchPageContent() {
             const title = CATEGORY_TITLES[key];
             const basePath = BASE_PATHS[key];
 
-            console.log("items", items, "title", title, "basePath", basePath);
+            {
+              /* console.log("items", items, "title", title, "basePath", basePath); */
+            }
 
             if (items && items.length > 0) {
               return (

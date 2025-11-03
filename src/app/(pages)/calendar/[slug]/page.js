@@ -45,7 +45,7 @@ async function fetchCalendarData(slug) {
       throw new Error(`API Error: ${response.status} ${response.statusText}`);
     }
     const months = await response.json();
-    console.log(months);
+    // console.log(months);
 
     return months.data;
   } catch (error) {

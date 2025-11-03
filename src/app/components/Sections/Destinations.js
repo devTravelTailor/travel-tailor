@@ -35,7 +35,7 @@ function Destinations({
 }) {
   const destinationsRef = useRef(null);
 
-  console.log(destinations, "destinations");
+  // console.log(destinations, "destinations");
 
   return (
     <section className={styles.destinations}>

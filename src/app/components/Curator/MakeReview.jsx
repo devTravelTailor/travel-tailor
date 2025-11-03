@@ -220,7 +220,7 @@ export default function MakeReview({ tourIdOrSlug }) {
         onAuthSuccess={onAuthSuccess}
       />
 
-      <Card className="p-0 py-6 border border-gray-100 mb-8 w-full max-w-[700px] mx-auto sm:px-4">
+      <Card className="p-0 py-6 border border-gray-100 mb-8 w-full mx-auto sm:px-4">
         <CardHeader className="px-4 sm:px-6">
           <CardTitle className="text-lg sm:text-xl">Write a Review</CardTitle>
           <p className="text-sm text-muted-foreground">

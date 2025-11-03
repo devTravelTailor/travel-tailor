@@ -30,7 +30,7 @@ export default async function Main() {
 
   const { data } = await res.json();
 
-  console.log(data);
+  // console.log(data);
 
   const popularDestination = data?.popularDestination || [];
   const popularExperience = data?.popularExperience || [];
@@ -38,7 +38,7 @@ export default async function Main() {
   const upcomingTrips = data?.upcomingTours || [];
   const fallback = "/images/avatar.webp";
 
-  console.log(popularDestination, popularExperience, creators, upcomingTrips);
+  // console.log(popularDestination, popularExperience, creators, upcomingTrips);
 
   return (
     <section className="relative min-h-screen overflow-hidden">

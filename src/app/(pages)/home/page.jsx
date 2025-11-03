@@ -45,7 +45,7 @@ export default async function Home() {
   const bannerTitle = "Dreaming of an Adventure? /n Let's Talk!";
   const bannerCta = "Enquire now";
 
-  console.log(hero, months, destinations, reviews, features);
+  // console.log(hero, months, destinations, reviews, features);
 
   return (
     <main>

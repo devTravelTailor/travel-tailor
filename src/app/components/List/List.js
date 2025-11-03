@@ -21,7 +21,7 @@ const List = ({ data, itemBasePath, itemKeyName }) => {
   const [activeCategory, setActiveCategory] = useState("");
   const contentRef = useRef(null);
 
-  console.log("data", data);
+  // console.log("data", data);
 
   const categories = useMemo(() => {
     if (!data || !Array.isArray(data.group) || !itemKeyName) {

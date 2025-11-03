@@ -8,7 +8,7 @@ export default function ModernGoogleButton({ onSuccess, onError }) {
     scope: "openid email profile",
     onSuccess: async (tokenResponse) => {
       try {
-        console.log("Google login success:", tokenResponse);
+        // console.log("Google login success:", tokenResponse);
 
         onSuccess?.(tokenResponse); // Pass the whole token data upward
       } catch (err) {

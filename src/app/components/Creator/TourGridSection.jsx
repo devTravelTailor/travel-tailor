@@ -39,7 +39,7 @@ const TourGridSection = ({
           return (
             <div key={index} className={styles.gridItem}>
               <Tour
-                description={item.description}
+                description={item.brief}
                 imgUrl={item.heroImg || item.displayImg}
                 title={item.title}
                 slug={item.slug}

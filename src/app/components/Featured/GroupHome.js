@@ -13,18 +13,18 @@ import Calender from "./Calender";
 
 function GroupHome({ destinations, months, traveller, expereinces }) {
   const [activeTab, setActiveTab] = useState("popularDestinations");
-  console.log("destinations", destinations);
+  // console.log("destinations", destinations);
 
   const renderContent = () => {
     switch (activeTab) {
       case "popularDestinations":
         return <Destinations destinations={destinations} />;
       case "byTraveller":
-        return <Experiences expereinces={expereinces} />;
+        return <Experiences expereinces={traveller} />;
       case "byMonth":
         return <Calender months={months} />;
       case "experiences":
-        return <Experiences expereinces={traveller} />;
+        return <Experiences expereinces={expereinces} />;
       default:
         return <Destinations />;
     }

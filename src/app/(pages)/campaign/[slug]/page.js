@@ -47,7 +47,7 @@ function Campaign() {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const { data } = await response.json();
-        console.log(data);
+        // console.log(data);
 
         setData(data);
       } catch (err) {

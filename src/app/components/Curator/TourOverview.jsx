@@ -30,29 +30,31 @@ function TourOverview({
   return (
     <div className="space-y-6 flex flex-col gap-6 mb-6">
       {/* Clean stats grid */}
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 ">
-        {stats.map((stat, index) => (
-          <Card
-            key={index}
-            className="border border-gray-100 text-center p-0   w-full"
-          >
-            <CardContent className="p-4">
-              <stat.icon className="h-6 w-6 text-orange-400 mx-auto mb-2" />
-              <div className="text-sm text-muted-foreground mb-1">
-                {stat.label}
-              </div>
-              <div
-                className="font-medium text-base"
-                data-testid={`text-${stat.label
-                  .toLowerCase()
-                  .replace(" ", "-")}`}
-              >
-                {stat.value}
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+      {/* {stats.length > 0 && stats[1].value !== "" && stats[2].value !== "" && (
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 ">
+          {stats.map((stat, index) => (
+            <Card
+              key={index}
+              className="border border-gray-100 text-center p-0   w-full"
+            >
+              <CardContent className="p-4">
+                <stat.icon className="h-6 w-6 text-orange-400 mx-auto mb-2" />
+                <div className="text-sm text-muted-foreground mb-1">
+                  {stat.label}
+                </div>
+                <div
+                  className="font-medium text-base"
+                  data-testid={`text-${stat.label
+                    .toLowerCase()
+                    .replace(" ", "-")}`}
+                >
+                  {stat.value}
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )} */}
 
       {/* Best Months Section */}
       {/* {tagMonths.length > 0 && (

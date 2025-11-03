@@ -48,7 +48,7 @@ const StickyContact = () => {
           }
         );
         const { data } = await response.json();
-        console.log(data.footerContact);
+        // console.log(data.footerContact);
         setContact(data.footerContact);
       } catch (error) {
         console.error("Error fetching contact:", error);

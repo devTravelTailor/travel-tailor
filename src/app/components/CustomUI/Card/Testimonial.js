@@ -26,10 +26,7 @@ function Testimonial({
         </div>
       )}
 
-      {/* Hover hint */}
-      <div className={styles.hoverHint}>Hover to read</div>
-
-      {/* Overlay now contains the content */}
+      {/* Hover overlay with review content */}
       <div className={styles.overlay}>
         <div className={styles.content}>
           <Image
@@ -40,12 +37,14 @@ function Testimonial({
             className={styles.quote}
           />
           <h3 className={styles.reviewText}>{review}</h3>
-          <p className={styles.attribution}>
-            - <span className={styles.name}>{name}</span> · {place} ·{" "}
-            {parseDate(date)} · {travelType}
-          </p>
         </div>
       </div>
+
+      {/* Persistent attribution — always visible */}
+      <p className={styles.attribution}>
+        - <span className={styles.name}>{name}</span> · {place} ·{" "}
+        {parseDate(date)} · {travelType}
+      </p>
     </div>
   );
 }

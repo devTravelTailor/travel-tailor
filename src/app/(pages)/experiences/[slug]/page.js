@@ -133,7 +133,7 @@ export async function generateStaticParams() {
 export default async function ExperiencePage({ params }) {
   const resolvedParams = await params;
   const experienceData = await fetchExperienceData(resolvedParams.slug);
-  console.log("experienceData", experienceData);
+  // console.log("experienceData", experienceData);
 
   // Handle case where data isn't found
   if (!experienceData) {

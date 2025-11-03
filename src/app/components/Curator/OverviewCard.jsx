@@ -36,7 +36,7 @@ export default function OverviewCard({
     },
   ];
   return (
-    <Card className="w-full gap-2 p-0 py-4 h-fit mb-4 max-w-4xl border-border shadow-md bg-card">
+    <Card className="w-full gap-2 p-0 py-4 h-fit mb-4 max-w-4xl border-border shadow-xs bg-card">
       <CardHeader>
         <CardTitle className="text-2xl py-0 font-semibold text-foreground">
           Tour Overview

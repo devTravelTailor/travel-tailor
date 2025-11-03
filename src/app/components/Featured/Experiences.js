@@ -5,7 +5,7 @@ import Image from "next/image";
 import parseUrl from "../../util/parseUrl";
 
 function Experiences({ expereinces }) {
-  console.log("expereinces", expereinces);
+  // console.log("expereinces", expereinces);
 
   const ExperienceCard = ({ title, slug, imgUrl }) => {
     return (

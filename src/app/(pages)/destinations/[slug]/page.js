@@ -92,7 +92,7 @@ export async function generateStaticParams() {
       }
     );
 
-    console.log(response);
+    // console.log(response);
 
     if (!response.ok) {
       console.error(
@@ -132,7 +132,7 @@ export default async function DestinationPage({ params }) {
     description: "You might be interested in these tours",
   };
 
-  console.log(destinationData.highlight);
+  // console.log(destinationData.highlight);
 
   return (
     <main>

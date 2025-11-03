@@ -25,7 +25,7 @@ async function fetchBlogData(slug) {
     }
 
     const blog = await response.json();
-    console.log("👉 Blog Data:", blog.data);
+    // console.log("👉 Blog Data:", blog.data);
 
     return blog;
   } catch (error) {

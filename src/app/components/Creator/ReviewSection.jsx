@@ -3,13 +3,14 @@ import { useState } from "react";
 import { Card, CardContent } from "../ui/card";
 import { Star, Quote } from "lucide-react";
 import { Carousel, CarouselContent, CarouselItem } from "../ui/carousel";
+import { Avatar, AvatarImage, AvatarFallback } from "../ui/avatar";
 import Autoplay from "embla-carousel-autoplay";
 import parseUrl from "../../util/parseUrl";
 
 const reviewsSection = ({ data, happyCustomers = "2,340" }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  console.log(data);
+  // console.log(data);
 
   const handlePrev = () => {
     setCurrentIndex((prev) => (prev === 0 ? reviews.length - 1 : prev - 1));
@@ -67,10 +68,19 @@ const reviewsSection = ({ data, happyCustomers = "2,340" }) => {
                               <CardContent className="p-6 relative">
                                 <div className="flex items-center justify-between mb-4">
                                   <div className="flex items-center gap-3">
-                                    <img
-                                      src={profileImage}
-                                      className="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center text-primary-foreground font-semibold"
-                                    />
+                                    {/* Avatar instead of img */}
+                                    <Avatar className="w-12 h-12 bg-orange-500">
+                                      <AvatarImage
+                                        src={testimonial.img || ""}
+                                        alt={testimonial.name || "Traveler"}
+                                        className="object-cover"
+                                      />
+                                      <AvatarFallback className="bg-orange-500 text-white font-semibold">
+                                        {testimonial.name
+                                          ?.charAt(0)
+                                          ?.toUpperCase() || "T"}
+                                      </AvatarFallback>
+                                    </Avatar>
                                     <div>
                                       <h4 className="font-semibold">
                                         {testimonial.name}

@@ -21,10 +21,10 @@ export default function TourMap({ mapEmbed }) {
     <div className="space-y-6">
       <h2 className="text-2xl font-bold mb-6">Location &amp; Map</h2>
 
-      <Card className="border border-card-border">
-        <CardContent className="p-6">
+      <Card className="border border-gray-400 p-0 rounded-lg">
+        <CardContent className="p-0">
           {src ? (
-            <div className="w-full rounded-lg overflow-hidden">
+            <div className="w-full  overflow-hidden">
               <iframe
                 key={src} // re-render if url changes
                 src={src} // pass the embed URL directly
@@ -32,7 +32,7 @@ export default function TourMap({ mapEmbed }) {
                 loading="lazy"
                 allowFullScreen
                 referrerPolicy="no-referrer-when-downgrade"
-                className="w-full aspect-video border-0 rounded-lg"
+                className="w-full aspect-video border-0 p-0 rounded-lg"
               />
             </div>
           ) : (

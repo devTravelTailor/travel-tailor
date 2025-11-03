@@ -25,7 +25,7 @@ export default function Page({ params }) {
           }
         );
         const data = await response.json();
-        console.log("data", data);
+        // console.log("data", data);
 
         setProfileData(data);
       } catch (error) {
@@ -36,7 +36,7 @@ export default function Page({ params }) {
     fetchData();
   }, [id]);
 
-  console.log(profileData);
+  // console.log(profileData);
 
   return (
     <div>

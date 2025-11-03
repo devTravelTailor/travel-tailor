@@ -18,7 +18,7 @@ function Tours({
 }) {
   const toursRef = useRef(null);
 
-  console.log("tours", tours);
+  // console.log("tours", tours);
 
   return (
     <>

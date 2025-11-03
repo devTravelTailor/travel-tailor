@@ -102,7 +102,7 @@ function SearchPageContent() {
       if (!res.ok) throw new Error(`Status ${res.status}`);
       const data = await res.json();
 
-      console.log("data", data.data);
+      // console.log("data", data.data);
 
       setResults(data.data);
       router.push(
@@ -210,7 +210,9 @@ function SearchPageContent() {
           hasResults &&
           Object.keys(BASE_PATHS).map((key, idx) => {
             const items = results[key];
-            console.log("items", items);
+            {
+              /* console.log("items", items); */
+            }
 
             if (items && items.length > 0) {
               return (

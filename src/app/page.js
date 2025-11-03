@@ -149,18 +149,23 @@ export default async function Main() {
             {/* Header */}
             <div className="text-center mb-12 animate-fade-in">
               <h2 className="text-3xl md:text-5xl font-bold mb-2">
-                Trailsmith
+                Trailsmith by Travel Tailor
                 <br />
                 <span className="text-orange-600 text-3xl md:text-4xl font-handwriting">
-                  The Voice of Modern Travel Creators
+                  Journeys with a story — crafted by those who’ve lived them.
                 </span>
               </h2>
 
               {/* 📝 Description */}
               <p className="text-md text-muted-foreground max-w-2xl mx-auto">
-                Trailsmith is our creator-led tour blog — a space where seasoned
-                travelers and influencers share their hand-crafted journeys,
-                unique experiences, and insider stories from around the globe.
+                Trailsmith is where travel meets mastery. Each journey is shaped
+                by creators, experts, and explorers who turn their craft into an
+                experience — from filmmaker-led expeditions and wellness
+                retreats, to photography trails and adventures curated by those
+                who know the path best. Whether they lead the journey in person
+                or curate it from their own travels, every Trailsmith experience
+                is designed to inspire, challenge, and connect you more deeply
+                with the world and yourself.
               </p>
             </div>
 
@@ -195,9 +200,7 @@ export default async function Main() {
             {/* Grid Section */}
             {creators.length > 0 && (
               <div className="md:p-5 w-full">
-                <h3 className="text-2xl font-bold mb-6 px-3">
-                  Travel Influencers
-                </h3>
+                <h3 className="text-2xl font-bold mb-6 px-3">Our Smiths</h3>
 
                 {/* Flex Container with Scroll and Hidden Scrollbar */}
                 <div className="overflow-x-auto scrollbar-hidden ">
@@ -248,7 +251,7 @@ export default async function Main() {
               varient="outline"
               className="mx-auto block mt-12 rounded-full hover:bg-white border border-orange-600 hover:text-orange-600 bg-orange-600 text-white"
             >
-              Check Creators Tours
+              Explore Trails
             </Button>
           </Link>
         </section>

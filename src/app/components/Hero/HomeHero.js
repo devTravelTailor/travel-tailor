@@ -106,7 +106,14 @@ function HomeHero({ heroData }) {
 
               <motion.div variants={Varients.heroHomeContentChildFinal}>
                 <Button
-                  href={`${process.env.NEXT_PUBLIC_URL_PREFIX}${hero.url}`}
+                  href={
+                    hero.url?.startsWith("http://") ||
+                    hero.url?.startsWith("https://")
+                      ? hero.url
+                      : `${process.env.NEXT_PUBLIC_URL_PREFIX || ""}${
+                          hero.url || ""
+                        }`
+                  }
                   className="md"
                 >
                   {hero.CTA || hero.cta || "Explore"}

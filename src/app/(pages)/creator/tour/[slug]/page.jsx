@@ -16,9 +16,10 @@ import MakeReview from "../../../../components/Curator/MakeReview";
 import TourFAQ from "../../../../components/Curator/TourFAQ";
 import EnquireNow from "../../../../components/Curator/BookingCard";
 import OverviewCard from "../../../../components/Curator/OverviewCard";
-import tourData from "../../../../util/data";
 import TourHero from "../../../../components/Curator/TourHero";
 import UserCard from "../../../../components/Curator/UserCard";
+import TourVideoTestimonials from "../../../../components/Curator/TestimonialVideoCarousel";
+import Spinner from "../../../../components/CustomUI/Spinner/Spinner";
 
 const API_URL = (process.env.NEXT_PUBLIC_API_URL || "").replace(/\/+$/, "");
 const API_TOKEN = process.env.NEXT_PUBLIC_API_TOKEN || "";
@@ -107,15 +108,15 @@ export default function TourPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-        <p className="text-gray-600">Loading tour…</p>
+      <div className="min-h-screen bg-gradient-to-b from-gray-100 to-white flex items-center justify-center">
+        <Spinner />
       </div>
     );
   }
 
   if (err || !tour) {
     return (
-      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-b from-gray-100 to-white flex items-center justify-center">
         <div className="p-6 rounded-xl bg-white shadow">
           <p className="text-red-600 font-medium mb-3">
             {err || "Tour not found"}
@@ -132,7 +133,7 @@ export default function TourPage() {
   }
 
   return (
-    <div className="min-h-screen max-w-screen  bg-gray-100">
+    <div className="min-h-screen max-w-screen  bg-gradient-to-b from-gray-100 to-white">
       {/* Sticky Menu */}
 
       {/* Hero Section */}
@@ -155,12 +156,12 @@ export default function TourPage() {
         </div>
       )}
 
-      <div className="container mx-auto px-10 py-8">
+      <div className="container mx-auto px-5 lg:px-10 py-8">
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-12">
             <div
-              className={` font-sans sticky top-[3.7rem] md:top-17 z-30 bg-white/95 backdrop-blur-md border-b border-gray-200 mb-6`}
+              className={` font-sans sticky top-[3.6rem] md:top-17 z-30 bg-white/95 backdrop-blur-md border-b border-gray-200 mb-6`}
             >
               {/* Desktop */}
               <div className="hidden md:flex gap-6 px-4 py-3">
@@ -246,18 +247,18 @@ export default function TourPage() {
             )}
 
             {/* Reviews */}
-            {tour.reviews.length > 0 && (
-              <section id="reviews" className="scroll-mt-28">
+            <section id="reviews" className="scroll-mt-28">
+              <h2 className="text-2xl font-semibold mb-4 mt-6">
+                Customer Reviews
+              </h2>
+
+              {tour.reviews.length > 0 && (
                 <TourReviews
                   reviews={tour.reviews}
                   overallRating={tour.rating}
                   totalReviews={tour.reviewCount}
                 />
-              </section>
-            )}
-
-            {/* Make Review */}
-            <section id="make-review" className="scroll-mt-28">
+              )}
               <MakeReview tourIdOrSlug={tour.slug /* or tour.id */} />
             </section>
 
@@ -272,6 +273,16 @@ export default function TourPage() {
             {tour.mapEmbed && (
               <section id="map" className="scroll-mt-28">
                 <TourMap mapEmbed={tour.mapEmbed} />
+              </section>
+            )}
+
+            {tour.video?.length > 0 && (
+              <section id="video" className="scroll-mt-28">
+                <h2 className="text-2xl font-semibold mb-4 mt-6">
+                  Video Gallery
+                </h2>
+
+                <TourVideoTestimonials videos={tour.video} />
               </section>
             )}
 
@@ -328,6 +339,12 @@ export default function TourPage() {
             </div>
           </div>
         </div>
+
+        {/* <Banner
+          title={`Plan Your Adventure!`}
+          cta={"Get Inspired"}
+          url={`/contact?src=${slug}`}
+        /> */}
       </div>
     </div>
   );
@@ -604,5 +621,6 @@ function toTourModel(api) {
     related, // { blogs, destinations, experiences, spotlights, tours, tagMonths }
     seo: api?.seo || {},
     extras: api?.extras || {},
+    video: Array.isArray(api?.video) ? api.video : [],
   };
 }

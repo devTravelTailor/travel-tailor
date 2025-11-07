@@ -3,6 +3,41 @@
 @import "tailwindcss/preflight";
 @import "tw-animate-css";
 
+.ytp-chrome-top,
+.ytp-title,
+.ytp-gradient-top {
+  display: none !important;
+}
+
+.yt-embed-holder {
+  width: 100%;
+  overflow: hidden;
+  aspect-ratio: 9/16;
+}
+
+.ytp-title {
+  display: none !important;
+}
+
+.ytmVideoInfoVideoDetailsContainer {
+  display: none !important;
+}
+.ytp-title-text {
+  display: none !important;
+}
+
+.yt-embed-holder iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.ytp-chrome-top .ytp-show-cards-title {
+  display: none !important;
+}
+
 /*      ---break--- */
 @custom-variant dark (&:is(.dark *));
 * {

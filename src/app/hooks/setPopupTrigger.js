@@ -1,13 +1,13 @@
-'use client';
-import { useState, useEffect, useCallback } from 'react';
-import { usePathname } from 'next/navigation';
+"use client";
+import { useState, useEffect, useCallback } from "react";
+import { usePathname } from "next/navigation";
 
-const FORM_STATUS_KEY = 'formStatus';
+const FORM_STATUS_KEY = "formStatus";
 const STATUS = {
-  INITIAL: 'initial',
-  EXIT_1: 'exit1',
-  EXIT_2: 'exit2',
-  DONE: 'done',
+  INITIAL: "initial",
+  EXIT_1: "exit1",
+  EXIT_2: "exit2",
+  DONE: "done",
 };
 
 const DELAY_CONFIG = {
@@ -17,7 +17,7 @@ const DELAY_CONFIG = {
 };
 
 export const usePopupTrigger = (
-  excludedRoutes = ['/tnc', '/privacy-policy', '/campaign/*'],
+  excludedRoutes = ["/tnc", "/privacy-policy", "/campaign/*"]
 ) => {
   const [isVisible, setIsVisible] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
@@ -31,9 +31,9 @@ export const usePopupTrigger = (
   // Check if current route should be excluded
   const isExcludedRoute = useCallback(() => {
     return excludedRoutes.some((route) => {
-      if (route.includes('*')) {
+      if (route.includes("*")) {
         // Handle wildcard routes like '/campaign/*'
-        const baseRoute = route.replace('/*', '');
+        const baseRoute = route.replace("/*", "");
         return pathname.startsWith(baseRoute);
       }
       return pathname === route;
@@ -41,7 +41,7 @@ export const usePopupTrigger = (
   }, [pathname, excludedRoutes]);
 
   useEffect(() => {
-    if (typeof window === 'undefined' || !isMounted) {
+    if (typeof window === "undefined" || !isMounted) {
       return;
     }
 
@@ -65,7 +65,7 @@ export const usePopupTrigger = (
 
     if (delayInSeconds) {
       console.log(
-        `Setting timer for status: ${status} with delay: ${delayInSeconds}s`,
+        `Setting timer for status: ${status} with delay: ${delayInSeconds}s`
       );
       const timer = setTimeout(() => {
         setIsVisible(true);
@@ -76,10 +76,10 @@ export const usePopupTrigger = (
   }, [isMounted, refreshTrigger, isExcludedRoute]);
 
   const handleClose = useCallback(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === "undefined") return;
 
     const currentStatus = sessionStorage.getItem(FORM_STATUS_KEY);
-    let nextStatus = '';
+    let nextStatus = "";
 
     switch (currentStatus) {
       case STATUS.INITIAL:
@@ -104,7 +104,7 @@ export const usePopupTrigger = (
   }, []);
 
   const handleSuccess = useCallback(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === "undefined") return;
     sessionStorage.setItem(FORM_STATUS_KEY, STATUS.DONE);
     setIsVisible(false);
   }, []);

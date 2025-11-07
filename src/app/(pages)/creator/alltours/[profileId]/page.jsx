@@ -117,6 +117,8 @@ const Page = () => {
 
   const isEmpty = !isLoading && tours.length === 0 && !error;
 
+  if (isLoading) return <Spinner />;
+
   return (
     <div className={styles.container}>
       <h2 className={styles.heading}>

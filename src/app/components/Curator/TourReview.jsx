@@ -12,7 +12,6 @@ import { useState, useMemo } from "react";
 export default function TourReviews({ reviews, overallRating, totalReviews }) {
   const [visibleCount, setVisibleCount] = useState(3);
 
-
   const renderStars = (rating) => {
     return Array.from({ length: 5 }, (_, i) => (
       <Star
@@ -35,7 +34,6 @@ export default function TourReviews({ reviews, overallRating, totalReviews }) {
   return (
     <div className="space-y-6 mb-8">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold">Customer Reviews</h2>
         <div className="flex items-center gap-2">
           <div className="flex">{renderStars(Math.floor(overallRating))}</div>
           <span

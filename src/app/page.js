@@ -4,6 +4,7 @@ import { MapPin } from "lucide-react";
 import Tour from "./components/CustomUI/Card/Tour";
 import styles from "./page.module.css";
 import { Button } from "./components/ui/button";
+import Banner from "./components/Banner/Banner";
 
 export const dynamic = "force-dynamic";
 export const fetchCache = "force-no-store";
@@ -256,6 +257,11 @@ export default async function Main() {
           </Link>
         </section>
       )}
+
+      <Banner
+        title={"Dreaming of an Adventure? /nLet's Talk!"}
+        cta={"Enquire now"}
+      />
     </section>
   );
 }

@@ -109,5 +109,11 @@ export const usePopupTrigger = (
     setIsVisible(false);
   }, []);
 
-  return { isVisible, handleClose, handleSuccess };
+  // ✅ Added: manual instant open (always opens regardless of status)
+  const handleOpenInstant = useCallback(() => {
+    if (typeof window === "undefined") return;
+    setIsVisible(true);
+  }, []);
+
+  return { isVisible, handleClose, handleSuccess, handleOpenInstant };
 };

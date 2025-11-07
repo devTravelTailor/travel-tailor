@@ -1,3 +1,4 @@
+"use client";
 import styles from "./styles.module.css";
 import Image from "next/image";
 import Link from "next/link";
@@ -5,6 +6,8 @@ import Link from "next/link";
 import Button from "../CustomUI/Button/Button";
 
 import parseTitle from "../../util/parseTitle";
+import PopupForm from "../Popup/PopupForm";
+import { usePopupTrigger } from "../../hooks/setPopupTrigger";
 
 function Banner({
   title = "Dreaming of an Adventure? /nLet's Talk!",
@@ -13,6 +16,8 @@ function Banner({
   cta = "Enquire now",
   ...props
 }) {
+  const { handleOpenInstant, isVisible, handleClose, handleSuccess } =
+    usePopupTrigger();
   return (
     <section className={styles.banner}>
       <Link className={styles.bannerBox} href={url}>
@@ -25,19 +30,24 @@ function Banner({
             className={styles.bannerImg}
           />
         </div>
-
-        <div className={styles.bannerContent}>
-          <h4 className={styles.bannerTitle}>{parseTitle(title)}</h4>
-
-          <Button
-            varient="fill"
-            className={`md ${styles.bannerBtn}`}
-            type="block"
-          >
-            {cta}
-          </Button>
-        </div>
       </Link>
+
+      <div className={styles.bannerContent}>
+        <h4 className={styles.bannerTitle}>{parseTitle(title)}</h4>
+
+        <button
+          onClick={handleOpenInstant}
+          className={`md ${styles.bannerBtn}`}
+        >
+          {cta}
+        </button>
+      </div>
+
+      <PopupForm
+        isVisible={isVisible}
+        handleClose={handleClose}
+        handleSuccess={handleSuccess}
+      />
     </section>
   );
 }

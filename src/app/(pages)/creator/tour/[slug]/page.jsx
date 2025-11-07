@@ -20,6 +20,7 @@ import TourHero from "../../../../components/Curator/TourHero";
 import UserCard from "../../../../components/Curator/UserCard";
 import TourVideoTestimonials from "../../../../components/Curator/TestimonialVideoCarousel";
 import Spinner from "../../../../components/CustomUI/Spinner/Spinner";
+import Banner from "../../../../components/Banner/Banner";
 
 const API_URL = (process.env.NEXT_PUBLIC_API_URL || "").replace(/\/+$/, "");
 const API_TOKEN = process.env.NEXT_PUBLIC_API_TOKEN || "";
@@ -133,220 +134,221 @@ export default function TourPage() {
   }
 
   return (
-    <div className="min-h-screen max-w-screen  bg-gradient-to-b from-gray-100 to-white">
-      {/* Sticky Menu */}
+    <>
+      <div className="min-h-screen max-w-screen  bg-gradient-to-b from-gray-100 to-white">
+        {/* Sticky Menu */}
 
-      {/* Hero Section */}
-      {tour && (
-        <div className="">
-          <TourHero
-            id={tour.id}
-            price={tour.price}
-            title={tour.title}
-            duration={tour.overview.duration}
-            subtitle={tour.subtitle}
-            curatedBy={tour.creator}
-            location={tour.location}
-            rating={tour.rating}
-            reviewCount={tour.reviewCount}
-            bookingCount={tour.bookingCount}
-            badges={tour.badges}
-            heroImage={tour.images.hero}
-          />
-        </div>
-      )}
+        {/* Hero Section */}
+        {tour && (
+          <div className="">
+            <TourHero
+              id={tour.id}
+              price={tour.price}
+              title={tour.title}
+              duration={tour.overview.duration}
+              subtitle={tour.subtitle}
+              curatedBy={tour.creator}
+              location={tour.location}
+              rating={tour.rating}
+              reviewCount={tour.reviewCount}
+              bookingCount={tour.bookingCount}
+              badges={tour.badges}
+              heroImage={tour.images.hero}
+            />
+          </div>
+        )}
 
-      <div className="container mx-auto px-5 lg:px-10 py-8">
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Main Content */}
-          <div className="lg:col-span-2 space-y-12">
-            <div
-              className={` font-sans sticky top-[3.6rem] md:top-17 z-30 bg-white/95 backdrop-blur-md border-b border-gray-200 mb-6`}
-            >
-              {/* Desktop */}
-              <div className="hidden md:flex gap-6 px-4 py-3">
-                {sections.map((s) => (
-                  <a
-                    key={s.id}
-                    href={`#${s.id}`}
-                    className={`text-sm font-medium ${
-                      active === s.id
-                        ? "text-orange-600 border-b-2 border-orange-600"
-                        : "text-gray-600 hover:text-orange-500"
-                    }`}
-                  >
-                    {s.label}
-                  </a>
-                ))}
+        <div className="container mx-auto px-5 lg:px-10 py-8">
+          <div className="grid lg:grid-cols-3 gap-8">
+            {/* Main Content */}
+            <div className="lg:col-span-2 space-y-12">
+              <div
+                className={` font-sans sticky top-[3.6rem] md:top-17 z-30 bg-white/95 backdrop-blur-md border-b border-gray-200 mb-6`}
+              >
+                {/* Desktop */}
+                <div className="hidden md:flex gap-6 px-4 py-3">
+                  {sections.map((s) => (
+                    <a
+                      key={s.id}
+                      href={`#${s.id}`}
+                      className={`text-sm font-medium ${
+                        active === s.id
+                          ? "text-orange-600 border-b-2 border-orange-600"
+                          : "text-gray-600 hover:text-orange-500"
+                      }`}
+                    >
+                      {s.label}
+                    </a>
+                  ))}
+                </div>
+                {/* Mobile */}
+                <div className="flex md:hidden overflow-x-auto gap-4 px-4 py-2 scrollbar-hide">
+                  {sections.map((s) => (
+                    <a
+                      key={s.id}
+                      href={`#${s.id}`}
+                      className={`whitespace-nowrap text-xs font-medium ${
+                        active === s.id
+                          ? "text-orange-600 border-b-2 border-orange-600"
+                          : "text-gray-600 hover:text-orange-500"
+                      }`}
+                    >
+                      {s.label}
+                    </a>
+                  ))}
+                </div>
               </div>
-              {/* Mobile */}
-              <div className="flex md:hidden overflow-x-auto gap-4 px-4 py-2 scrollbar-hide">
-                {sections.map((s) => (
-                  <a
-                    key={s.id}
-                    href={`#${s.id}`}
-                    className={`whitespace-nowrap text-xs font-medium ${
-                      active === s.id
-                        ? "text-orange-600 border-b-2 border-orange-600"
-                        : "text-gray-600 hover:text-orange-500"
-                    }`}
-                  >
-                    {s.label}
-                  </a>
-                ))}
-              </div>
-            </div>
-            {/* Tour Overview */}
-            <section id="overview" className="scroll-mt-28">
-              <TourOverview
-                duration={tour.overview.duration}
-                groupSize={tour.overview.groupSize}
-                ageRange={tour.overview.ageRange}
-                languages={tour.overview.languages}
-                description={tour.overview.description}
-                tagMonths={tour.tagMonths}
-              />
-            </section>
-
-            {/* Tour Highlights */}
-            {tour.highlights.length > 0 && (
-              <section id="highlights" className="scroll-mt-28">
-                <TourHighlights highlights={tour.highlights} />
-              </section>
-            )}
-
-            {/* Itinerary */}
-            <section id="itinerary" className="scroll-mt-28">
-              <TourItinerary itinerary={tour.itinerary} />
-            </section>
-
-            {/* What's Included/Excluded */}
-            <section id="inclusions" className="scroll-mt-28">
-              <h2 className="text-2xl font-bold mb-6">
-                Inclusions & Exclusions
-              </h2>
-
-              <TourInclusions
-                included={tour.included}
-                excluded={tour.excluded}
-              />
-            </section>
-
-            {/* Hotel Stays */}
-            {tour.stays.length > 0 && (
-              <section id="stays" className="scroll-mt-28">
-                <TourStays stays={tour.stays} />
-              </section>
-            )}
-
-            {/* Memorable Moments */}
-            {tour.moments.length > 0 && (
-              <section id="moments" className="scroll-mt-28">
-                <TourMoments moments={tour.moments} />
-              </section>
-            )}
-
-            {/* Reviews */}
-            <section id="reviews" className="scroll-mt-28">
-              <h2 className="text-2xl font-semibold mb-4 mt-6">
-                Customer Reviews
-              </h2>
-
-              {tour.reviews.length > 0 && (
-                <TourReviews
-                  reviews={tour.reviews}
-                  overallRating={tour.rating}
-                  totalReviews={tour.reviewCount}
+              {/* Tour Overview */}
+              <section id="overview" className="scroll-mt-28">
+                <TourOverview
+                  duration={tour.overview.duration}
+                  groupSize={tour.overview.groupSize}
+                  ageRange={tour.overview.ageRange}
+                  languages={tour.overview.languages}
+                  description={tour.overview.description}
+                  tagMonths={tour.tagMonths}
                 />
+              </section>
+
+              {/* Tour Highlights */}
+              {tour.highlights.length > 0 && (
+                <section id="highlights" className="scroll-mt-28">
+                  <TourHighlights highlights={tour.highlights} />
+                </section>
               )}
-              <MakeReview tourIdOrSlug={tour.slug /* or tour.id */} />
-            </section>
 
-            {/* FAQ */}
-            {tour.faq.length > 0 && (
-              <section id="faq" className="scroll-mt-28">
-                <TourFAQ faqs={tour.faq} />
+              {/* Itinerary */}
+              <section id="itinerary" className="scroll-mt-28">
+                <TourItinerary itinerary={tour.itinerary} />
               </section>
-            )}
 
-            {/* Location Map */}
-            {tour.mapEmbed && (
-              <section id="map" className="scroll-mt-28">
-                <TourMap mapEmbed={tour.mapEmbed} />
-              </section>
-            )}
-
-            {tour.video?.length > 0 && (
-              <section id="video" className="scroll-mt-28">
-                <h2 className="text-2xl font-semibold mb-4 mt-6">
-                  Video Gallery
+              {/* What's Included/Excluded */}
+              <section id="inclusions" className="scroll-mt-28">
+                <h2 className="text-2xl font-bold mb-6">
+                  Inclusions & Exclusions
                 </h2>
 
-                <TourVideoTestimonials videos={tour.video} />
+                <TourInclusions
+                  included={tour.included}
+                  excluded={tour.excluded}
+                />
               </section>
-            )}
 
-            {/* Image Gallery */}
-            {tour.images.gallery && (
-              <section id="gallery" className="scroll-mt-28">
-                <h2 className="text-2xl font-semibold mb-4 mt-6">Gallery</h2>
-                <ImageGallery images={tour.images.gallery} />
+              {/* Hotel Stays */}
+              {tour.stays.length > 0 && (
+                <section id="stays" className="scroll-mt-28">
+                  <TourStays stays={tour.stays} />
+                </section>
+              )}
+
+              {/* Memorable Moments */}
+              {tour.moments.length > 0 && (
+                <section id="moments" className="scroll-mt-28">
+                  <TourMoments moments={tour.moments} />
+                </section>
+              )}
+
+              {/* Reviews */}
+              <section id="reviews" className="scroll-mt-28">
+                <h2 className="text-2xl font-semibold mb-4 mt-6">
+                  Customer Reviews
+                </h2>
+
+                {tour.reviews.length > 0 && (
+                  <TourReviews
+                    reviews={tour.reviews}
+                    overallRating={tour.rating}
+                    totalReviews={tour.reviewCount}
+                  />
+                )}
+                <MakeReview tourIdOrSlug={tour.slug /* or tour.id */} />
               </section>
-            )}
-          </div>
 
-          {/* Booking Sidebar */}
-          <div className="lg:col-span-1">
-            {/* Mobile: Show booking at top */}
-            <div className="lg:hidden mb-8">
-              <EnquireNow
-                basePrice={tour.booking.pricing.adult}
-                tourDuration={parseInt(tour.overview.duration.split(" ")[0])}
-                tagMonths={tour.tagMonths}
-                tourType={tour.tourType}
-                tourId={tour.id}
-                getDateRange={tour.dateRange}
-                creatorId={tour.creator.id}
-              />
+              {/* FAQ */}
+              {tour.faq.length > 0 && (
+                <section id="faq" className="scroll-mt-28">
+                  <TourFAQ faqs={tour.faq} />
+                </section>
+              )}
+
+              {/* Location Map */}
+              {tour.mapEmbed && (
+                <section id="map" className="scroll-mt-28">
+                  <TourMap mapEmbed={tour.mapEmbed} />
+                </section>
+              )}
+
+              {tour.video?.length > 0 && (
+                <section id="video" className="scroll-mt-28">
+                  <h2 className="text-2xl font-semibold mb-4 mt-6">
+                    Video Gallery
+                  </h2>
+
+                  <TourVideoTestimonials videos={tour.video} />
+                </section>
+              )}
+
+              {/* Image Gallery */}
+              {tour.images.gallery && (
+                <section id="gallery" className="scroll-mt-28">
+                  <h2 className="text-2xl font-semibold mb-4 mt-6">Gallery</h2>
+                  <ImageGallery images={tour.images.gallery} />
+                </section>
+              )}
             </div>
 
-            {/* Desktop: sticky sidebar */}
-            <div className="hidden lg:block lg:sticky lg:top-20">
-              <OverviewCard
-                duration={tour.overview.duration}
-                suggestedAges={tour.overview.ageRange}
-                maxGroupSize={tour.overview.groupSize}
-                price={tour.price}
-              />
-
-              <EnquireNow
-                basePrice={tour.booking.pricing.adult}
-                tourDuration={parseInt(tour.overview.duration.split(" ")[0])}
-                tagMonths={tour.tagMonths}
-                tourType={tour.tourType}
-                tourId={tour.id}
-                getDateRange={tour.dateRange}
-                creatorId={tour.creator.id}
-              />
-              <div className="w-full mt-4  shadow-xs transition-shadow duration-300">
-                <UserCard
-                  avatar={tour.creator.profileImg}
-                  name={tour.creator.name}
-                  description={tour.creator.bio}
-                  id={tour.creator.id}
+            {/* Booking Sidebar */}
+            <div className="lg:col-span-1">
+              {/* Mobile: Show booking at top */}
+              <div className="lg:hidden mb-8">
+                <EnquireNow
+                  basePrice={tour.booking.pricing.adult}
+                  tourDuration={parseInt(tour.overview.duration.split(" ")[0])}
+                  tagMonths={tour.tagMonths}
+                  tourType={tour.tourType}
+                  tourId={tour.id}
+                  getDateRange={tour.dateRange}
+                  creatorId={tour.creator.id}
                 />
+              </div>
+
+              {/* Desktop: sticky sidebar */}
+              <div className="hidden lg:block lg:sticky lg:top-20">
+                <OverviewCard
+                  duration={tour.overview.duration}
+                  suggestedAges={tour.overview.ageRange}
+                  maxGroupSize={tour.overview.groupSize}
+                  price={tour.price}
+                />
+
+                <EnquireNow
+                  basePrice={tour.booking.pricing.adult}
+                  tourDuration={parseInt(tour.overview.duration.split(" ")[0])}
+                  tagMonths={tour.tagMonths}
+                  tourType={tour.tourType}
+                  tourId={tour.id}
+                  getDateRange={tour.dateRange}
+                  creatorId={tour.creator.id}
+                />
+                <div className="w-full mt-4  shadow-xs transition-shadow duration-300">
+                  <UserCard
+                    avatar={tour.creator.profileImg}
+                    name={tour.creator.name}
+                    description={tour.creator.bio}
+                    id={tour.creator.id}
+                  />
+                </div>
               </div>
             </div>
           </div>
         </div>
-
-        {/* <Banner
-          title={`Plan Your Adventure!`}
-          cta={"Get Inspired"}
-          url={`/contact?src=${slug}`}
-        /> */}
       </div>
-    </div>
+      <Banner
+        title={`Plan Your Adventure!`}
+        cta={"Get Inspired"}
+        url={`/contact?src=${slug}`}
+      />
+    </>
   );
 }
 

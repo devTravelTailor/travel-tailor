@@ -97,9 +97,9 @@ function BlogsList({ data, currentPage, totalPages, onPageChange, fetchData }) {
             return null; // Skip non-selected categories
           }
 
-          const blogsInCategory = data.items.filter(
-            (blog) => blog?.categories?.some((cat) => cat === category._id) // Match blogs by category _id
-          );
+          const blogsInCategory = categories.find(
+            (cat) => cat._id === category._id
+          ).blogs;
 
           // Skip rendering categories with no blogs
           if (blogsInCategory.length === 0) {

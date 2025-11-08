@@ -1,142 +1,129 @@
 "use client";
-
-import { useEffect, useRef, useState } from "react";
-import Preview from "../CustomUI/Card/Preview";
-import ScrollBtn from "../CustomUI/Button/ScrollBtn";
+import { useEffect, useRef, useState, useCallback } from "react";
+import TextList from "../../components/TextList/TextList";
+import Spinner from "../CustomUI/Spinner/Spinner";
 import styles from "./styles.module.css";
+import Link from "next/link";
+import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
 
-function BlogsList({ data, currentPage, totalPages, onPageChange, fetchData }) {
-  const scrollRefs = useRef({});
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  const [categories, setCategories] = useState([]); // Categories state
+function BlogsList() {
+  const [blogs, setBlogs] = useState([]);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const loaderRef = useRef(null);
 
-  // Fetch categories directly from the API
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/categories/`,
-          {
-            headers: {
-              Authorization: `Bearer ${process.env.NEXT_PUBLIC_TOKEN}`,
-            },
-          }
+  // --- fetch logic, does NOT depend on page/totalPages ---
+  const fetchPage = useCallback(async (pageToFetch) => {
+    setLoading(true);
+    try {
+      const url = `${process.env.NEXT_PUBLIC_API_URL}/api/blog?page=${pageToFetch}&limit=10`;
+
+      const res = await fetch(url, {
+        headers: { Authorization: `Bearer ${process.env.NEXT_PUBLIC_TOKEN}` },
+        cache: "force-cache",
+        next: { revalidate: 120 },
+      });
+      const { data } = await res.json();
+      if (!data?.items?.length) return;
+
+      setBlogs((prev) => {
+        const newItems = data.items.filter(
+          (b) => !prev.some((p) => p._id === b._id)
         );
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const { data } = await response.json();
-
-        setCategories(data.items); // Store the fetched categories
-      } catch (err) {
-        console.error("Failed to fetch categories:", err);
-      }
-    };
-
-    fetchCategories();
+        return [...prev, ...newItems];
+      });
+      setTotalPages(data.totalPages || 1);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
-  const handleTagClick = (tag) => {
-    setSelectedCategory(tag); // Set the selected category
-    const element = document.getElementById(tag);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  };
+  // --- initial load once ---
+  useEffect(() => {
+    fetchPage(1);
+  }, [fetchPage]); // ✅ no dependency → runs only once
 
-  const handleScroll = (tag, direction) => {
-    const scrollAmount = 350; // Adjust as needed
-    if (scrollRefs.current[tag]) {
-      if (direction === "left") {
-        scrollRefs.current[tag].scrollLeft -= scrollAmount;
-      } else {
-        scrollRefs.current[tag].scrollLeft += scrollAmount;
-      }
+  // --- infinite scroll observer ---
+  useEffect(() => {
+    const target = loaderRef.current;
+    if (!target) return;
 
-      // Check if we need to load more blogs based on the scroll position
-      if (
-        scrollRefs.current[tag].scrollLeft +
-          scrollRefs.current[tag].clientWidth >=
-        scrollRefs.current[tag].scrollWidth - 100
-      ) {
-        // When near the end, fetch more data
-        if (currentPage < totalPages) {
-          onPageChange(currentPage + 1);
-          fetchData(); // Trigger data fetch
-        }
+    const observer = new IntersectionObserver((entries) => {
+      const first = entries[0];
+      if (first.isIntersecting && !loading && page < totalPages) {
+        const next = page + 1;
+        setPage(next);
+        fetchPage(next);
       }
-    }
-  };
+    });
+
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [page, totalPages, loading, fetchPage]);
 
   return (
     <div className={styles.blogsPage}>
-      {/* Left: Category Navigation */}
-      <nav className={styles.categoryNav}>
-        <h3 className={styles.navTitle}>Categories</h3>
-        <ul className={styles.categoryList}>
-          {categories.map((category) => (
-            <li key={category._id}>
-              <a
-                className={styles.categoryLink}
-                onClick={() => handleTagClick(category._id)} // Use category _id for selection
-              >
-                {category.tag}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </nav>
+      {/* 🔹 Spinner while first data is loading */}
 
-      {/* Right: Blogs Display */}
-      <main className={styles.blogsContainer}>
-        {categories.map((category) => {
-          // Only display sections for the selected category
-          if (selectedCategory && selectedCategory !== category._id) {
-            return null; // Skip non-selected categories
-          }
-
-          const blogsInCategory = categories.find(
-            (cat) => cat._id === category._id
-          ).blogs;
-
-          // Skip rendering categories with no blogs
-          if (blogsInCategory.length === 0) {
-            return null;
-          }
-
-          return (
-            <section
-              key={category._id}
-              id={category._id}
-              className={styles.categorySection}
+      <>
+        {/* 🔹 Blog grid */}
+        <main className="grid grid-cols-1 w-full sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 p-4 gap-6">
+          {blogs.map((item, index) => (
+            <motion.div
+              key={item._id || index}
+              className={styles.blogCard}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.4 }}
             >
-              <div className={styles.categoryHeader}>
-                <h2 className={styles.categoryTitle}>{category.tag}</h2>
-                <ScrollBtn
-                  onScrollLeft={() => handleScroll(category._id, "left")}
-                  onScrollRight={() => handleScroll(category._id, "right")}
-                />
-              </div>
-              <div
-                className={styles.blogsCarousel}
-                ref={(el) => (scrollRefs.current[category._id] = el)}
+              <Link
+                href={`/blogs/${item.slug}`}
+                className={styles.blogCardLink}
               >
-                {blogsInCategory.map((blog) => (
-                  <Preview
-                    key={blog.slug}
-                    title={blog.title}
-                    description={blog.description}
-                    imgUrl={blog.displayImg}
-                    url={`/blogs/${blog.slug}`}
+                <div className={styles.imageWrapper}>
+                  <Image
+                    src={
+                      item.displayImg ||
+                      item.heroImg ||
+                      "/images/placeholder.jpg"
+                    }
+                    alt={item.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    priority={index < 4} // preload first row
+                    className={styles.blogImage}
+                    onLoadingComplete={(img) =>
+                      img.setAttribute("data-loaded", "true")
+                    }
                   />
-                ))}
-              </div>
-            </section>
-          );
-        })}
-      </main>
+                  <div className={styles.gradientOverlay}></div>
+                  <h3 className={styles.blogTitle}>{item.title}</h3>
+                </div>
+              </Link>
+            </motion.div>
+          ))}
+        </main>
+        {/* 🔹 Infinite scroll trigger */}
+        {page < totalPages && (
+          <div
+            ref={loaderRef}
+            className={`w-full flex justify-center items-center`}
+          >
+            {loading && <Spinner />}
+          </div>
+        )}
+        {/* 🔹 No blogs fallback */}
+        {!loading && blogs.length === 0 && (
+          <div className={styles.noBlogs}>
+            <p>No published blogs found.</p>
+          </div>
+        )}
+      </>
     </div>
   );
 }

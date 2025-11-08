@@ -12,7 +12,7 @@ function Calender({ months }) {
           <Image src={parseUrl(imgUrl)} alt={month} width={400} height={300} />
         </div>
         <div className={styles.monthCardContent}>
-          <div className={styles.monthCardTitle}>{month}</div>
+          <div className={styles.monthCardTitle + "capitalize"}>{month}</div>
         </div>
       </Link>
     );

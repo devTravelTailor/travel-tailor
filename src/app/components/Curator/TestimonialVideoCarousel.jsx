@@ -276,17 +276,6 @@ function VideoCard({
     >
       {isYouTube ? (
         <div ref={iframeRef} className="absolute inset-0 w-full h-full" />
-      ) : isInstagram ? (
-        <div
-          ref={blockRef}
-          className="absolute inset-0 w-full h-full flex items-center justify-center overflow-hidden bg-white"
-        >
-          <blockquote
-            className="instagram-media insta"
-            data-instgrm-permalink={instaUrl.replace("/embed", "")}
-            data-instgrm-version="14"
-          ></blockquote>
-        </div>
       ) : (
         <video
           ref={attachVideoRef}
@@ -319,3 +308,16 @@ function VideoCard({
     </div>
   );
 }
+
+// : isInstagram ? (
+//         <div
+//           ref={blockRef}
+//           className="absolute inset-0 w-full h-full flex items-center justify-center overflow-hidden bg-white"
+//         >
+//           <blockquote
+//             className="instagram-media insta"
+//             data-instgrm-permalink={instaUrl.replace("/embed", "")}
+//             data-instgrm-version="14"
+//           ></blockquote>
+//         </div>
+//       )

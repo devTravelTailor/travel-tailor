@@ -285,6 +285,9 @@ function VideoCard({
             className="instagram-media insta"
             data-instgrm-permalink={instaUrl.replace("/embed", "")}
             data-instgrm-version="14"
+            style={{
+              scale: 1.1,
+            }}
           ></blockquote>
         </div>
       ) : (

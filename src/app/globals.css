@@ -16,8 +16,8 @@
 @media (min-width: 801px) {
   .insta {
     position: absolute !important;
-    top: -7rem;
-    transform: scaleY(0.79) scaleX(0.8);
+    top: -2.27rem;
+    transform: scaleY(1.07) scaleX(1.1);
     transform-origin: center center;
   }
 }

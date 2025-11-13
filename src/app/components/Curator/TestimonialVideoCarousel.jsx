@@ -2,8 +2,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Button } from "../../components/ui/button";
 import { Volume2, VolumeX } from "lucide-react";
-
-// shadcn Carousel (built on Embla)
 import {
   Carousel,
   CarouselContent,
@@ -29,15 +27,28 @@ const getYouTubeId = (input = "") => {
   return null;
 };
 
+/* --------- Helper: Check Instagram --------- */
+const getInstagramEmbedUrl = (input = "") => {
+  if (!input.includes("instagram.com")) return null;
+  const match = input.match(/instagram\.com\/(?:reel|p|tv)\/([^/?#&]+)/i);
+  if (match?.[1]) {
+    // Adds wp=0 to hide header
+    return `https://www.instagram.com/p/${match[1]}/embed/?cr=1&v=14&wp=0&rd&hidecaption=1`;
+  }
+  return null;
+};
+
 export default function TourVideoTestimonials({ videos = [] }) {
   const [api, setApi] = useState(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [playingIndex, setPlayingIndex] = useState(null);
+  // console.log("videos", videos);
 
   const videoRefs = useRef([]);
   const ytPlayers = useRef({});
   const ytReady = useRef(false);
   const hasYouTube = videos.some((v) => !!getYouTubeId(v));
+  const hasInstagram = videos.some((v) => v.includes("instagram.com"));
 
   /* --- Load YouTube API if needed --- */
   useEffect(() => {
@@ -56,6 +67,26 @@ export default function TourVideoTestimonials({ videos = [] }) {
       ytReady.current = true;
     };
   }, [hasYouTube]);
+
+  /* --- Load Instagram embed.js once --- */
+  useEffect(() => {
+    if (!hasInstagram || typeof window === "undefined") return;
+
+    // Already exists
+    if (window.instgrm?.Embeds) return;
+
+    if (
+      !document.querySelector(
+        'script[src="https://www.instagram.com/embed.js"]'
+      )
+    ) {
+      const script = document.createElement("script");
+      script.src = "https://www.instagram.com/embed.js";
+      script.async = true;
+      script.onload = () => window.instgrm?.Embeds?.process();
+      document.body.appendChild(script);
+    }
+  }, [hasInstagram]);
 
   /* --- Track Carousel selection --- */
   useEffect(() => {
@@ -134,17 +165,21 @@ export default function TourVideoTestimonials({ videos = [] }) {
         <CarouselContent className="-ml-3">
           {videos.map((src, i) => {
             const id = getYouTubeId(src);
+            const instaUrl = getInstagramEmbedUrl(src);
             const isYouTube = !!id;
+            const isInstagram = !!instaUrl;
 
             return (
               <CarouselItem
                 key={i}
-                className="pl-3 basis-[90%] sm:basis-1/2 md:basis-1/3 lg:basis-[25%]"
+                className="pl-3 basis-[90%] sm:basis-1/2 overflow-y-visible md:basis-1/3 lg:basis-[25%]"
               >
                 <VideoCard
                   src={src}
                   youTubeId={id}
+                  instaUrl={instaUrl}
                   isYouTube={isYouTube}
+                  isInstagram={isInstagram}
                   isMuted={playingIndex !== i}
                   ytReady={ytReady.current}
                   attachVideoRef={(el) => (videoRefs.current[i] = el)}
@@ -157,7 +192,6 @@ export default function TourVideoTestimonials({ videos = [] }) {
           })}
         </CarouselContent>
 
-        {/* Arrows */}
         <CarouselPrevious className="left-2 border-0" />
         <CarouselNext className="right-2 border-0" />
       </Carousel>
@@ -169,7 +203,9 @@ export default function TourVideoTestimonials({ videos = [] }) {
 function VideoCard({
   src,
   youTubeId,
+  instaUrl,
   isYouTube,
+  isInstagram,
   isMuted,
   ytReady,
   attachVideoRef,
@@ -178,7 +214,19 @@ function VideoCard({
   onMuteToggle,
 }) {
   const iframeRef = useRef(null);
+  const blockRef = useRef(null);
 
+  // console.log("VideoCard", {
+  //   src,
+  //   youTubeId,
+  //   instaUrl,
+  //   isYouTube,
+  //   isInstagram,
+  //   isMuted,
+  //   ytReady,
+  // });
+
+  /* --- Initialize YouTube player --- */
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (!isYouTube || !ytReady || !iframeRef.current || !youTubeId) return;
@@ -210,6 +258,17 @@ function VideoCard({
     };
   }, [isYouTube, ytReady, youTubeId]);
 
+  /* --- Reprocess Instagram embeds after mount --- */
+  useEffect(() => {
+    if (!isInstagram || typeof window === "undefined") return;
+    const timer = setTimeout(() => {
+      try {
+        window.instgrm?.Embeds?.process(blockRef.current);
+      } catch {}
+    }, 400);
+    return () => clearTimeout(timer);
+  }, [isInstagram, instaUrl]);
+
   return (
     <div
       className="relative aspect-[9/16] bg-black rounded-xl overflow-hidden shadow-lg cursor-pointer"
@@ -217,6 +276,17 @@ function VideoCard({
     >
       {isYouTube ? (
         <div ref={iframeRef} className="absolute inset-0 w-full h-full" />
+      ) : isInstagram ? (
+        <div
+          ref={blockRef}
+          className="absolute inset-0 w-full h-full flex items-center justify-center overflow-hidden bg-white"
+        >
+          <blockquote
+            className="instagram-media insta"
+            data-instgrm-permalink={instaUrl.replace("/embed", "")}
+            data-instgrm-version="14"
+          ></blockquote>
+        </div>
       ) : (
         <video
           ref={attachVideoRef}
@@ -228,22 +298,24 @@ function VideoCard({
         />
       )}
 
-      <div className="absolute bottom-3 left-3 z-10">
-        <Button
-          size="icon"
-          onClick={(e) => {
-            e.stopPropagation();
-            onMuteToggle();
-          }}
-          className="bg-black/50 hover:bg-black/70 text-white rounded-full"
-        >
-          {isMuted ? (
-            <VolumeX className="w-5 h-5" />
-          ) : (
-            <Volume2 className="w-5 h-5" />
-          )}
-        </Button>
-      </div>
+      {!isInstagram && (
+        <div className="absolute bottom-3 left-3 z-10">
+          <Button
+            size="icon"
+            onClick={(e) => {
+              e.stopPropagation();
+              onMuteToggle();
+            }}
+            className="bg-black/50 hover:bg-black/70 text-white rounded-full"
+          >
+            {isMuted ? (
+              <VolumeX className="w-5 h-5" />
+            ) : (
+              <Volume2 className="w-5 h-5" />
+            )}
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

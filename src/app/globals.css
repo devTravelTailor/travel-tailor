@@ -9,6 +9,45 @@
   display: none !important;
 }
 
+.Header {
+  display: none !important;
+}
+
+@media (min-width: 801px) {
+  .insta {
+    position: absolute !important;
+    top: -7rem;
+    transform: scaleY(0.79) scaleX(0.8);
+    transform-origin: center center;
+  }
+}
+@media (min-width: 1580px) {
+  .insta {
+    position: absolute !important;
+    top: -2.27rem;
+    transform: scaleY(1.07) scaleX(1.1);
+    transform-origin: center center;
+  }
+}
+
+@media (max-height: 800px) and (max-width: 500px) {
+  .insta {
+    position: absolute !important;
+    top: -1rem;
+    transform: scaleY(1.25) scaleX(1.3);
+    transform-origin: center center;
+  }
+}
+
+@media (min-height: 801px) and (max-width: 450px) {
+  .insta {
+    position: absolute !important;
+    top: 1rem;
+    transform: scaleY(1.5) scaleX(1.5);
+    transform-origin: center center;
+  }
+}
+
 .yt-embed-holder {
   width: 100%;
   overflow: hidden;

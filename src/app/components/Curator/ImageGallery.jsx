@@ -84,6 +84,13 @@ export default function ImageGallery({ images = [] }) {
                     alt={`Tour image ${index + 2}`}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
+                  {index === 2 && safeImages.length > 4 && (
+                    <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+                      <span className="text-white font-medium text-xs sm:text-base">
+                        View all images
+                      </span>
+                    </div>
+                  )}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </div>
               ))}
@@ -104,6 +111,7 @@ export default function ImageGallery({ images = [] }) {
               alt="Main tour image"
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
             />
+
             <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             <Button
               size="icon"
@@ -135,6 +143,15 @@ export default function ImageGallery({ images = [] }) {
                   alt={`Tour image ${index + 2}`}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
+
+                {index === 2 && safeImages.length > 4 && (
+                  <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+                    <span className="text-white font-medium text-sm sm:text-base">
+                      View all images
+                    </span>
+                  </div>
+                )}
+
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <Button
                   size="icon"
@@ -160,7 +177,7 @@ export default function ImageGallery({ images = [] }) {
           </Button>
         </DialogTrigger>
 
-        <DialogContent className=" fixed z-50 p-0 bg-black border-0 w-screen h-[100dvh] max-w-none sm:max-w-none rounded-none transform-none overflow-hidden  ">
+        <DialogContent className=" fixed z-[9999] p-0 bg-black border-0 w-screen h-[100dvh] max-w-none sm:max-w-none rounded-none transform-none overflow-hidden  ">
           <DialogTitle className="sr-only">View full image</DialogTitle>
           <div className="relative w-full h-full flex items-center justify-center">
             {/* Close button (uses DialogClose) */}
@@ -169,7 +186,7 @@ export default function ImageGallery({ images = [] }) {
                 variant="ghost"
                 type="button"
                 size="icon"
-                className="absolute top-25 left-6 z-50 bg-white/10 hover:bg-white/20 text-white rounded-full backdrop-blur-sm transition-all duration-200"
+                className="absolute top-6 left-6 z-50 bg-white/10 hover:bg-white/20 text-white rounded-full backdrop-blur-sm transition-all duration-200"
                 aria-label="Close"
                 data-testid="button-close-modal"
               >

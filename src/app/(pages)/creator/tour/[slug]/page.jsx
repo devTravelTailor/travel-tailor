@@ -158,7 +158,7 @@ export default function TourPage() {
           </div>
         )}
 
-        <div className="container mx-auto px-5 lg:px-10 py-8">
+        <div className=" mx-auto px-5 lg:px-10 py-8">
           <div className="grid lg:grid-cols-3 gap-8">
             {/* Main Content */}
             <div className="lg:col-span-2 space-y-12">

@@ -79,9 +79,11 @@ export default function TourItinerary({ itinerary }) {
                         <div className="flex items-center justify-center w-12 h-12 bg-orange-100 rounded-lg mb-2">
                           <Clock className="h-5 w-5 text-orange-500" />
                         </div>
-                        <span className="text-xs font-medium text-muted-foreground">
-                          {block.time}
-                        </span>
+                        {block.time && (
+                          <span className="text-xs font-medium text-muted-foreground">
+                            {block.time}
+                          </span>
+                        )}
                       </div>
 
                       {/* Content */}
@@ -89,8 +91,11 @@ export default function TourItinerary({ itinerary }) {
                         <h4 className="font-medium text-foreground mb-1">
                           {block.title}
                         </h4>
-                        <p className="text-sm text-muted-foreground leading-relaxed mb-2 font-medium">
+                        <p className="text-sm text-muted-foreground leading-relaxed  font-medium">
                           {block.activity}
+                        </p>
+                        <p className="text-xs font-500 text-orange-500">
+                          {block.notes}
                         </p>
                       </div>
 

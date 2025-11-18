@@ -12,7 +12,10 @@ const TableOfContents = ({ headings }) => {
 
   // Function to clean markdown links specifically for display text
   const cleanDisplayText = (text) => {
-    return text.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1").trim();
+    return text
+      .replace(/\\\./g, ".") // remove backslash before dot
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1") // existing rule
+      .trim();
   };
 
   return (

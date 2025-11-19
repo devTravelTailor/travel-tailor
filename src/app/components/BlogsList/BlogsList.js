@@ -22,7 +22,6 @@ function BlogsList() {
 
       const res = await fetch(url, {
         headers: { Authorization: `Bearer ${process.env.NEXT_PUBLIC_TOKEN}` },
-        cache: "force-cache",
       });
       const { data } = await res.json();
       if (!data?.items?.length) return;

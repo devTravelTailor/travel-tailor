@@ -73,7 +73,7 @@ function BlogsList() {
           {blogs.map((item, index) => (
             <motion.div
               key={item._id || index}
-              className={styles.blogCard}
+              className={styles.blogCard + " w-full"}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
@@ -94,7 +94,7 @@ function BlogsList() {
                     fill
                     sizes="(max-width: 768px) 100vw, 33vw"
                     priority={index < 4} // preload first row
-                    className={styles.blogImage}
+                    className={styles.blogImage + " w-full"}
                     onLoadingComplete={(img) =>
                       img.setAttribute("data-loaded", "true")
                     }

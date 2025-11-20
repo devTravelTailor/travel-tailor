@@ -117,6 +117,7 @@
 /* Responsive grid handled by Tailwind grid in JSX */
 
 .blogCard {
+  width: 100%;
   position: relative;
   overflow: hidden;
   border-radius: 12px;
@@ -216,6 +217,8 @@
 
 /* Fade-in for images */
 .blogImage {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   opacity: 0;
   transform: scale(1.05);

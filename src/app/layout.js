@@ -44,7 +44,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        {setting?.tracking?.gtmId && (
+        {/* {setting?.tracking?.gtmId && (
           <Script
             id="gtm-script"
             strategy="afterInteractive"
@@ -58,7 +58,7 @@ export default function RootLayout({ children }) {
               `,
             }}
           />
-        )}
+        )} */}
 
         {setting?.tracking?.extraScripts && (
           <Script

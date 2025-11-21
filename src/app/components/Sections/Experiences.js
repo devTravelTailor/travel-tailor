@@ -1,19 +1,21 @@
-import styles from './styles.module.css';
+import styles from "./styles.module.css";
 
-import SectionTitle from '../CustomUI/SectionTitle/SectionTitle';
-import BentoGrid from '../CustomUI/BentoGrid/BentoGrid';
+import SectionTitle from "../CustomUI/SectionTitle/SectionTitle";
+import BentoGrid from "../CustomUI/BentoGrid/BentoGrid";
 function Experiences({
   experiences = [],
-  className = '',
+  className = "",
   heading = {
-    title: '/sExperiences\\s',
-    description: 'You might be interested in these other experiences',
+    title: "/sExperiences\\s",
+    description: "You might be interested in these other experiences",
   },
   ...props
 }) {
   if (!experiences || experiences.length <= 2 || experiences.length >= 6) {
     return null;
   }
+
+  // console.log("00", experiences);
 
   return (
     <section className={styles.experiences}>
@@ -22,7 +24,7 @@ function Experiences({
           title={heading.title}
           description={heading.description}
           className={styles.experiencesTitle}
-          variant='center'
+          variant="center"
         />
         <div className={styles.experiencesContent}>
           <BentoGrid experiences={experiences} />

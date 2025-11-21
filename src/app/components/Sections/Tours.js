@@ -40,7 +40,7 @@ function Tours({
                     slug={tour?.slug}
                     type="tours"
                     title={tour?.title}
-                    description={tour?.description}
+                    description={tour?.brief}
                     imgUrl={tour?.heroImg}
                     tag={`${tour?.details?.totalDays} Days`}
                     className={styles.tourItem}

@@ -7,6 +7,7 @@ import Blogs from "../../../components/Featured/Blogs";
 import Banner from "../../../components/Banner/Banner";
 
 import parseUrl from "../../../util/parseUrl";
+import Tours from "../../../components/Sections/Tours";
 
 // Configure the page to be statically generated
 export const dynamic = "force-static";
@@ -150,6 +151,8 @@ export default async function ExperiencePage({ params }) {
     description: `Explore amazing places.`,
   };
 
+  // console.log("experienceData", experienceData);
+
   return (
     <main>
       {experienceData.heroImg && (
@@ -161,30 +164,42 @@ export default async function ExperiencePage({ params }) {
 
       {experienceData.highlight && (
         <Highlights
-          title={experienceData.highlight.title || `Enjoy your /n journey with`}
-          img={experienceData.highlight.img}
+          title={
+            experienceData?.highlight.title || `Enjoy your /n journey with`
+          }
+          img={experienceData?.highlight.img}
           url={`/contact?src=${resolvedParams.slug}`}
-          brief={experienceData.highlight.brief}
+          brief={experienceData?.highlight.brief}
         />
       )}
 
-      {experienceData.spotlights && experienceData.spotlights.length > 0 && (
+      {experienceData?.spotlights && experienceData?.spotlights.length > 0 && (
         <Spotlights
           heading={defaultSpotlightsHeading}
           spotlights={experienceData.spotlights}
         />
       )}
 
-      {experienceData.destinations &&
-        experienceData.destinations.length > 0 && (
+      {experienceData?.destinations &&
+        experienceData?.destinations.length > 0 && (
           <Destinations
             heading={defaultDestinationsHeading}
-            destinations={experienceData.destinations}
+            destinations={experienceData?.destinations}
           />
         )}
 
-      {experienceData.blogs && experienceData.blogs.length > 0 && (
+      {experienceData?.blogs && experienceData.blogs.length > 0 && (
         <Blogs blogs={experienceData.blogs} />
+      )}
+
+      {experienceData?.tours?.length > 0 && (
+        <Tours
+          tours={experienceData.tours}
+          heading={{
+            title: "/sTours\\s you might /n enjoy",
+            description: "Explore the world with our curated tours",
+          }}
+        />
       )}
 
       <Banner

@@ -24,28 +24,32 @@ export default function BentoGrid({ experiences = [] }) {
 
   return (
     <div className={`${styles.grid} ${styles[`grid${count}`]}`}>
-      {experiences.map(({ title, slug, imgUrl }, index) => (
-        <Link
-          href={`/experiences/${slug}`}
-          key={slug}
-          className={styles.card}
-          style={{ gridArea: areaMapping[index] }}
-        >
-          <div className={styles.imageWrapper}>
-            <Image
-              src={parseUrl(imgUrl)}
-              alt={title}
-              fill
-              sizes="(max-width: 768px) 100vw, 33vw"
-              priority={index === 0}
-              className={styles.image}
-            />
-            <div className={styles.overlay}>
-              <h3 className={styles.title}>{title}</h3>
+      {experiences.map(({ title, slug, imgUrl, heroImg }, index) => {
+        const img = heroImg || imgUrl;
+        console.log(img);
+        return (
+          <Link
+            href={`/experiences/${slug}`}
+            key={slug}
+            className={styles.card}
+            style={{ gridArea: areaMapping[index] }}
+          >
+            <div className={styles.imageWrapper}>
+              <Image
+                src={parseUrl(img)}
+                alt={title}
+                fill
+                sizes="(max-width: 768px) 100vw, 33vw"
+                priority={index === 0}
+                className={styles.image}
+              />
+              <div className={styles.overlay}>
+                <h3 className={styles.title}>{title}</h3>
+              </div>
             </div>
-          </div>
-        </Link>
-      ))}
+          </Link>
+        );
+      })}
     </div>
   );
 }

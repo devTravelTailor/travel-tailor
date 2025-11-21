@@ -5,6 +5,8 @@ import Blogs from "../../../components/Featured/Blogs";
 import Banner from "../../../components/Banner/Banner";
 
 import { notFound } from "next/navigation";
+import Experiences from "../../../components/Sections/Experiences";
+import Destinations from "../../../components/Sections/Destinations";
 
 // Configure the page to be statically generated
 export const dynamic = "force-static";
@@ -237,6 +239,18 @@ async function BlogPage({ params }) {
               description: "Explore the world with our curated tours",
             }}
           />
+        )}
+        {data?.destinations?.length > 0 && (
+          <Destinations
+            destinations={data.destinations}
+            heading={{
+              title: "/sDestinations\\s you might /n enjoy",
+              description: "Explore the world with our curated destinations",
+            }}
+          />
+        )}
+        {data.experiences && data.experiences.length > 2 && (
+          <Experiences experiences={data.experiences} />
         )}
         <Banner
           title={data.bannerTitle || "Ready to Explore?/nLet's Plan Your Trip!"}

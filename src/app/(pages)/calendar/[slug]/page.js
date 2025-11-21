@@ -148,10 +148,6 @@ export default function CalendarPage() {
         )}
 
       {/* Experiences Section */}
-      {calendarData.tagExperiences &&
-        calendarData.tagExperiences.length > 2 && (
-          <Experiences experiences={calendarData.tagExperiences} />
-        )}
 
       {/* Tours Section */}
       {calendarData.tagTours && calendarData.tagTours.length > 0 && (
@@ -162,7 +158,10 @@ export default function CalendarPage() {
       {calendarData.tagBlogs && calendarData.tagBlogs.length > 0 && (
         <Blogs blogs={calendarData.tagBlogs} />
       )}
-
+      {calendarData.tagExperiences &&
+        calendarData.tagExperiences.length > 2 && (
+          <Experiences experiences={calendarData.tagExperiences} />
+        )}
       {/* Banner Section */}
       <Banner
         title={calendarData.bannerTitle || `Plan Your ${monthName} Adventure!`}

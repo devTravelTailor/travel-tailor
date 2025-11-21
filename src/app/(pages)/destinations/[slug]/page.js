@@ -165,16 +165,16 @@ export default async function DestinationPage({ params }) {
         <Spotlights spotlights={destinationData.spotlights} />
       )}
 
+      {/* Render Blogs - Assuming data structure like destinationData.blogs (an array) */}
+      {destinationData.blogs && destinationData.blogs.length > 0 && (
+        <Blogs blogs={destinationData.blogs} />
+      )}
+
       {/* Render Experiences - Assuming data structure like destinationData.experiences (an array) */}
       {destinationData.experiences &&
         destinationData.experiences.length > 2 && (
           <Experiences experiences={destinationData.experiences} />
         )}
-
-      {/* Render Blogs - Assuming data structure like destinationData.blogs (an array) */}
-      {destinationData.blogs && destinationData.blogs.length > 0 && (
-        <Blogs blogs={destinationData.blogs} />
-      )}
 
       {/* Render Banner - Using specific data or fallbacks */}
       <Banner

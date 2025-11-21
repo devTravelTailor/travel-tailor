@@ -49,15 +49,17 @@ function Destinations({
 
         <div className={styles.destinationsContent}>
           <div className={styles.destinationsList} ref={destinationsRef}>
-            {destinations.map((destination, index) => (
+            {destinations?.map((destination, index) => (
               <Tour
                 key={index}
                 slug={destination.slug}
                 type="destinations"
                 title={destination.title}
                 description={destination.description}
-                imgUrl={destination.imgUrl}
-                tag={`Starting from ${parsePrice(destination.tag)}`}
+                imgUrl={destination.imgUrl || destination.heroImg}
+                tag={`Starting from ${parsePrice(
+                  destination.tag || destination.startingPrice
+                )}`}
                 className={styles.destinationItem}
               />
             ))}

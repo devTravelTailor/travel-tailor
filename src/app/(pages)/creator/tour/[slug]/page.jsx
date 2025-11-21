@@ -336,6 +336,7 @@ export default function TourPage() {
                     name={tour.creator.name}
                     description={tour.creator.bio}
                     id={tour.creator.id}
+                    slug={tour.creator.slug}
                   />
                 </div>
               </div>

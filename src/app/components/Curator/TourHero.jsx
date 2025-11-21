@@ -34,9 +34,9 @@ export default function TourHero({
 
         {/* Glass overlay card */}
         <div className="absolute inset-0 flex items-center justify-center px-5 md:p-6">
-          <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl shadow-lg max-w-6xl w-full min-h-[520px] grid md:grid-cols-2 overflow-hidden">
+          <div className="bg-white/10 min-h-[520px] h-[60vh] backdrop-blur-md border border-white/20 rounded-2xl shadow-lg max-w-6xl w-full  grid md:grid-cols-2 overflow-hidden">
             {/* Left: Details */}
-            <div className="md:p-10 p-7 flex flex-col justify-center space-y-6">
+            <div className="md:p-10 p-7 flex flex-col h-full justify-center space-y-6">
               {/* Location */}
               <div className="flex items-center gap-2 text-white/80 text-sm font-medium">
                 <MapPin className="h-4 w-4" />
@@ -114,7 +114,7 @@ export default function TourHero({
                         Curated By
                       </span>
                       <a
-                        href={`/creator/${curatedBy.slug}`} // replace with your route or dynamic link
+                        href={`/creator/${curatedBy.id}`} // replace with your route or dynamic link
                         className="font-medium text-lg text-inherit no-underline hover:no-underline"
                       >
                         {curatedBy.name}
@@ -126,12 +126,10 @@ export default function TourHero({
             </div>
 
             {/* Right: Small Hero Image */}
-            <div className="relative hidden md:block">
-              <img
-                src={heroImage}
-                alt={title}
-                className="h-full w-full object-cover"
-              />
+            <div
+              className="relative hidden md:block bg-cover bg-center bg-no-repeat"
+              style={{ backgroundImage: `url(${heroImage})` }}
+            >
               {/* Floating badges */}
               <div className="absolute top-4 left-4 flex gap-3">
                 {badges.map((badge, i) => (

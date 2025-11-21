@@ -4,13 +4,13 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { MapPin } from "lucide-react";
 
-export function CreatorCard({ id, name, location, image, trips }) {
+export function CreatorCard({ id, name, location, image, trips, slug }) {
   const navigate = useNavigate();
 
   return (
     <Card
       className="overflow-hidden cursor-pointer hover-scale transition-all duration-300 hover:shadow-lg"
-      onClick={() => navigate(`/creators/${id}`)}
+      onClick={() => navigate(`/creators/${slug}`)}
     >
       <CardContent className="p-4 flex items-center gap-4">
         <img

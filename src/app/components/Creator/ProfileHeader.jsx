@@ -20,6 +20,7 @@ const ProfileHeader = ({
     instagram: "/images/instagram.png",
     youtube: "/images/youtube.png",
     facebook: "/images/facebook.png",
+    website: "/images/website.png",
   };
 
   function normalizeUrl(u = "") {

@@ -138,7 +138,7 @@ const Page = () => {
             <div className={styles.gridItem} key={tour._id ?? tour.id}>
               <Tour
                 type="tours"
-                description={tour?.description}
+                description={tour?.brief}
                 title={tour?.title}
                 slug={tour?.slug}
                 url={`/tours/${tour?.slug}`}

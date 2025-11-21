@@ -12,6 +12,7 @@ import BlogGridSection from "../../../components/Creator/BlogGridSection";
 export default function Page({ params }) {
   const { id } = useParams(params);
   const [profileData, setProfileData] = useState();
+  console.log(id);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,7 +26,7 @@ export default function Page({ params }) {
           }
         );
         const data = await response.json();
-        // console.log("data", data);
+        console.log("data", data);
 
         setProfileData(data);
       } catch (error) {
@@ -36,7 +37,7 @@ export default function Page({ params }) {
     fetchData();
   }, [id]);
 
-  // console.log(profileData);
+  console.log(profileData);
 
   return (
     <div>
@@ -48,9 +49,9 @@ export default function Page({ params }) {
         location={profileData?.user?.location}
         socialLinks={profileData?.user?.social}
         badges={profileData?.badges}
-        stats={profileData?.blog?.length || 0}
+        stats={profileData?.totalBlog || 0}
         createdAt={profileData?.user?.createdAt}
-        tripsHosted={profileData?.tour?.length || 0}
+        tripsHosted={profileData?.totalTour || 0}
       />
 
       {/* Tours Grid */}
@@ -74,7 +75,7 @@ export default function Page({ params }) {
           description="We have a few blogs post you might like to read about travelling, travelling tips, and more."
           CardComponent={Preview}
           type="blogs"
-          visibleCount={4}
+          visibleCount={3}
         />
       )}
     </div>

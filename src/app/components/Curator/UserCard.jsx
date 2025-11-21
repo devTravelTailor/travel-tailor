@@ -1,7 +1,7 @@
 import { Card, CardContent } from "../../components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
-export default function UserCard({ avatar, name, description, id }) {
+export default function UserCard({ avatar, name, description, id, slug }) {
   return (
     <Card className="w-full   border border-gray-100 rounded-lg shadow-sm my-6 py-4  ">
       <CardContent className="flex  gap-3 space-y-3 justify-center items-center">
@@ -28,7 +28,7 @@ export default function UserCard({ avatar, name, description, id }) {
             {description}
           </p>
           <a
-            href={`/creator/${id}`}
+            href={`/creator/${slug}`}
             className="text-sm text-orange-500  font-medium "
           >
             View Profile

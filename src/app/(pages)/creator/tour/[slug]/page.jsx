@@ -468,6 +468,7 @@ function mapCreator(u) {
     email: u?.email || "",
     profileImg: u?.profileImg || "",
     bio: u?.bio || "",
+    slug: u?.slug || "",
   };
 }
 
@@ -560,6 +561,8 @@ function toTourModel(api) {
   // Creator (createdBy — already selectively populated on server)
   const creator = mapCreator(api?.createdBy);
 
+  console.log("creator", creator);
+
   return {
     // Hero / top
     title: api?.title || "Untitled Tour",
@@ -619,7 +622,7 @@ function toTourModel(api) {
     updatedAt: api?.updatedAt,
 
     // Not used by the static design but handy to have:
-    creator, // { id, name, email, profileImg, bio }
+    creator, // { id, name, email, profileImg, bio, slug }
     related, // { blogs, destinations, experiences, spotlights, tours, tagMonths }
     seo: api?.seo || {},
     extras: api?.extras || {},

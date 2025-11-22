@@ -114,7 +114,7 @@ export default function TourHero({
                         Curated By
                       </span>
                       <a
-                        href={`/creator/${curatedBy.id}`} // replace with your route or dynamic link
+                        href={`/creator/${curatedBy.slug || curatedBy.id}`} // replace with your route or dynamic link
                         className="font-medium text-lg text-inherit no-underline hover:no-underline"
                       >
                         {curatedBy.name}

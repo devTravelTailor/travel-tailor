@@ -212,7 +212,7 @@ export default async function Main() {
                         className="group p-0 w-[200px] overflow-hidden hover:shadow-xl transition-all duration-300 animate-fade-in border-0 "
                       >
                         <CardContent className="p-0 relative h-64 md:h-72 lg:h-80">
-                          <a href={`/creator/${advisor._id}`}>
+                          <a href={`/creator/${advisor.slug || advisor._id}`}>
                             {/* Image */}
                             <div className="absolute inset-0 overflow-hidden">
                               <img
@@ -229,12 +229,14 @@ export default async function Main() {
                                 {advisor.name}
                               </h3>
 
-                              <div className="flex items-center gap-1">
-                                <MapPin className="h-3.5 w-3.5 text-white/70" />
-                                <span className="text-xs text-white/70 truncate">
-                                  {advisor.location}
-                                </span>
-                              </div>
+                              {advisor?.location && (
+                                <div className="flex items-center gap-1">
+                                  <MapPin className="h-3.5 w-3.5 text-white/70" />
+                                  <span className="text-xs text-white/70 truncate">
+                                    {advisor.location}
+                                  </span>
+                                </div>
+                              )}
                             </div>
                           </a>
                         </CardContent>

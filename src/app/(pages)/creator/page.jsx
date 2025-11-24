@@ -39,6 +39,8 @@ export default async function Creator() {
       testimonials = [],
     } = data;
 
+    console.log(data.creators);
+
     return (
       <div className="min-h-screen">
         <HeroSection heroImg={data.heroImage} />

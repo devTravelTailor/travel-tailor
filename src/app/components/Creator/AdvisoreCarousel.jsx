@@ -8,6 +8,7 @@ const fallback = "/images/avatar.webp";
 const AdvisorCarousel = ({ data }) => {
   const carouselRef = useRef(null); // Reference to the carousel container
   const [displayData, setDisplayData] = useState([]);
+  console.log(data);
 
   useEffect(() => {
     // Repeat the data until we have 30 items
@@ -67,7 +68,7 @@ const AdvisorCarousel = ({ data }) => {
               >
                 <Card className="group p-0 w-[230px] overflow-hidden hover:shadow-xl transition-all duration-300 animate-fade-in border-0">
                   <CardContent className="p-0 relative h-80">
-                    <a href={`/creator/${advisor._id}`}>
+                    <a href={`/creator/${advisor.slug || advisor._id}`}>
                       <div className="absolute inset-0 overflow-hidden">
                         <img
                           src={advisor.profileImg || fallback}
@@ -82,12 +83,14 @@ const AdvisorCarousel = ({ data }) => {
                           {advisor.name}
                         </h3>
 
-                        <div className="flex items-center gap-2">
-                          <MapPin className="h-4 w-4 text-white/70" />
-                          <span className="text-sm text-white/70">
-                            {advisor.location}
-                          </span>
-                        </div>
+                        {advisor?.location && (
+                          <div className="flex items-center gap-2">
+                            <MapPin className="h-4 w-4 text-white/70" />
+                            <span className="text-sm text-white/70">
+                              {advisor.location}
+                            </span>
+                          </div>
+                        )}
                       </div>
                     </a>
                   </CardContent>

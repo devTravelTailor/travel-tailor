@@ -11,11 +11,11 @@ function Experiences({
   },
   ...props
 }) {
-  if (!experiences || experiences.length <= 2 || experiences.length >= 6) {
+  if (!experiences || experiences.length <= 2) {
     return null;
   }
 
-  // console.log("00", experiences);
+  console.log("00", experiences);
 
   return (
     <section className={styles.experiences}>

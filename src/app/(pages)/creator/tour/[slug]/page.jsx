@@ -2,23 +2,22 @@
 
 import { useState, useEffect, useMemo, useRef, useCallback } from "react";
 import { useParams } from "next/navigation";
-
-import ImageGallery from "../../../../components/Curator/ImageGallery";
-import TourOverview from "../../../../components/Curator/TourOverview";
-import TourHighlights from "../../../../components/Curator/TourHighLight";
-import TourStays from "../../../../components/Curator/TourStay";
-import TourMoments from "../../../../components/Curator/TourMoment";
-import TourMap from "../../../../components/Curator/TourMap";
-import TourInclusions from "../../../../components/Curator/TourInclusions";
-import TourItinerary from "../../../../components/Curator/TourItinerary";
-import TourReviews from "../../../../components/Curator/TourReview";
-import MakeReview from "../../../../components/Curator/MakeReview";
-import TourFAQ from "../../../../components/Curator/TourFAQ";
-import EnquireNow from "../../../../components/Curator/BookingCard";
-import OverviewCard from "../../../../components/Curator/OverviewCard";
-import TourHero from "../../../../components/Curator/TourHero";
-import UserCard from "../../../../components/Curator/UserCard";
-import TourVideoTestimonials from "../../../../components/Curator/TestimonialVideoCarousel";
+import ImageGallery from "../../../../components/TourCurated/ImageGallery";
+import TourOverview from "../../../../components/TourCurated/TourOverview";
+import TourHighlights from "../../../../components/TourCurated/TourHighLight";
+import TourStays from "../../../../components/TourCurated/TourStay";
+import TourMoments from "../../../../components/TourCurated/TourMoment";
+import TourMap from "../../../../components/TourCurated/TourMap";
+import TourInclusions from "../../../../components/TourCurated/TourInclusions";
+import TourItinerary from "../../../../components/TourCurated/TourItinerary";
+import TourReviews from "../../../../components/TourCurated/TourReview";
+import MakeReview from "../../../../components/TourCurated/MakeReview";
+import TourFAQ from "../../../../components/TourCurated/TourFAQ";
+import EnquireNow from "../../../../components/TourCurated/BookingCard";
+import OverviewCard from "../../../../components/TourCurated/OverviewCard";
+import TourHero from "../../../../components/TourCurated/TourHero";
+import UserCard from "../../../../components/TourCurated/UserCard";
+import TourVideoTestimonials from "../../../../components/TourCurated/TestimonialVideoCarousel";
 import Spinner from "../../../../components/CustomUI/Spinner/Spinner";
 import Banner from "../../../../components/Banner/Banner";
 
@@ -31,7 +30,6 @@ const image = FALLBACK_IMG;
 
 export default function TourPage() {
   const { slug } = useParams();
-  // sticky menu config
   const sections = [
     { id: "overview", label: "Overview" },
     { id: "itinerary", label: "Itinerary" },
@@ -132,7 +130,17 @@ export default function TourPage() {
       </div>
     );
   }
+  console.log("tour", tour);
+  const badgeConfig = {
+    fixed_date: { label: "Smith-Led", icon: "✦", variant: "default" },
+    selectable_date: {
+      label: "Smith-Curated",
+      icon: "★",
+      variant: "secondary",
+    },
+  };
 
+  const badge = badgeConfig[tour.tourType];
   return (
     <>
       <div className="min-h-screen max-w-screen  bg-gradient-to-b from-gray-100 to-white">
@@ -152,7 +160,7 @@ export default function TourPage() {
               rating={tour.rating}
               reviewCount={tour.reviewCount}
               bookingCount={tour.bookingCount}
-              badges={tour.badges}
+              badges={badge}
               heroImage={tour.images.hero}
             />
           </div>
@@ -289,7 +297,7 @@ export default function TourPage() {
               )}
 
               {/* Image Gallery */}
-              {tour.images.gallery && (
+              {tour.images.gallery.length > 0 && (
                 <section id="gallery" className="scroll-mt-28">
                   <h2 className="text-2xl font-semibold mb-4 mt-6">Gallery</h2>
                   <ImageGallery images={tour.images.gallery} />
@@ -342,6 +350,40 @@ export default function TourPage() {
               </div>
             </div>
           </div>
+          {/* Conditionally render Tours Component */}
+          {tour.tours && tour.tours.length > 0 && (
+            <Tours
+              tours={tour.tours}
+              heading={{
+                title: "/sTours\\s you might /n enjoy",
+                description: "Explore the world with our curated tours",
+              }}
+            />
+          )}
+
+          {/* Conditionally render Blogs */}
+          {tour.blogs && tour.blogs.length > 0 && (
+            <Blogs
+              blogs={tour.blogs}
+              heading={{
+                title: "Similar /sPosts\\s",
+                description: "You might like these blogs",
+              }}
+            />
+          )}
+
+          {tour?.destinations?.length > 0 && (
+            <Destinations
+              destinations={tour.destinations}
+              heading={{
+                title: "/sDestinations\\s you might /n enjoy",
+                description: "Explore the world with our curated destinations",
+              }}
+            />
+          )}
+          {tour.experiences && tour.experiences.length > 2 && (
+            <Experiences experiences={tour.experiences} />
+          )}
         </div>
       </div>
       <Banner
@@ -476,6 +518,11 @@ function mapCreator(u) {
 /* ---------- Mapper: API -> UI tour model ---------- */
 function toTourModel(api) {
   if (!api) return null;
+
+  // Slug
+  const slug = api?.slug || "";
+
+  console.log("👉 API Data:", api);
 
   // Dates & duration
   let startDate = api?.dateRange?.startDate

@@ -53,7 +53,7 @@ const TourGridSection = ({
         })}
       </div>
 
-      {data?.length && (
+      {data?.length > 4 && (
         <div className={styles.centerBtn}>
           <button
             className={styles.customButton}

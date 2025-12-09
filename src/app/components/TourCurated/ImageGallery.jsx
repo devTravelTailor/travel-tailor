@@ -1,17 +1,14 @@
 "use client";
 import { useState, useMemo, useCallback } from "react";
-import { Button } from "../../components/ui/button";
+import { Button } from "../ui/button";
 import {
   Dialog,
   DialogClose,
   DialogContent,
   DialogTitle,
   DialogTrigger,
-} from "../../components/ui/dialog";
+} from "../ui/dialog";
 import { ChevronLeft, ChevronRight, X, Expand } from "lucide-react";
-
-const FALLBACK =
-  "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1200&auto=format&fit=crop";
 
 export default function ImageGallery({ images = [] }) {
   const safeImages = useMemo(

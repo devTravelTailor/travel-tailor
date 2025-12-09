@@ -25,7 +25,7 @@ function Tour({
   return (
     <Link href={url} className={`${styles.tour} ${className}`}>
       <div className={styles.tourBg}>
-        <Image src={parseUrl(imgUrl)} alt="Tour" width={600} height={760} />
+        <Image src={parseUrl(imgUrl)} alt="Tour" width={1000} height={760} />
       </div>
 
       <div className={styles.tourContent}>

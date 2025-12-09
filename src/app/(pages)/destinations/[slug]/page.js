@@ -126,6 +126,8 @@ export default async function DestinationPage({ params }) {
     notFound();
   }
 
+  console.log(destinationData);
+
   // Default heading for Tours section if not provided by API
   const defaultToursHeading = {
     title: `Explore /s${destinationData.title || "the Destination"}\\s`, // Use fetched title if available

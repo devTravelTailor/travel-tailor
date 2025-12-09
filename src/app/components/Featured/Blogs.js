@@ -23,7 +23,7 @@ function Blogs({
     return null;
   }
 
-  // console.log("blogs", blogs);
+  console.log("blogs", blogs);
 
   return (
     <section className={styles.featuredBlogs}>

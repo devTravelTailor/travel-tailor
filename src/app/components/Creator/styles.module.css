@@ -245,7 +245,6 @@
   flex-wrap: wrap;
   padding-left: 1.5rem;
   padding-right: 1.5rem;
-  justify-content: space-evenly;
   gap: 1.5rem; /* adds spacing between rows and columns */
 }
 
@@ -326,6 +325,5 @@
   flex-wrap: wrap;
   padding-left: 1.5rem;
   padding-right: 1.5rem;
-  justify-content: space-evenly;
   gap: 1.5rem; /* adds spacing between rows and columns */
 }

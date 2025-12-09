@@ -4,6 +4,8 @@ import AdvisorCarousel from "../../components/Creator/AdvisoreCarousel";
 import HeroSection from "../../components/Creator/HeroSection";
 import TourGridSection from "../../components/Creator/TourGridSection";
 import BlogGridSection from "../../components/Creator/BlogGridSection";
+import Link from "next/link";
+import { Button } from "../../components/ui/button";
 
 export const dynamic = "force-dynamic";
 export const fetchCache = "force-no-store";
@@ -39,10 +41,10 @@ export default async function Creator() {
       testimonials = [],
     } = data;
 
-    console.log(data.creators);
+    // console.log(data.creators);
 
     return (
-      <div className="min-h-screen">
+      <div className="min-h-screen  ">
         <HeroSection heroImg={data.heroImage} />
         {creators.length > 0 && <AdvisorCarousel data={creators} />}
 
@@ -58,6 +60,16 @@ export default async function Creator() {
               data={tours}
               visibleCount={4}
             />
+
+            <Link href="/tours">
+              <Button
+                type="block"
+                varient="outline"
+                className="mx-auto block mt-12 rounded-full hover:bg-white border border-orange-600/80 hover:text-orange-600/80 bg-orange-600/80 text-white"
+              >
+                More Tours
+              </Button>
+            </Link>
           </div>
         )}
 

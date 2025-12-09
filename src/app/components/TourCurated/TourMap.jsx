@@ -1,6 +1,6 @@
 "use client";
 import { useMemo } from "react";
-import { Card, CardContent } from "../../components/ui/card";
+import { Card, CardContent } from "../ui/card";
 
 function extractEmbedSrc(input) {
   if (!input) return "";

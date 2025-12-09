@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Card, CardContent } from "../ui/card";
 import { MapPin } from "lucide-react";
+import Link from "next/link";
 
 const fallback = "/images/avatar.webp";
 
@@ -41,8 +42,8 @@ const AdvisorCarousel = ({ data }) => {
   }, [data]);
 
   return (
-    <section className="py-16 bg-gradient-to-b from-background to-muted/30">
-      <div className="container mx-auto px-4">
+    <section className="py-16 pb-6 bg-gradient-to-b  from-background to-muted/30">
+      <div className="container mx-auto max-w-[93vw] px-4">
         <div className="text-center mb-12 animate-fade-in">
           <h2 className="text-3xl md:text-5xl font-bold mb-4">
             Your perfect next trip. Via
@@ -99,6 +100,17 @@ const AdvisorCarousel = ({ data }) => {
             ))}
           </div>
         </div>
+      </div>
+      <div className="w-full pt-10 text-center">
+        <span className="my-4 ">
+          Want to be a smith? -{" "}
+          <Link
+            className="underline underline-offset-2 text-orange-600"
+            href="/become-creator"
+          >
+            find out more
+          </Link>
+        </span>
       </div>
     </section>
   );

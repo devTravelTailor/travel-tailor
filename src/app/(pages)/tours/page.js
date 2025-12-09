@@ -9,7 +9,7 @@ export default function ToursPage() {
   const [tourData, setTourData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [tourType, setTourType] = useState("fixed_date");
+  const [tourType, setTourType] = useState("selectable_date");
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 

@@ -1,4 +1,4 @@
-import { Card, CardContent } from "../../components/ui/card";
+import { Card, CardContent } from "../ui/card";
 import { Clock, Users, Calendar, Globe } from "lucide-react";
 
 function TourOverview({

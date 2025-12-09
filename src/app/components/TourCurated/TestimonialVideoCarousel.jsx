@@ -1,6 +1,6 @@
 "use client";
 import React, { useRef, useState, useEffect } from "react";
-import { Button } from "../../components/ui/button";
+import { Button } from "../ui/button";
 import { Volume2, VolumeX } from "lucide-react";
 import {
   Carousel,
@@ -8,7 +8,7 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "../../components/ui/carousel";
+} from "../ui/carousel";
 
 /* --------- Helper: Extract YouTube ID --------- */
 const getYouTubeId = (input = "") => {

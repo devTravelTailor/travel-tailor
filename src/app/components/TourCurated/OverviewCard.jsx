@@ -1,10 +1,5 @@
 "use client";
-import {
-  Card,
-  CardHeader,
-  CardContent,
-  CardTitle,
-} from "../../components/ui/card";
+import { Card, CardHeader, CardContent, CardTitle } from "../ui/card";
 import { Calendar, IndianRupee, Users, User } from "lucide-react";
 
 export default function OverviewCard({

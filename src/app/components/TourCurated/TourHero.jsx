@@ -1,6 +1,6 @@
 "use client";
-import { Badge } from "../../components/ui/badge";
-import { Button } from "../../components/ui/button";
+import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
 import { MapPin, Share2, Star, Clock, IndianRupee } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
@@ -14,19 +14,22 @@ export default function TourHero({
   curatedBy = "Rishu Agrawal",
   duration = "12 Days",
   price = "53,350 onwards",
-  badges = ["SELFDRIVE", "OFF-BEAT", "ADVENTURE"],
+  badges,
 }) {
   const image =
     "https://t3.ftcdn.net/jpg/02/99/04/20/360_F_299042079_vGBD7wIlSeNl7vOevWHiL93G4koMM967.jpg";
-
-  // console.log(curatedBy);
+  function encodeSpacesOnly(url) {
+    return url.replace(/ /g, "%20");
+  }
+  const hero = encodeSpacesOnly(heroImage);
+  console.log(hero);
 
   return (
     <div className="relative">
       {/* Hero background */}
       <div className="relative h-[70vh] min-h-[600px] overflow-hidden ">
         <img
-          src={heroImage}
+          src={hero}
           alt={title}
           className="w-full h-full object-cover scale-105"
         />
@@ -128,18 +131,13 @@ export default function TourHero({
             {/* Right: Small Hero Image */}
             <div
               className="relative hidden md:block bg-cover bg-center bg-no-repeat"
-              style={{ backgroundImage: `url(${heroImage})` }}
+              style={{ backgroundImage: `url(${hero})` }}
             >
               {/* Floating badges */}
               <div className="absolute top-4 left-4 flex gap-3">
-                {badges.map((badge, i) => (
-                  <Badge
-                    key={i}
-                    className="bg-white/95 text-gray-900 border-0 font-medium px-4 py-2 rounded-full backdrop-blur-sm"
-                  >
-                    {badge}
-                  </Badge>
-                ))}
+                <Badge className="bg-white/95 text-gray-900 border-0 font-medium px-4 py-2 rounded-full backdrop-blur-sm">
+                  {`${badges?.icon}  ${badges?.label}`}
+                </Badge>
               </div>
               {/* Share button */}
               {/* <div className="absolute top-8 right-8 flex gap-3">

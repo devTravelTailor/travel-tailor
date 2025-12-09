@@ -5,16 +5,24 @@ import { usePathname } from "next/navigation";
 const FORM_STATUS_KEY = "formStatus";
 const STATUS = {
   INITIAL: "initial",
-  EXIT_1: "exit1",
-  EXIT_2: "exit2",
   DONE: "done",
 };
 
 const DELAY_CONFIG = {
-  [STATUS.INITIAL]: 10,
-  [STATUS.EXIT_1]: 30,
-  [STATUS.EXIT_2]: 60,
+  [STATUS.INITIAL]: 45,
 };
+// const STATUS = {
+//   INITIAL: "initial",
+//   EXIT_1: "exit1",
+//   EXIT_2: "exit2",
+//   DONE: "done",
+// };
+
+// const DELAY_CONFIG = {
+//   [STATUS.INITIAL]: 10,
+//   [STATUS.EXIT_1]: 30,
+//   [STATUS.EXIT_2]: 60,
+// };
 
 export const usePopupTrigger = (
   excludedRoutes = ["/tnc", "/privacy-policy", "/campaign/*"]
@@ -83,7 +91,7 @@ export const usePopupTrigger = (
 
     switch (currentStatus) {
       case STATUS.INITIAL:
-        nextStatus = STATUS.EXIT_1;
+        nextStatus = STATUS.DONE;
         break;
       case STATUS.EXIT_1:
         nextStatus = STATUS.EXIT_2;
@@ -94,6 +102,19 @@ export const usePopupTrigger = (
       default:
         break;
     }
+    // switch (currentStatus) {
+    //   case STATUS.INITIAL:
+    //     nextStatus = STATUS.EXIT_1;
+    //     break;
+    //   case STATUS.EXIT_1:
+    //     nextStatus = STATUS.EXIT_2;
+    //     break;
+    //   case STATUS.EXIT_2:
+    //     nextStatus = STATUS.DONE;
+    //     break;
+    //   default:
+    //     break;
+    // }
 
     if (nextStatus) {
       sessionStorage.setItem(FORM_STATUS_KEY, nextStatus);

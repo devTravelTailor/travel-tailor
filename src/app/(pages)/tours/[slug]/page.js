@@ -10,6 +10,9 @@ import Blogs from "../../../components/Featured/Blogs";
 import Banner from "../../../components/Banner/Banner";
 
 import parseUrl from "../../../util/parseUrl";
+import Tours from "../../../components/Sections/Tours";
+import Destinations from "@/app/components/Sections/Destinations";
+import Experiences from "@/app/components/Sections/Experiences";
 
 // Configure the page to be statically generated
 export const dynamic = "force-static";
@@ -94,6 +97,8 @@ export default async function TourPage({ params }) {
     return notFound();
   }
 
+  console.log(tourData);
+
   return (
     <main>
       {/* Always render Hero and Info sections */}
@@ -129,12 +134,37 @@ export default async function TourPage({ params }) {
 
       {/* Conditionally render Tours Component */}
       {tourData.tours && tourData.tours.length > 0 && (
-        <ToursComponet tours={tourData.tours} />
+        <Tours
+          tours={tourData.tours}
+          heading={{
+            title: "/sTours\\s you might /n enjoy",
+            description: "Explore the world with our curated tours",
+          }}
+        />
       )}
 
       {/* Conditionally render Blogs */}
       {tourData.blogs && tourData.blogs.length > 0 && (
-        <Blogs blogs={tourData.blogs} />
+        <Blogs
+          blogs={tourData.blogs}
+          heading={{
+            title: "Similar /sPosts\\s",
+            description: "You might like these blogs",
+          }}
+        />
+      )}
+
+      {tourData?.destinations?.length > 0 && (
+        <Destinations
+          destinations={tourData.destinations}
+          heading={{
+            title: "/sDestinations\\s you might /n enjoy",
+            description: "Explore the world with our curated destinations",
+          }}
+        />
+      )}
+      {tourData.experiences && tourData.experiences.length > 2 && (
+        <Experiences experiences={tourData.experiences} />
       )}
 
       {/* Banner with fallback values */}

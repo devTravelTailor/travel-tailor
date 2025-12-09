@@ -19,7 +19,7 @@ function Navbar() {
     { name: "Search", href: "/search", icon: "/images/search.png" },
     { name: "Destinations", href: "/destinations" },
     { name: "Blogs", href: "/blogs" },
-    { name: "Tours", href: "/tours" },
+    { name: "Trailsmith", href: "/creator" },
     { name: "Calendar", href: "/calendar" },
     { name: "Experiences", href: "/experiences" },
     { name: "About", href: "/about" },

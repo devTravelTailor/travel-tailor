@@ -28,7 +28,7 @@ const SearchResult = ({ item, href }) => {
           }} // Fallback on error
         />
         <div className={styles.overlay}></div>
-        <h3 className={styles.itemTitle}>{item.title}</h3>
+        <h3 className={styles.itemTitle}>{item.title || item.name}</h3>
       </div>
     </Link>
   );

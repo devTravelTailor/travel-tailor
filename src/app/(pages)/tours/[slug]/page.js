@@ -11,8 +11,8 @@ import Banner from "../../../components/Banner/Banner";
 
 import parseUrl from "../../../util/parseUrl";
 import Tours from "../../../components/Sections/Tours";
-import Destinations from "@/app/components/Sections/Destinations";
-import Experiences from "@/app/components/Sections/Experiences";
+import Destinations from "../../../components/Sections/Destinations";
+import Experiences from "../../../components/Sections/Experiences";
 
 // Configure the page to be statically generated
 export const dynamic = "force-static";

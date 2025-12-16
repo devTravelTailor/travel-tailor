@@ -98,7 +98,7 @@ export default function BecomeCreatorPage() {
             </p>
             <Button
               size="lg"
-              className="mt-4 h-12 px-8 text-base font-semibold bg-orange-600/80"
+              className="mt-4 h-12 px-8 text-base hover:bg-white hover:border-[#ff5b06] hover:text-[#ff5b06] border  font-semibold bg-[#ff5b06]"
               onClick={handleDialog}
             >
               Apply Now
@@ -112,7 +112,7 @@ export default function BecomeCreatorPage() {
               alt="Travel community"
               className="rounded-2xl shadow-2xl w-full aspect-[4/3] object-cover"
             />
-            {/* <div className="absolute -bottom-6 -left-6 bg-orange-600/80 text-white p-6 rounded-xl shadow-lg hidden md:block">
+            {/* <div className="absolute -bottom-6 -left-6 bg-[#ff5b06] text-white p-6 rounded-xl shadow-lg hidden md:block">
               <p className="text-3xl font-bold">100+</p>
               <p className="text-sm opacity-90">Active Smiths</p>
             </div> */}
@@ -133,16 +133,16 @@ export default function BecomeCreatorPage() {
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="flex max-lg:flex-col text-center gap-4">
             {benefits.map((benefit, index) => {
               const Icon = benefit.icon;
               return (
                 <div
                   key={index}
-                  className="bg-background p-8 rounded-2xl border border-border hover:shadow-lg transition-all duration-300 group"
+                  className="bg-background p-6 flex w-full flex-col justify-center items-center rounded-2xl border border-border hover:shadow-lg transition-all duration-300 group"
                 >
-                  <div className="w-14 h-14 bg-orange-600/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-orange-600/20 transition-colors">
-                    <Icon className="w-7 h-7 text-orange-600/80" />
+                  <div className="w-14 h-14 bg-[#ff5b06]/10 rounded-lg flex items-center justify-center mb-6 group-hover:bg-[#ff5b06]/20 transition-colors">
+                    <Icon className="w-7 h-7 text-[#ff5b06]" />
                   </div>
 
                   <h3 className="text-xl font-semibold text-foreground mb-3">
@@ -160,7 +160,7 @@ export default function BecomeCreatorPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 px-4 bg-orange-600/80 text-white">
+      <section className="py-24 px-4 bg-[#ff5b06] text-white">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
             Ready to Start Your Journey?
@@ -172,7 +172,7 @@ export default function BecomeCreatorPage() {
           <Button
             size="lg"
             variant="secondary"
-            className="h-14 px-10 text-base font-semibold"
+            className="h-14 px-10 text-base font-semibold hover:bg-white  hover:text-[#ff5b06]"
             onClick={handleDialog}
           >
             Apply to be a Smith

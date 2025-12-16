@@ -81,7 +81,7 @@
 .quote {
   font-size: 80px;
   font-weight: var(--font-weight-bold, 700);
-  color: var(--color-primary, #ed5729);
+  color: var(--color-primary, #ff5b06);
   line-height: 0.5;
   margin-bottom: 10px;
 }
@@ -107,6 +107,6 @@
 }
 
 .name {
-  color: var(--color-primary, #ed5729);
+  color: var(--color-primary, #ff5b06);
   font-weight: var(--font-weight-medium, 500);
 }

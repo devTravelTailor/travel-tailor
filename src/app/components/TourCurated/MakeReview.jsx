@@ -229,7 +229,7 @@ export default function MakeReview({ tourIdOrSlug }) {
               You’re not signed in.{" "}
               <button
                 type="button"
-                className="underline text-orange-600"
+                className="underline text-[#ff5b06]"
                 onClick={() => setAuthOpen(true)}
               >
                 Sign in to post a review
@@ -349,7 +349,7 @@ export default function MakeReview({ tourIdOrSlug }) {
                   </DialogTrigger>
                   <DialogContent className="border border-gray-100 max-w-sm sm:max-w-md">
                     <DialogHeader>
-                      <DialogTitle className="text-orange-600">
+                      <DialogTitle className="text-[#ff5b06]">
                         Upload Images
                       </DialogTitle>
                     </DialogHeader>
@@ -389,7 +389,7 @@ export default function MakeReview({ tourIdOrSlug }) {
 
             <Button
               type="submit"
-              className="w-full py-3 text-md bg-orange-600 hover:bg-orange-600/90"
+              className="w-full py-3 text-md bg-[#ff5b06] hover:bg-[#ff5b06]/90"
               disabled={
                 !rating ||
                 !reviewTitle ||

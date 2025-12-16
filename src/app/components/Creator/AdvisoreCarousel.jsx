@@ -48,7 +48,7 @@ const AdvisorCarousel = ({ data }) => {
           <h2 className="text-3xl md:text-5xl font-bold mb-4">
             Your perfect next trip. Via
             <br />
-            <span className="text-orange-600 text-3xl md:text-4xl font-handwriting">
+            <span className="text-[#ff5b06] text-3xl md:text-4xl font-handwriting">
               Travel Influencers & expert Travel advisors
             </span>
           </h2>
@@ -105,7 +105,7 @@ const AdvisorCarousel = ({ data }) => {
         <span className="my-4 ">
           Want to be a smith? -{" "}
           <Link
-            className="underline underline-offset-2 text-orange-600"
+            className="underline underline-offset-2 text-[#ff5b06]"
             href="/become-creator"
           >
             find out more

@@ -109,7 +109,7 @@ export default function TourReviews({ reviews, overallRating, totalReviews }) {
           <div className="flex justify-center">
             <Button
               variant="outline"
-              className="px-5 py-2 border border-gray-200 text-orange-600 hover:text-orange-700"
+              className="px-5 py-2 border border-gray-200 text-[#ff5b06] hover:text-orange-700"
               onClick={() =>
                 setVisibleCount((c) => Math.min(c + 8, reviews.length))
               }
@@ -124,7 +124,7 @@ export default function TourReviews({ reviews, overallRating, totalReviews }) {
           <div className="flex justify-center">
             <Button
               variant="outline"
-              className="px-5 py-2 border border-gray-200 text-orange-600 hover:text-orange-700"
+              className="px-5 py-2 border border-gray-200 text-[#ff5b06] hover:text-orange-700"
               onClick={() => setVisibleCount(3)}
               data-testid="button-show-less-reviews"
             >

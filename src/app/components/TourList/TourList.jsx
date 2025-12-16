@@ -50,8 +50,8 @@ export default function TourList({
                 className={`px-4 py-2 text-sm rounded-md whitespace-nowrap transition-all duration-200 font-medium
                   ${
                     tourType === type.key
-                      ? " text-orange-600 "
-                      : "text-gray-700 hover:text-orange-600"
+                      ? " text-[#ff5b06] "
+                      : "text-gray-700 hover:text-[#ff5b06]"
                   }`}
               >
                 {type.label}

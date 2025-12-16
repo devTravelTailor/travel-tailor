@@ -40,7 +40,7 @@ const HeroSection = ({ heroImg }) => {
         <div className="max-w-4xl mx-auto animate-fade-in">
           <h1 className="text-5xl xl:text-7xl font-bold mb-6 text-white leading-tight">
             Personalized travel for those who
-            <span className="text-orange-600 font-handwriting text-6xl xl:text-7xl block mt-2">
+            <span className="text-[#ff5b06] font-handwriting text-6xl xl:text-7xl block mt-2">
               seek more.
             </span>
           </h1>
@@ -63,7 +63,7 @@ const HeroSection = ({ heroImg }) => {
 
               <Button
                 onClick={handleSearch}
-                className="h-12 rounded-r-full col-span-1 bg-orange-600 hover:bg-orange-700/90"
+                className="h-12 rounded-r-full col-span-1 bg-[#ff5b06] hover:bg-orange-700/90"
               >
                 <Search className="mr-2 h-5 w-5 hidden md:block" />
                 Search

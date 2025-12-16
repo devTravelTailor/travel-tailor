@@ -5,10 +5,12 @@ import {
   Clock,
   Users,
   ArrowBigRight,
+  Mountain,
   MoveRight,
 } from "lucide-react";
 import { Badge } from "../ui/badge";
 import { Card } from "../ui/card";
+import { MdHiking, MdOutlineCardTravel } from "react-icons/md";
 
 export function TourCard({
   title,
@@ -25,10 +27,14 @@ export function TourCard({
   const isFixedDate = tourType === "fixed_date";
 
   const badgeConfig = {
-    fixed_date: { label: "Smith-Led", icon: "✦", variant: "default" },
+    fixed_date: {
+      label: "Smith-Led",
+      icon: MdHiking,
+      variant: "default",
+    },
     selectable_date: {
       label: "Smith-Curated",
-      icon: "★",
+      icon: MdOutlineCardTravel, // NO string, NO spaces
       variant: "secondary",
     },
   };
@@ -58,9 +64,10 @@ export function TourCard({
         {badge?.icon && (
           <Badge
             variant={badge.variant}
-            className="absolute top-3 left-3 backdrop-blur-sm bg-background/90 text-foreground border-0 shadow-lg"
+            className="absolute top-3 left-3 font-semibold bg-[#ff5b06]/90 text-white group-hover:bg-white/90 group-hover:text-[#ff5b06] backdrop-blur-sm   border-0 shadow-lg"
           >
-            <span className="mr-1">{badge.icon}</span>
+            <badge.icon className="w-4 h-4 mr-1" />
+
             {badge.label}
           </Badge>
         )}
@@ -87,7 +94,7 @@ export function TourCard({
           <span className="truncate">{location}</span>
         </div>
 
-        <h3 className="text-lg font-semibold text-foreground line-clamp-2 mb-2 group-hover:text-orange-600 transition-colors duration-300">
+        <h3 className="text-lg font-semibold text-foreground line-clamp-2 mb-2 group-hover:text-[#ff5b06] transition-colors duration-300">
           {title}
         </h3>
 
@@ -101,8 +108,8 @@ export function TourCard({
         </p>
 
         {isFixedDate && date && (
-          <div className="flex items-center gap-2 mt-3 p-2.5 rounded-lg bg-orange-600/5 border border-orange-600/10">
-            <Calendar className="w-4 h-4 text-orange-600" />
+          <div className="flex items-center gap-2 mt-3 p-2.5 rounded-lg bg-[#ff5b06]/5 border border-[#ff5b06]/10">
+            <Calendar className="w-4 h-4 text-[#ff5b06]" />
             <span className="text-sm font-medium text-foreground">{date}</span>
           </div>
         )}
@@ -112,7 +119,7 @@ export function TourCard({
             {experiences.slice(0, 2).map((experience) => (
               <span
                 key={experience._id || experience.slug}
-                className="px-3 py-1 text-xs font-medium bg-orange-600/70 text-white rounded-full"
+                className="px-3 py-1 text-xs font-medium bg-[#ff5b06]/70 text-white rounded-full"
               >
                 {experience.title}
               </span>
@@ -123,7 +130,7 @@ export function TourCard({
 
       <div className="px-5 py-3 bg-muted/30 border-t border-border/50 flex items-center justify-between">
         <span className="text-xs text-muted-foreground">View Details</span>
-        <div className="w-6 h-6 rounded-full p-1 bg-orange-600/10 flex items-center justify-center group-hover:bg-orange-600 group-hover:text-orange-600-foreground transition-all duration-300">
+        <div className="w-6 h-6 rounded-full p-1 bg-[#ff5b06]/10 flex items-center justify-center group-hover:bg-[#ff5b06] group-hover:text-[#ff5b06]-foreground transition-all duration-300">
           <MoveRight className="text-xs group-hover:translate-x-0.5 group-hover:text-white transition-transform" />
         </div>
       </div>

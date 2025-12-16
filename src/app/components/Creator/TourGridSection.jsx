@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import styles from "./styles.module.css";
 import Tour from "../CustomUI/Card/Tour";
+import { TourCard } from "../TourList/TourCard";
 
 const ITEMS_PER_PAGE = 4;
 
@@ -38,7 +39,7 @@ const TourGridSection = ({
               : `${item?.details?.city}, ${item?.details?.country}`;
           return (
             <div key={index} className={styles.gridItem}>
-              <Tour
+              {/* <Tour
                 description={item.brief}
                 imgUrl={item.heroImg || item.displayImg}
                 title={item.title}
@@ -46,6 +47,18 @@ const TourGridSection = ({
                 id={item._id}
                 tag={tags}
                 type={"tours"}
+                className={type === "blogs" ? styles.creatorBlogs : className}
+              /> */}
+              <TourCard
+                description={item.brief}
+                heroImg={item.heroImg || item.displayImg}
+                title={item.title}
+                slug={item.slug}
+                id={item._id}
+                experiences={item.experiences}
+                duration={item.details.duration + " days"}
+                location={item.place}
+                tourType={item.tourType}
                 className={type === "blogs" ? styles.creatorBlogs : className}
               />
             </div>

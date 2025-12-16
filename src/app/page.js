@@ -68,7 +68,7 @@ export default async function Main() {
 
         {/* Center Content */}
         <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
-          <h2 className="text-6xl mb-4 font-light text-orange-600 tracking-tight leading-tight font-handwriting">
+          <h2 className="text-6xl mb-4 font-light text-[#ff5b06] tracking-tight leading-tight font-handwriting">
             Every Step,
             <br />
             <span className="text-white font-sans text-6xl xl:text-8xl">
@@ -81,7 +81,7 @@ export default async function Main() {
           </p>
           <div>
             <Link href="/contact">
-              <Button varient="outline" className=" bg-orange-600 text-white">
+              <Button varient="outline" className=" bg-[#ff5b06] text-white">
                 Let&#39;s craft your next adventure today!
               </Button>
             </Link>
@@ -92,7 +92,7 @@ export default async function Main() {
       {/* Stats Strip - Directly below hero */}
 
       {stats && (
-        <div className="bg-gradient-to-r from-orange-600/80 via-orange-600/90 to-orange-600/80">
+        <div className=" bg-[#ff7e3d]">
           <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-24 py-6">
             <div className="flex flex-wrap items-center justify-between gap-6 md:gap-4">
               {stats?.happyTravelers !== null && (
@@ -176,7 +176,7 @@ export default async function Main() {
                   height={150}
                   alt="logo"
                 />
-                <span className="text-orange-600/80 text-3xl md:text-4xl font-handwriting">
+                <span className="text-[#ff5b06] text-3xl md:text-4xl font-handwriting">
                   Our Customised Experiences
                 </span>
               </div>
@@ -235,7 +235,7 @@ export default async function Main() {
                 <Button
                   type="block"
                   varient="outline"
-                  className="mx-auto block mt-12 rounded-full hover:bg-white border border-orange-600/80 hover:text-orange-600/80 bg-orange-600/80 text-white"
+                  className="mx-auto block mt-12 rounded-full hover:bg-white border border-[#ff5b06] hover:text-[#ff5b06] bg-[#ff5b06] text-white"
                 >
                   Check Travel Tailor
                 </Button>
@@ -256,7 +256,7 @@ export default async function Main() {
                   height={100}
                   alt="logo"
                 />
-                <span className="text-orange-600/80 text-3xl md:text-4xl font-handwriting">
+                <span className="text-[#ff5b06] text-3xl md:text-4xl font-handwriting">
                   Journeys with a story — crafted by those who’ve lived them.
                 </span>
               </div>
@@ -354,7 +354,7 @@ export default async function Main() {
             <Button
               type="block"
               varient="outline"
-              className="mx-auto block mt-12 rounded-full hover:bg-white border border-orange-600/80 hover:text-orange-600/80 bg-orange-600/80 text-white"
+              className="mx-auto block mt-12 rounded-full hover:bg-white border border-[#ff5b06] hover:text-[#ff5b06] bg-[#ff5b06] text-white"
             >
               Explore Trails
             </Button>

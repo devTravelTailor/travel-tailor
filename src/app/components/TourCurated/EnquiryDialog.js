@@ -45,7 +45,7 @@ export default function EnquiryDialog({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="border border-gray-100 max-w-md rounded-xl p-6">
         <DialogHeader>
-          <DialogTitle className="text-orange-600 font-handwriting text-2xl font-semibold">
+          <DialogTitle className="text-[#ff5b06] font-handwriting text-2xl font-semibold">
             Send
             <span className="text-black font-sans ml-1   font-semibold">
               Enquiry
@@ -127,7 +127,7 @@ export default function EnquiryDialog({
           {/* Submit */}
           <Button
             type="button"
-            className="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium"
+            className="w-full bg-orange-500 hover:bg-[#ff5b06] text-white font-medium"
             onClick={handleSubmit}
           >
             Submit Enquiry

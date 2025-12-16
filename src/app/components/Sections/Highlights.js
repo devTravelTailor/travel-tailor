@@ -42,7 +42,7 @@ function Highlights({
         <div className={styles.highlightImg}>
           <ParallaxScrollImg speed={6} direction="up">
             <Image
-              src={parseUrl(img)}
+              src={parseUrl(imgUrl)}
               alt="highlight"
               width={790}
               height={740}

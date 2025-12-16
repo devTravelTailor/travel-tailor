@@ -39,7 +39,7 @@ const BlogGridSection = ({
             key={index}
             className={type === "blogs" ? styles.blogItem : styles.gridItem}
           >
-            <Preview
+            {/* <Preview
               description={item.description}
               imgUrl={item.heroImg || item.displayImg}
               title={item.title}
@@ -47,7 +47,7 @@ const BlogGridSection = ({
               id={item._id}
               type={type}
               className={type === "blogs" ? styles.creatorBlogs : className}
-            />
+            /> */}
           </div>
         ))}
       </div>

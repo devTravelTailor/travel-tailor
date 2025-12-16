@@ -187,7 +187,7 @@ export function CreatorApplicationDialog({ open, onOpenChange }) {
             {!file ? (
               <label
                 htmlFor="file-upload"
-                className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-border rounded-xl cursor-pointer hover:border-orange-600/50 hover:bg-muted/50 transition-colors"
+                className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-border rounded-xl cursor-pointer hover:border-[#ff5b06]/50 hover:bg-muted/50 transition-colors"
               >
                 <Upload className="w-8 h-8 text-muted-foreground mb-2" />
                 <span className="text-sm  text-center text-muted-foreground">
@@ -208,8 +208,8 @@ export function CreatorApplicationDialog({ open, onOpenChange }) {
             ) : (
               <div className="flex items-center justify-between p-4 bg-muted/50 rounded-xl border border-border">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-orange-600/10 rounded-lg">
-                    <FileText className="w-5 h-5 text-orange-600" />
+                  <div className="p-2 bg-[#ff5b06]/10 rounded-lg">
+                    <FileText className="w-5 h-5 text-[#ff5b06]" />
                   </div>
                   <div>
                     <p className="text-sm font-medium truncate max-w-[200px]">
@@ -236,7 +236,7 @@ export function CreatorApplicationDialog({ open, onOpenChange }) {
           {/* Submit Button */}
           <Button
             type="submit"
-            className="w-full h-12 bg-orange-600 text-base font-semibold"
+            className="w-full h-12 bg-[#ff5b06] text-base font-semibold"
             disabled={isSubmitting}
           >
             {isSubmitting ? "Submitting..." : "Submit Application"}

@@ -143,7 +143,7 @@ export default function TourPage() {
   const badge = badgeConfig[tour.tourType];
   return (
     <>
-      <div className="min-h-screen max-w-screen  bg-gradient-to-b from-gray-100 to-white">
+      <div className="min-h-screen max-w-screen bg-gradient-to-b from-gray-100 to-white">
         {/* Sticky Menu */}
 
         {/* Hero Section */}
@@ -175,35 +175,117 @@ export default function TourPage() {
               >
                 {/* Desktop */}
                 <div className="hidden md:flex gap-6 px-4 py-3">
-                  {sections.map((s) => (
+                  <a
+                    href={`#overview`}
+                    className={`text-sm font-medium ${
+                      active === "overview"
+                        ? "text-[#ff5b06] border-b-2 border-[#ff5b06]"
+                        : "text-gray-600 hover:text-orange-500"
+                    }`}
+                  >
+                    Overview
+                  </a>
+                  <a
+                    href={`#itinerary`}
+                    className={`text-sm font-medium ${
+                      active === "itinerary"
+                        ? "text-[#ff5b06] border-b-2 border-[#ff5b06]"
+                        : "text-gray-600 hover:text-orange-500"
+                    }`}
+                  >
+                    Itinerary
+                  </a>
+                  <a
+                    href={`#inclusions`}
+                    className={`text-sm font-medium ${
+                      active === "inclusions"
+                        ? "text-[#ff5b06] border-b-2 border-[#ff5b06]"
+                        : "text-gray-600 hover:text-orange-500"
+                    }`}
+                  >
+                    Inclusions
+                  </a>
+                  {tour.map && (
                     <a
-                      key={s.id}
-                      href={`#${s.id}`}
+                      href={`#map`}
                       className={`text-sm font-medium ${
-                        active === s.id
-                          ? "text-orange-600 border-b-2 border-orange-600"
+                        active === "map"
+                          ? "text-[#ff5b06] border-b-2 border-[#ff5b06]"
                           : "text-gray-600 hover:text-orange-500"
                       }`}
                     >
-                      {s.label}
+                      Map
                     </a>
-                  ))}
+                  )}
+                  {
+                    <a
+                      href={`#gallery`}
+                      className={`text-sm font-medium ${
+                        active === "gallery"
+                          ? "text-[#ff5b06] border-b-2 border-[#ff5b06]"
+                          : "text-gray-600 hover:text-orange-500"
+                      }`}
+                    >
+                      Gallery
+                    </a>
+                  }
                 </div>
                 {/* Mobile */}
                 <div className="flex md:hidden overflow-x-auto gap-4 px-4 py-2 scrollbar-hide">
-                  {sections.map((s) => (
+                  <a
+                    href={`#overview`}
+                    className={`text-sm font-medium ${
+                      active === "overview"
+                        ? "text-[#ff5b06] border-b-2 border-[#ff5b06]"
+                        : "text-gray-600 hover:text-orange-500"
+                    }`}
+                  >
+                    Overview
+                  </a>
+                  <a
+                    href={`#itinerary`}
+                    className={`text-sm font-medium ${
+                      active === "itinerary"
+                        ? "text-[#ff5b06] border-b-2 border-[#ff5b06]"
+                        : "text-gray-600 hover:text-orange-500"
+                    }`}
+                  >
+                    Itinerary
+                  </a>
+                  <a
+                    href={`#inclusions`}
+                    className={`text-sm font-medium ${
+                      active === "inclusions"
+                        ? "text-[#ff5b06] border-b-2 border-[#ff5b06]"
+                        : "text-gray-600 hover:text-orange-500"
+                    }`}
+                  >
+                    Inclusions
+                  </a>
+                  {tour.map && (
                     <a
-                      key={s.id}
-                      href={`#${s.id}`}
-                      className={`whitespace-nowrap text-xs font-medium ${
-                        active === s.id
-                          ? "text-orange-600 border-b-2 border-orange-600"
+                      href={`#map`}
+                      className={`text-sm font-medium ${
+                        active === "map"
+                          ? "text-[#ff5b06] border-b-2 border-[#ff5b06]"
                           : "text-gray-600 hover:text-orange-500"
                       }`}
                     >
-                      {s.label}
+                      Map
                     </a>
-                  ))}
+                  )}
+                  {
+                    <a
+                      href={`#gallery`}
+                      className={`text-sm font-medium ${
+                        active === "gallery"
+                          ? "text-[#ff5b06] border-b-2 border-[#ff5b06]"
+                          : "text-gray-600 hover:text-orange-500"
+                      }`}
+                    >
+                      Gallery
+                    </a>
+                  }
                 </div>
               </div>
               {/* Tour Overview */}
@@ -287,7 +369,7 @@ export default function TourPage() {
               )}
 
               {tour.video?.length > 0 && (
-                <section id="video" className="scroll-mt-28">
+                <section id="gallery" className="scroll-mt-28">
                   <h2 className="text-2xl font-semibold mb-4 mt-6">
                     Video Gallery
                   </h2>
@@ -308,7 +390,7 @@ export default function TourPage() {
             {/* Booking Sidebar */}
             <div className="lg:col-span-1">
               {/* Mobile: Show booking at top */}
-              <div className="lg:hidden mb-8">
+              <div id="enquire" className="lg:hidden mb-8">
                 <EnquireNow
                   basePrice={tour.booking.pricing.adult}
                   tourDuration={parseInt(tour.overview.duration.split(" ")[0])}

@@ -65,7 +65,7 @@ export default async function Creator() {
               <Button
                 type="block"
                 varient="outline"
-                className="mx-auto block mt-12 rounded-full hover:bg-white border border-orange-600/80 hover:text-orange-600/80 bg-orange-600/80 text-white"
+                className="mx-auto block mt-12 rounded-full hover:bg-white border border-[#ff5b06] hover:text-[#ff5b06] bg-[#ff5b06] text-white"
               >
                 More Tours
               </Button>

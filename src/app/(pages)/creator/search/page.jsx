@@ -187,7 +187,7 @@ function SearchPageContent() {
                 ${
                   loading
                     ? "bg-orange-400 cursor-not-allowed"
-                    : "bg-orange-600 hover:bg-orange-700"
+                    : "bg-[#ff5b06] hover:bg-orange-700"
                 }`}
         >
           {loading ? "Searching..." : "Search"}

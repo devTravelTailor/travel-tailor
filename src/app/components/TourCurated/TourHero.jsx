@@ -27,7 +27,7 @@ export default function TourHero({
   return (
     <div className="relative">
       {/* Hero background */}
-      <div className="relative h-[70vh] min-h-[600px] overflow-hidden ">
+      <div className="relative max-md:h-[75vh] h-[70vh] min-h-[600px] overflow-hidden ">
         <img
           src={hero}
           alt={title}
@@ -36,55 +36,75 @@ export default function TourHero({
         <div className="absolute inset-0 bg-black/60" />
 
         {/* Glass overlay card */}
-        <div className="absolute inset-0 flex items-center justify-center px-5 md:p-6">
-          <div className="bg-white/10 min-h-[520px] h-[60vh] backdrop-blur-md border border-white/20 rounded-2xl shadow-lg max-w-6xl w-full  grid md:grid-cols-2 overflow-hidden">
+        <div className="absolute inset-0 flex max-md:p-5 items-center justify-center px-5 md:p-6">
+          <div className="bg-white/10 min-h-[520px] max-md:h-fit   h-[60vh]  backdrop-blur-md border border-white/20 rounded-2xl shadow-lg max-w-6xl w-full  grid md:grid-cols-2 overflow-hidden">
             {/* Left: Details */}
-            <div className="md:p-10 p-7 flex flex-col h-full justify-center space-y-6">
+            <div className=" max-md:p-5  md:p-10 p-7 flex flex-col h-full justify-center space-y-6">
               {/* Location */}
-              <div className="flex items-center gap-2 text-white/80 text-sm font-medium">
-                <MapPin className="h-4 w-4" />
+              <img
+                src={hero}
+                alt={title}
+                className="w-full aspect-video min-md:hidden rounded-lg object-cover mb-4"
+              />
+              <div className="flex mb-2 items-center gap-2 text-white/80 text-sm font-medium">
+                <MapPin className="h-3 w-3 md:h-4 md:w-4" />
                 {location}
               </div>
 
               {/* Title & Subtitle */}
               <div className="mb-4">
-                <h1 className="text-3xl md:text-5xl font-bold text-white leading-tight mb-2">
+                <h1 className="text-xl md:text-3xl xl:5xl font-bold text-white leading-tight mb-2">
                   {title}
                 </h1>
-                <p className="text-lg md:text-xl text-white/80 font-light">
+                <p className="text-lg  max-md:hidden xl:text-xl text-white/80 font-light">
                   {subtitle}
                 </p>
               </div>
 
               {/* Rating */}
-              <div className="flex items-center gap-2 bg-white/10 rounded-full px-5 py-2 backdrop-blur-sm text-white/90 w-fit">
-                <Star className="h-5 w-5 fill-orange-500 text-orange-500" />
-                <span className="font-semibold">{rating}</span>
-                <span className="text-sm">({reviewCount} reviews)</span>
+              <div className="flex items-center gap-2 bg-white/10 rounded-full max-md:p-1 max-md:px-3 px-5 py-2 backdrop-blur-sm text-white/90 w-fit">
+                <Star className="max-md:h-3 max-md:w-3 h-5 w-5 fill-orange-500 text-orange-500" />
+                <span className="font-semibold max-md:text-[0.9rem]">
+                  {rating}
+                </span>
+                <span className="max-md:text-[0.6rem]">
+                  ({reviewCount} reviews)
+                </span>
               </div>
 
               <div className="text-white/90 mt-6">
-                <div className="flex flex-wrap items-center gap-12">
+                <div className="flex flex-wrap items-center max-md:gap-0 max-md:justify-between gap-12">
                   {/* Duration */}
                   <div>
-                    <span className="block text-xs uppercase tracking-wide opacity-70 mb-1">
+                    <span className="block max-md:text-[0.6rem] text-xs uppercase tracking-wide opacity-70 mb-1">
                       Duration
                     </span>
                     <div className="flex items-center gap-2">
-                      <Clock className="h-5 w-5 text-orange-500" />
-                      <span className="text-lg">{duration}</span>
+                      <Clock className=" max-md:h-3 max-md:w-3 h-5 w-5 text-orange-500" />
+                      <span className="max-md:text-[0.8rem] text-lg">
+                        {duration}
+                      </span>
                     </div>
                   </div>
 
                   {/* Price */}
                   <div>
-                    <span className="block text-xs uppercase tracking-wide opacity-70 mb-1">
+                    <span className="block max-md:text-[0.6rem] text-xs uppercase tracking-wide opacity-70 mb-1">
                       Price Per Person
                     </span>
                     <div className="flex items-center gap-2">
-                      <IndianRupee className="h-5 w-5 text-orange-500" />
-                      <span className="text-lg">{price}</span>
+                      <IndianRupee className="max-md:h-3 max-md:w-3 h-5 w-5 text-orange-500" />
+                      <span className="max-md:text-[0.8rem] text-lg">
+                        {price}
+                      </span>
                     </div>
+                  </div>
+                  <div className=" min-md:hidden">
+                    <a href="#enquire">
+                      <Button className="w-full bg-[#ff5b06] hover:bg-[#ff5b06]/90 text-white/90 min-xl:hidden max-w-lg">
+                        Enquire Now
+                      </Button>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -113,10 +133,11 @@ export default function TourHero({
 
                     {/* Curator name */}
                     <div>
-                      <span className="flex flex-col text-xs uppercase tracking-wide opacity-70">
+                      <span className="flex flex-col max-md:text-[0.6rem] text-xs uppercase tracking-wide opacity-70">
                         Curated By
                       </span>
                       <a
+                        className="font-medium max-md:text-[0.8rem] text-lg text-inherit no-underline hover:no-underline"
                         href={`/creator/${curatedBy.slug || curatedBy.id}`} // replace with your route or dynamic link
                         className="font-medium text-lg text-inherit no-underline hover:no-underline"
                       >

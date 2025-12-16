@@ -175,7 +175,7 @@ export default function EnquireNow({
                     !dateRange && "text-muted-foreground"
                   )}
                 >
-                  <CalendarIcon className="mr-2 h-4 w-4 text-orange-600" />
+                  <CalendarIcon className="mr-2 h-4 w-4 text-[#ff5b06]" />
                   {dateRange?.startDate ? (
                     dateRange.endDate ? (
                       <>
@@ -201,8 +201,8 @@ export default function EnquireNow({
                   className="pointer-events-auto"
                   classNames={{
                     day_selected:
-                      "bg-orange-600 text-white hover:bg-orange-700 focus:bg-orange-700",
-                    day_today: "border border-orange-600",
+                      "bg-[#ff5b06] text-white hover:bg-orange-700 focus:bg-orange-700",
+                    day_today: "border border-[#ff5b06]",
                     day: "hover:bg-orange-100",
                   }}
                 />
@@ -224,7 +224,7 @@ export default function EnquireNow({
               onClick={() => setShowGuestDetails(!showGuestDetails)}
               className="w-full justify-start text-left font-normal h-12 border-input hover:bg-secondary transition-colors text-sm sm:text-base"
             >
-              <Users className="mr-2 h-4 w-4 text-orange-600" />
+              <Users className="mr-2 h-4 w-4 text-[#ff5b06]" />
               {totalGuests} {totalGuests === 1 ? "Guest" : "Guests"}
             </Button>
 
@@ -248,7 +248,7 @@ export default function EnquireNow({
                       disabled={guests.adults <= 1}
                       className="h-8 w-8 sm:h-9 sm:w-9 rounded-full border-input hover:bg-secondary"
                     >
-                      <Minus className="h-4 w-4 text-orange-600" />
+                      <Minus className="h-4 w-4 text-[#ff5b06]" />
                     </Button>
                     <span className="w-6 sm:w-8 text-center font-medium text-foreground text-sm sm:text-base">
                       {guests.adults}
@@ -260,7 +260,7 @@ export default function EnquireNow({
                       disabled={guests.adults >= 10}
                       className="h-8 w-8 sm:h-9 sm:w-9 rounded-full border-input hover:bg-secondary"
                     >
-                      <Plus className="h-4 w-4 text-orange-600" />
+                      <Plus className="h-4 w-4 text-[#ff5b06]" />
                     </Button>
                   </div>
                 </div>
@@ -283,7 +283,7 @@ export default function EnquireNow({
                       disabled={guests.children <= 0}
                       className="h-8 w-8 sm:h-9 sm:w-9 rounded-full border-input hover:bg-secondary"
                     >
-                      <Minus className="h-4 w-4 text-orange-600" />
+                      <Minus className="h-4 w-4 text-[#ff5b06]" />
                     </Button>
                     <span className="w-6 sm:w-8 text-center font-medium text-foreground text-sm sm:text-base">
                       {guests.children}
@@ -295,7 +295,7 @@ export default function EnquireNow({
                       disabled={guests.children >= 10}
                       className="h-8 w-8 sm:h-9 sm:w-9 rounded-full border-input hover:bg-secondary"
                     >
-                      <Plus className="h-4 w-4 text-orange-600" />
+                      <Plus className="h-4 w-4 text-[#ff5b06]" />
                     </Button>
                   </div>
                 </div>
@@ -306,7 +306,7 @@ export default function EnquireNow({
           {/* Submit */}
           <Button
             onClick={() => setShowDialog(true)}
-            className="w-full h-11 sm:h-12 bg-orange-600 hover:bg-orange-700 text-white font-medium text-sm sm:text-base transition-colors"
+            className="w-full h-11 sm:h-12 bg-[#ff5b06] hover:bg-orange-700 text-white font-medium text-sm sm:text-base transition-colors"
           >
             Continue
           </Button>
@@ -317,7 +317,7 @@ export default function EnquireNow({
       <Dialog open={showDialog} onOpenChange={setShowDialog}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle className="text-xl sm:text-2xl font-semibold text-orange-600">
+            <DialogTitle className="text-xl sm:text-2xl font-semibold text-[#ff5b06]">
               Send Enquiry
             </DialogTitle>
             <DialogDescription className="text-sm sm:text-base text-muted-foreground">
@@ -418,7 +418,7 @@ export default function EnquireNow({
 
             <Button
               type="submit"
-              className="w-full h-11 sm:h-12 bg-orange-600 hover:bg-orange-700 text-white font-medium text-sm sm:text-base transition-colors"
+              className="w-full h-11 sm:h-12 bg-[#ff5b06] hover:bg-orange-700 text-white font-medium text-sm sm:text-base transition-colors"
             >
               Send Enquiry
             </Button>

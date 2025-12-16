@@ -310,7 +310,7 @@ export function AuthDialog({ open, onOpenChange, onAuthSuccess }) {
                     />
                   </div>
                   <Button
-                    className="w-full bg-orange-500 hover:bg-orange-600 transition-all duration-200 hover:scale-[1.02]"
+                    className="w-full bg-orange-500 hover:bg-[#ff5b06] transition-all duration-200 hover:scale-[1.02]"
                     onClick={handleEmailSubmit}
                     disabled={loading}
                   >
@@ -332,7 +332,7 @@ export function AuthDialog({ open, onOpenChange, onAuthSuccess }) {
                     </InputOTP>
                   </div>
                   <Button
-                    className="w-full bg-orange-500 hover:bg-orange-600 transition-all duration-200 hover:scale-[1.02]"
+                    className="w-full bg-orange-500 hover:bg-[#ff5b06] transition-all duration-200 hover:scale-[1.02]"
                     onClick={handleOtpVerify}
                     disabled={loading}
                   >
@@ -390,7 +390,7 @@ export function AuthDialog({ open, onOpenChange, onAuthSuccess }) {
                   </div>
 
                   <Button
-                    className="w-full bg-orange-500 hover:bg-orange-600 transition-all duration-200 hover:scale-[1.02]"
+                    className="w-full bg-orange-500 hover:bg-[#ff5b06] transition-all duration-200 hover:scale-[1.02]"
                     onClick={handleEmailSubmit}
                     disabled={loading}
                   >
@@ -415,7 +415,7 @@ export function AuthDialog({ open, onOpenChange, onAuthSuccess }) {
                     </div>
                   </div>
                   <Button
-                    className="w-full bg-orange-500 hover:bg-orange-600 transition-all duration-200 hover:scale-[1.02]"
+                    className="w-full bg-orange-500 hover:bg-[#ff5b06] transition-all duration-200 hover:scale-[1.02]"
                     onClick={handleOtpVerify}
                     disabled={loading}
                   >

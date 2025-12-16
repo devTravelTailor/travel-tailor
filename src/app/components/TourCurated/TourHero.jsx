@@ -139,7 +139,6 @@ export default function TourHero({
                       <a
                         className="font-medium max-md:text-[0.8rem] text-lg text-inherit no-underline hover:no-underline"
                         href={`/creator/${curatedBy.slug || curatedBy.id}`} // replace with your route or dynamic link
-                        className="font-medium text-lg text-inherit no-underline hover:no-underline"
                       >
                         {curatedBy.name}
                       </a>

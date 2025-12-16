@@ -18,10 +18,24 @@ export default function TourHero({
 }) {
   const image =
     "https://t3.ftcdn.net/jpg/02/99/04/20/360_F_299042079_vGBD7wIlSeNl7vOevWHiL93G4koMM967.jpg";
-  function encodeSpacesOnly(url) {
-    return url.replace(/ /g, "%20");
+  function encodeForCssBackground(url) {
+    if (!url) return "";
+
+    return url
+      .replace(/%/g, "%25") // must be first
+      .replace(/ /g, "%20")
+      .replace(/\(/g, "%28")
+      .replace(/\)/g, "%29")
+      .replace(/'/g, "%27")
+      .replace(/"/g, "%22")
+      .replace(/#/g, "%23")
+      .replace(/\?/g, "%3F")
+      .replace(/\[/g, "%5B")
+      .replace(/\]/g, "%5D");
   }
-  const hero = encodeSpacesOnly(heroImage);
+
+  const hero = encodeForCssBackground(heroImage);
+
   console.log(hero);
 
   return (
@@ -150,8 +164,10 @@ export default function TourHero({
 
             {/* Right: Small Hero Image */}
             <div
-              className="relative hidden md:block bg-cover bg-center bg-no-repeat"
-              style={{ backgroundImage: `url(${hero})` }}
+              className="relative hidden md:block h-full min-h-[520px] bg-cover bg-center bg-no-repeat"
+              style={{
+                backgroundImage: `url(${hero})`,
+              }}
             >
               {/* Floating badges */}
               <div className="absolute top-4 left-4 flex gap-3">

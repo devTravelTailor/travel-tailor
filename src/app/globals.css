@@ -137,6 +137,12 @@ div[role="presentation"] iframe {
 body {
   background-color: var(--color-white);
   overflow-x: hidden;
+  -ms-overflow-style: none; /* IE/Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+body::-webkit-scrollbar {
+  width: 0px; /* Hide vertical scrollbar */
 }
 
 :root {
@@ -221,6 +227,7 @@ body {
 }
 .font-handwriting {
   font-family: var(--font-alt);
+  font-size: 1.1em;
 }
 
 h1 {

@@ -1,28 +1,31 @@
-"use client";
+'use client';
 
-import { useEffect, useMemo, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { usePathname } from "next/navigation";
+import { useEffect, useMemo, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { usePathname } from 'next/navigation';
 
-import styles from "./styles.module.css";
-import Link from "next/link";
-import Image from "next/image";
+import styles from './styles.module.css';
+import Link from 'next/link';
+import Image from 'next/image';
 
-import Button from "../CustomUI/Button/Button";
-// ⬇️ update the path to where your dialog lives
-import { AuthDialog } from "../Auth/authDialog";
+import Button from '../CustomUI/Button/Button';
+// 儶貗,? update the path to where your dialog lives
+import { AuthDialog } from '../Auth/authDialog';
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
+import { MoreVertical } from 'lucide-react';
 
 function Navbar() {
   const pathname = usePathname();
 
   const navItems = [
-    { name: "Search", href: "/search", icon: "/images/search.png" },
-    { name: "Destinations", href: "/destinations" },
-    { name: "Blogs", href: "/blogs" },
-    { name: "Trailsmith", href: "/creator" },
-    { name: "Calendar", href: "/calendar" },
-    { name: "Experiences", href: "/experiences" },
-    { name: "About", href: "/about" },
+    { name: 'Search', href: '/search', icon: '/images/search.png' },
+    { name: 'Destinations', href: '/destinations' },
+    { name: 'Trailsmith', href: '/creator' },
+    { name: 'Tours', href: '/tours' },
+    { name: 'Experiences', href: '/experiences' },
+    { name: 'Calendar', href: '/calendar' },
+    { name: 'Blogs', href: '/blogs' },
+    { name: 'About', href: '/about' },
   ];
 
   const [isOpen, setIsOpen] = useState(false);
@@ -33,7 +36,7 @@ function Navbar() {
   useEffect(() => {
     // Fetch user data and check for token on page load
     try {
-      const savedToken = localStorage.getItem("token");
+      const savedToken = localStorage.getItem('token');
       setToken(savedToken);
 
       if (savedToken) {
@@ -44,53 +47,53 @@ function Navbar() {
               headers: {
                 Authorization: `Bearer ${savedToken}`,
               },
-            }
+            },
           );
 
           if (response.ok) {
             const data = await response.json();
             setUser(data);
           } else {
-            localStorage.removeItem("token");
+            localStorage.removeItem('token');
           }
         }
 
         fetchUser();
       }
     } catch (error) {
-      console.error("Error fetching user or token", error);
+      console.error('Error fetching user or token', error);
     }
   }, []);
 
   const isCreator = useMemo(() => {
     const role =
       user?.roleName || user?.role || user?.user?.roleName || user?.user?.role;
-    return String(role || "").toLowerCase() === "creator";
+    return String(role || '').toLowerCase() === 'creator';
   }, [user]);
 
   const dashboardUrl =
     process.env.NEXT_PUBLIC_DASHBOARD_URL ||
     process.env.NEXT_PUBLIC_CREATOR_DASHBOARD_URL ||
-    "/dashboard";
+    '/dashboard';
 
   const handleClick = () => setIsOpen((p) => !p);
   const closeMenu = () => setIsOpen(false);
 
   const handleAuthSuccess = (payload) => {
     try {
-      localStorage.setItem("tt_user", JSON.stringify(payload.user));
-      localStorage.setItem("token", payload.token);
+      localStorage.setItem('tt_user', JSON.stringify(payload.user));
+      localStorage.setItem('token', payload.token);
       setUser(payload.user);
       setToken(payload.token);
     } catch (error) {
-      console.error("Error during authentication success", error);
+      console.error('Error during authentication success', error);
     }
     setAuthOpen(false);
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("tt_user");
-    localStorage.removeItem("token");
+    localStorage.removeItem('tt_user');
+    localStorage.removeItem('token');
     setUser(null);
     setToken(null);
   };
@@ -100,10 +103,10 @@ function Navbar() {
       <nav className={styles.navbar}>
         <div className={styles.navBox}>
           <div className={styles.navLogo}>
-            <Link href="/">
+            <Link href='/'>
               <Image
-                src="/images/logo.png"
-                alt="Travel Tailor Logo"
+                src='/images/logo.png'
+                alt='Travel Tailor Logo'
                 width={100}
                 height={50}
               />
@@ -117,9 +120,8 @@ function Navbar() {
                 key={index}
                 href={item.href}
                 className={`${styles.navItem} ${
-                  pathname.startsWith(item.href) ? styles.active : ""
-                }`}
-              >
+                  pathname.startsWith(item.href) ? styles.active : ''
+                }`}>
                 {item.icon && (
                   <Image
                     src={item.icon}
@@ -135,34 +137,52 @@ function Navbar() {
 
           {/* Right actions */}
           <div className={styles.navActions}>
-            <Button varient="color" href="/contact">
+            <Button varient='color' href='/contact'>
               Start Planning
             </Button>
 
-            {isCreator ? (
-              <Link href={dashboardUrl} className={styles.btnOutline}>
-                Dashboard
-              </Link>
-            ) : token ? (
-              <button className={styles.btnOutline} onClick={handleLogout}>
-                Logout
-              </button>
-            ) : (
-              <button
-                type="button"
-                className={styles.btnOutline}
-                onClick={() => setAuthOpen(true)}
-              >
-                Login
-              </button>
-            )}
+            <Popover>
+              <PopoverTrigger asChild>
+                <button
+                  type='button'
+                  className={styles.moreBtn}
+                  aria-label='Account menu'>
+                  <MoreVertical className='w-5 h-5' />
+                </button>
+              </PopoverTrigger>
+              <PopoverContent
+                align='end'
+                className={styles.popover + ' mt-4 border-0 p-0'}>
+                {!token && (
+                  <button
+                    type='button'
+                    className={styles.menuBtn}
+                    onClick={() => setAuthOpen(true)}>
+                    Login
+                  </button>
+                )}
+                {token && isCreator && (
+                  <Link href={dashboardUrl} className={styles.menuBtn}>
+                    Dashboard
+                  </Link>
+                )}
+                {token && (
+                  <button
+                    type='button'
+                    className={styles.menuBtn}
+                    onClick={handleLogout}>
+                    Logout
+                  </button>
+                )}
+              </PopoverContent>
+            </Popover>
           </div>
 
           <div className={styles.navMenuIcon}>
             <button onClick={handleClick} className={styles.navMenuIconBtn}>
               <Image
-                src="/images/menu.png"
-                alt="Menu Icon"
+                src='/images/menu.png'
+                alt='Menu Icon'
                 width={24}
                 height={24}
               />
@@ -171,22 +191,20 @@ function Navbar() {
         </div>
 
         {/* Nav Items Mobile */}
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode='wait'>
           <motion.div
             className={`${styles.navItemsMobile} ${isOpen && styles.active}`}
-            key={isOpen ? "open" : "closed"}
+            key={isOpen ? 'open' : 'closed'}
             initial={{ opacity: 0, y: -50 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -50 }}
-            transition={{ duration: 0.3 }}
-          >
+            transition={{ duration: 0.3 }}>
             {navItems.map((item, index) => (
               <Link
                 key={index}
                 href={item.href}
                 className={styles.navItem}
-                onClick={closeMenu}
-              >
+                onClick={closeMenu}>
                 {item.icon && (
                   <Image
                     src={item.icon}
@@ -201,10 +219,9 @@ function Navbar() {
 
             <div className={styles.navMobileActions}>
               <Link
-                href="/contact"
+                href='/contact'
                 className={styles.btnPrimary}
-                onClick={closeMenu}
-              >
+                onClick={closeMenu}>
                 Start Planning
               </Link>
 
@@ -212,19 +229,27 @@ function Navbar() {
                 <Link
                   href={dashboardUrl}
                   className={styles.btnOutline}
-                  onClick={closeMenu}
-                >
+                  onClick={closeMenu}>
                   Dashboard
                 </Link>
+              ) : token ? (
+                <button
+                  type='button'
+                  className={styles.btnOutline}
+                  onClick={() => {
+                    handleLogout();
+                    closeMenu();
+                  }}>
+                  Logout
+                </button>
               ) : (
                 <button
-                  type="button"
+                  type='button'
                   className={styles.btnOutline}
                   onClick={() => {
                     setAuthOpen(true);
                     closeMenu();
-                  }}
-                >
+                  }}>
                   Login
                 </button>
               )}

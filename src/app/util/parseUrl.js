@@ -1,10 +1,18 @@
 function parseUrl(url) {
-  if (url.includes('http://') || url.includes('https://')) {
-    return url;
-  } else if (url.startsWith('/images/')) {
-    return url;
-  } else {
-    return `${process.env.NEXT_PUBLIC_URL_PREFIX || ''}${url}`;
+  if (!url) return '';
+  const trimmed = String(url).trim();
+
+  let base =
+    trimmed.includes('http://') || trimmed.includes('https://')
+      ? trimmed
+      : trimmed.startsWith('/images/')
+      ? trimmed
+      : `${process.env.NEXT_PUBLIC_URL_PREFIX || ''}${trimmed}`;
+
+  try {
+    return encodeURI(base);
+  } catch (e) {
+    return base;
   }
 }
 

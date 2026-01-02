@@ -2,34 +2,90 @@
 
 import { useState, useEffect, useRef } from "react";
 import TourList from "../../components/TourList/TourList";
-import Spinner from "../../components/CustomUI/Spinner/Spinner";
-import styles from "./styles.module.css";
 
 export default function ToursPage() {
   const [tourData, setTourData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [tourType, setTourType] = useState("selectable_date");
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+
+  const [destinations, setDestinations] = useState([]);
+  const [months, setMonths] = useState([]);
+  const [selectedDestination, setSelectedDestination] = useState("");
+  const [selectedMonth, setSelectedMonth] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
   // Guards for Strict Mode + race conditions
   const requestKeyRef = useRef("");
   const didMountRef = useRef(false);
+
+  // Load filter options once
+  useEffect(() => {
+    const controller = new AbortController();
+    const fetchFilters = async () => {
+      try {
+        const [destRes, monthRes] = await Promise.all([
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/destinations?limit=200`, {
+            headers: {
+              Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+            },
+            signal: controller.signal,
+          }),
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/months?limit=200`, {
+            headers: {
+              Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+            },
+            signal: controller.signal,
+          }),
+        ]);
+
+        if (destRes.ok) {
+          const destJson = await destRes.json();
+          setDestinations(destJson.data?.items || []);
+        }
+        if (monthRes.ok) {
+          const monthJson = await monthRes.json();
+          setMonths(monthJson.data?.items || []);
+        }
+      } catch (err) {
+        if (err.name === "AbortError") return;
+        console.error("Failed to fetch filter options", err);
+      }
+    };
+
+    fetchFilters();
+    return () => controller.abort();
+  }, []);
 
   useEffect(() => {
     // In dev, Strict Mode re-invokes effects on mount; this guard prevents double run.
     if (process.env.NODE_ENV !== "production") {
       if (!didMountRef.current) {
         didMountRef.current = true;
-      } else {
-        // Allow subsequent legitimate changes (tourType/page) to fetch normally
       }
     }
 
     const controller = new AbortController();
-    const key = `${tourType}:${page}:${Date.now()}`;
+    const key = `${selectedDestination}:${selectedMonth}:${page}:${Date.now()}`;
     requestKeyRef.current = key;
+
+    const params = new URLSearchParams({
+      page: String(page),
+      limit: "10",
+    });
+
+    if (selectedDestination) {
+      params.append("destination", selectedDestination); // relation graph
+      params.append("destinations", selectedDestination); // legacy array field
+    }
+    if (selectedMonth) {
+      params.append("month", selectedMonth); // relation graph (monthTag/_id)
+      params.append("tagMonths", selectedMonth); // legacy array field
+    }
+    if (searchQuery) {
+      params.append("q", searchQuery);
+    }
 
     (async () => {
       setIsLoading(true);
@@ -37,13 +93,13 @@ export default function ToursPage() {
 
       try {
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/tour/?tourType=${tourType}&page=${page}&limit=10`,
+          `${process.env.NEXT_PUBLIC_API_URL}/api/tour/?${params.toString()}`,
           {
             headers: {
               Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
             },
             signal: controller.signal,
-            cache: "no-store", // avoids stale duplicates if any caching layer interferes
+            cache: "no-store",
           }
         );
 
@@ -57,7 +113,7 @@ export default function ToursPage() {
 
         setTotalPages(data?.totalPages ?? 1);
 
-        // Replace on page 1, append otherwise — with de-duplication by _id/id
+        // Replace on page 1, append otherwise – with de-duplication by _id/id
         setTourData((prev) => {
           const base = page === 1 ? [] : prev;
           const seen = new Set(base.map((x) => x._id ?? x.id));
@@ -82,14 +138,19 @@ export default function ToursPage() {
     })();
 
     return () => controller.abort();
-  }, [tourType, page]);
+  }, [selectedDestination, selectedMonth, searchQuery, page]);
 
-  const handleTourTypeChange = (type) => {
-    // Reset list and page, then set the new type
-    // (batched setState ensures one fetch with page=1 for the new type)
+  const handleFilterChange = (filterKey, value) => {
     setTourData([]);
     setPage(1);
-    setTourType(type);
+    if (filterKey === "destination") setSelectedDestination(value);
+    if (filterKey === "month") setSelectedMonth(value);
+  };
+
+  const handleSearchChange = (value) => {
+    setTourData([]);
+    setPage(1);
+    setSearchQuery(value);
   };
 
   const handleLoadMore = () => {
@@ -102,9 +163,14 @@ export default function ToursPage() {
         tourData={tourData}
         isLoading={isLoading}
         error={error}
-        handleTourTypeChange={handleTourTypeChange}
+        destinations={destinations}
+        months={months}
+        selectedDestination={selectedDestination}
+        selectedMonth={selectedMonth}
+        searchQuery={searchQuery}
+        handleFilterChange={handleFilterChange}
+        handleSearchChange={handleSearchChange}
         handleLoadMore={handleLoadMore}
-        tourType={tourType}
       />
     </section>
   );

@@ -27,10 +27,10 @@ const ParallaxScrollImg = ({ children, speed = 0.3, direction = 'up' }) => {
       <motion.div
         style={{ 
           width: '100%', 
-          height: '110%', // Make slightly larger to hide the motion edges
+          height: '120%', // Larger to avoid exposing edges while moving
           y: yPercentage, 
           position: 'absolute',
-          top: '-5%' // Offset to ensure full coverage during movement
+          top: '-10%' // Offset to ensure full coverage during movement
         }}
       >
         {children}

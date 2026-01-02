@@ -1,4 +1,5 @@
 "use client";
+
 import { useEffect, useRef, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Button } from "../ui/button";
@@ -13,7 +14,6 @@ import {
 } from "../ui/dialog";
 import { Star, Upload, X, Image as ImageIcon } from "lucide-react";
 import { AuthDialog } from "../Auth/authDialog";
-import { toast } from "../../hooks/use-toast";
 
 // ---------- constants ----------
 const API_BASE = (process.env.NEXT_PUBLIC_API_URL || "").replace(/\/+$/, "");
@@ -56,7 +56,7 @@ async function uploadFileToGCS(file, folder, token) {
   return publicUrl;
 }
 
-export default function MakeReview({ tourIdOrSlug }) {
+export default function MakeReview({ tourIdOrSlug, variant = "card" }) {
   // auth
   const [authOpen, setAuthOpen] = useState(false);
   const [token, setToken] = useState("");
@@ -207,6 +207,173 @@ export default function MakeReview({ tourIdOrSlug }) {
       </button>
     ));
 
+  const body = (
+    <>
+      {!token && (
+        <div className="mb-4 rounded-md border border-amber-200 bg-amber-50 p-3 text-sm">
+          You’re not signed in.{" "}
+          <button
+            type="button"
+            className="underline text-[#ff5b06]"
+            onClick={() => setAuthOpen(true)}
+          >
+            Sign in to post a review
+          </button>
+          .
+        </div>
+      )}
+
+      <form
+        onSubmit={handleSubmit}
+        className="space-y-5 flex flex-col gap-4 w-full"
+      >
+        <div>
+          <label className="text-sm font-medium mb-2 block">Your Rating</label>
+          <div
+            className="flex gap-1 text-orange-500 [&_svg]:text-orange-500"
+            onMouseLeave={() => setHoveredRating(0)}
+          >
+            {renderStarRating()}
+          </div>
+        </div>
+
+        <div className="w-full">
+          <label className="text-sm font-medium mb-2 block">Your Name</label>
+          <Input
+            value={reviewerName}
+            onChange={(e) => setReviewerName(e.target.value)}
+            placeholder="Enter your name"
+            required
+            data-testid="input-reviewer-name"
+            className="w-full py-3 px-4 border border-gray-100 rounded-md"
+          />
+        </div>
+
+        <div className="w-full">
+          <label className="text-sm font-medium mb-2 block">Review Title</label>
+          <Input
+            value={reviewTitle}
+            onChange={(e) => setReviewTitle(e.target.value)}
+            placeholder="Summarize your experience"
+            required
+            data-testid="input-review-title"
+            className="w-full py-3 px-4 border border-gray-100 rounded-md"
+          />
+        </div>
+
+        <div className="w-full">
+          <label className="text-sm font-medium mb-2 block">Your Review</label>
+          <Textarea
+            value={reviewContent}
+            onChange={(e) => setReviewContent(e.target.value)}
+            placeholder="Tell us about your experience on this tour..."
+            rows={4}
+            required
+            data-testid="textarea-review-content"
+            className="block wrap-anywhere min-h-[120px] sm:min-h-[160px] resize-none py-3 px-4 border border-gray-100 rounded-md overflow-y-auto "
+          />
+        </div>
+
+        <div className="w-full">
+          <label className="text-sm font-medium mb-2 block">
+            Add Photos (Optional - Max 3 images)
+          </label>
+
+          {uploadedImages.length > 0 && (
+            <div className="flex flex-wrap gap-2 mb-3">
+              {uploadedImages.map((image, index) => (
+                <div key={index} className="relative">
+                  <img
+                    src={image}
+                    alt={`Upload ${index + 1}`}
+                    className="w-20 h-20 object-cover rounded-lg"
+                  />
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    size="icon"
+                    className="absolute -top-2 -right-2 h-6 w-6"
+                    onClick={() => removeImage(index)}
+                  >
+                    <X className="h-3 w-3" />
+                  </Button>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {uploadedImages.length < 3 && (
+            <Dialog open={showImageUpload} onOpenChange={setShowImageUpload}>
+              <DialogTrigger asChild>
+                <Button
+                  type="button"
+                  disabled={!token}
+                  variant="outline"
+                  className="w-full border-dashed border-gray-200"
+                  data-testid="button-add-images"
+                >
+                  <ImageIcon className="mr-2 h-5 w-5 text-orange-500" />
+                  Add Photos ({uploadedImages.length}/3)
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="border-none max-w-sm sm:max-w-md">
+                <DialogHeader>
+                  <DialogTitle className="text-[#ff5b06]">
+                    Upload Images
+                  </DialogTitle>
+                </DialogHeader>
+                <div className="space-y-4">
+                  <div className="border-2 border-dashed border-gray-200 rounded-lg p-6 text-center hover:shadow-sm">
+                    <Upload className="h-8 w-8 mx-auto mb-2 text-orange-500" />
+                    <p className="text-sm text-gray-600 mb-2">
+                      Drag and drop images here, or click to select
+                    </p>
+                    <p className="text-xs text-gray-400 mb-4">
+                      Maximum 3 images, up to 10MB each
+                    </p>
+                    <input
+                      type="file"
+                      multiple
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                      className="hidden"
+                      id="image-upload"
+                      data-testid="input-image-upload"
+                    />
+                    <label htmlFor="image-upload">
+                      <Button
+                        type="button"
+                        asChild
+                        className="px-4 py-2 text-md"
+                      >
+                        <span>Choose Images</span>
+                      </Button>
+                    </label>
+                  </div>
+                </div>
+              </DialogContent>
+            </Dialog>
+          )}
+        </div>
+
+        <Button
+          type="submit"
+          className="w-full py-3 text-md bg-[#ff5b06] hover:bg-[#ff5b06]/90"
+          disabled={
+            !rating ||
+            !reviewTitle ||
+            !reviewContent ||
+            !reviewerName ||
+            submitting
+          }
+          data-testid="button-submit-review"
+        >
+          {submitting ? "Submitting..." : "Submit Review"}
+        </Button>
+      </form>
+    </>
+  );
+
   return (
     <>
       <AuthDialog
@@ -215,195 +382,30 @@ export default function MakeReview({ tourIdOrSlug }) {
         onAuthSuccess={onAuthSuccess}
       />
 
-      <Card className="p-0 py-6 border border-gray-100 mb-8 w-full mx-auto sm:px-4">
-        <CardHeader className="px-4 sm:px-6">
-          <CardTitle className="text-lg sm:text-xl">Write a Review</CardTitle>
-          <p className="text-sm text-muted-foreground">
-            Share your experience with other travelers
-          </p>
-        </CardHeader>
+      {variant === "card" ? (
+        <Card className="p-0 py-6 border border-gray-100 mb-8 w-full mx-auto sm:px-4">
+          <CardHeader className="px-4 sm:px-6">
+            <CardTitle className="text-lg sm:text-xl">Write a Review</CardTitle>
+            <p className="text-sm text-muted-foreground">
+              Share your experience with other travelers
+            </p>
+          </CardHeader>
 
-        <CardContent className="px-4 sm:px-6">
-          {!token && (
-            <div className="mb-4 rounded-md border border-amber-200 bg-amber-50 p-3 text-sm">
-              You’re not signed in.{" "}
-              <button
-                type="button"
-                className="underline text-[#ff5b06]"
-                onClick={() => setAuthOpen(true)}
-              >
-                Sign in to post a review
-              </button>
-              .
-            </div>
-          )}
-
-          <form
-            onSubmit={handleSubmit}
-            className="space-y-5 flex flex-col gap-4 w-full"
-          >
-            {/* Rating */}
-            <div>
-              <label className="text-sm font-medium mb-2 block">
-                Your Rating
-              </label>
-              <div
-                className="flex gap-1 text-orange-500 [&_svg]:text-orange-500"
-                onMouseLeave={() => setHoveredRating(0)}
-              >
-                {renderStarRating()}
-              </div>
-            </div>
-
-            {/* Name */}
-            <div className="w-full">
-              <label className="text-sm font-medium mb-2 block">
-                Your Name
-              </label>
-              <Input
-                value={reviewerName}
-                onChange={(e) => setReviewerName(e.target.value)}
-                placeholder="Enter your name"
-                required
-                data-testid="input-reviewer-name"
-                className="w-full py-3 px-4 border border-gray-100 rounded-md"
-              />
-            </div>
-
-            {/* Review Title */}
-            <div className="w-full">
-              <label className="text-sm font-medium mb-2 block">
-                Review Title
-              </label>
-              <Input
-                value={reviewTitle}
-                onChange={(e) => setReviewTitle(e.target.value)}
-                placeholder="Summarize your experience"
-                required
-                data-testid="input-review-title"
-                className="w-full py-3 px-4 border border-gray-100 rounded-md"
-              />
-            </div>
-
-            {/* Review Content */}
-            <div className="w-full">
-              <label className="text-sm font-medium mb-2 block">
-                Your Review
-              </label>
-              <Textarea
-                value={reviewContent}
-                onChange={(e) => setReviewContent(e.target.value)}
-                placeholder="Tell us about your experience on this tour..."
-                rows={4}
-                required
-                data-testid="textarea-review-content"
-                className="block wrap-anywhere  min-h-[120px] sm:min-h-[160px] resize-none py-3 px-4 border border-gray-100 rounded-md overflow-y-auto "
-              />
-            </div>
-
-            {/* Image Upload */}
-            <div className="w-full">
-              <label className="text-sm font-medium mb-2 block">
-                Add Photos (Optional - Max 3 images)
-              </label>
-
-              {uploadedImages.length > 0 && (
-                <div className="flex flex-wrap gap-2 mb-3">
-                  {uploadedImages.map((image, index) => (
-                    <div key={index} className="relative">
-                      <img
-                        src={image}
-                        alt={`Upload ${index + 1}`}
-                        className="w-20 h-20 object-cover rounded-lg"
-                      />
-                      <Button
-                        type="button"
-                        variant="destructive"
-                        size="icon"
-                        className="absolute -top-2 -right-2 h-6 w-6"
-                        onClick={() => removeImage(index)}
-                      >
-                        <X className="h-3 w-3" />
-                      </Button>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {uploadedImages.length < 3 && (
-                <Dialog
-                  open={showImageUpload}
-                  onOpenChange={setShowImageUpload}
-                >
-                  <DialogTrigger asChild>
-                    <Button
-                      type="button"
-                      disabled={!token}
-                      variant="outline"
-                      className="w-full border-dashed border-gray-200"
-                      data-testid="button-add-images"
-                    >
-                      <ImageIcon className="mr-2 h-5 w-5 text-orange-500" />
-                      Add Photos ({uploadedImages.length}/3)
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent className="border border-gray-100 max-w-sm sm:max-w-md">
-                    <DialogHeader>
-                      <DialogTitle className="text-[#ff5b06]">
-                        Upload Images
-                      </DialogTitle>
-                    </DialogHeader>
-                    <div className="space-y-4">
-                      <div className="border-2 border-dashed border-gray-200 rounded-lg p-6 text-center hover:shadow-sm">
-                        <Upload className="h-8 w-8 mx-auto mb-2 text-orange-500" />
-                        <p className="text-sm text-gray-600 mb-2">
-                          Drag and drop images here, or click to select
-                        </p>
-                        <p className="text-xs text-gray-400 mb-4">
-                          Maximum 3 images, up to 10MB each
-                        </p>
-                        <input
-                          type="file"
-                          multiple
-                          accept="image/*"
-                          onChange={handleImageUpload}
-                          className="hidden"
-                          id="image-upload"
-                          data-testid="input-image-upload"
-                        />
-                        <label htmlFor="image-upload">
-                          <Button
-                            type="button"
-                            asChild
-                            className="px-4 py-2 text-md"
-                          >
-                            <span>Choose Images</span>
-                          </Button>
-                        </label>
-                      </div>
-                    </div>
-                  </DialogContent>
-                </Dialog>
-              )}
-            </div>
-
-            <Button
-              type="submit"
-              className="w-full py-3 text-md bg-[#ff5b06] hover:bg-[#ff5b06]/90"
-              disabled={
-                !rating ||
-                !reviewTitle ||
-                !reviewContent ||
-                !reviewerName ||
-                submitting
-              }
-              data-testid="button-submit-review"
-            >
-              {submitting ? "Submitting..." : "Submit Review"}
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
+          <CardContent className="px-4 sm:px-6">{body}</CardContent>
+        </Card>
+      ) : (
+        <div className="w-full space-y-4">
+          <div>
+            <h3 className="text-xl font-semibold text-gray-900">
+              Write a Review
+            </h3>
+            <p className="text-sm text-muted-foreground">
+              Share your experience with other travelers
+            </p>
+          </div>
+          {body}
+        </div>
+      )}
     </>
   );
 }

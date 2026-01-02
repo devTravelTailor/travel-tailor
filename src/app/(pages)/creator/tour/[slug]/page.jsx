@@ -1,48 +1,60 @@
-"use client";
+'use client';
 
-import { useState, useEffect, useMemo, useRef, useCallback } from "react";
-import { useParams } from "next/navigation";
-import ImageGallery from "../../../../components/TourCurated/ImageGallery";
-import TourOverview from "../../../../components/TourCurated/TourOverview";
-import TourHighlights from "../../../../components/TourCurated/TourHighLight";
-import TourStays from "../../../../components/TourCurated/TourStay";
-import TourMoments from "../../../../components/TourCurated/TourMoment";
-import TourMap from "../../../../components/TourCurated/TourMap";
-import TourInclusions from "../../../../components/TourCurated/TourInclusions";
-import TourItinerary from "../../../../components/TourCurated/TourItinerary";
-import TourReviews from "../../../../components/TourCurated/TourReview";
-import MakeReview from "../../../../components/TourCurated/MakeReview";
-import TourFAQ from "../../../../components/TourCurated/TourFAQ";
-import EnquireNow from "../../../../components/TourCurated/BookingCard";
-import OverviewCard from "../../../../components/TourCurated/OverviewCard";
-import TourHero from "../../../../components/TourCurated/TourHero";
-import UserCard from "../../../../components/TourCurated/UserCard";
-import TourVideoTestimonials from "../../../../components/TourCurated/TestimonialVideoCarousel";
-import Spinner from "../../../../components/CustomUI/Spinner/Spinner";
-import Banner from "../../../../components/Banner/Banner";
+import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
+import { useParams } from 'next/navigation';
+import ImageGallery from '../../../../components/TourCurated/ImageGallery';
+import TourOverview from '../../../../components/TourCurated/TourOverview';
+import TourHighlights from '../../../../components/TourCurated/TourHighLight';
+import TourStays from '../../../../components/TourCurated/TourStay';
+import TourMoments from '../../../../components/TourCurated/TourMoment';
+import TourMap from '../../../../components/TourCurated/TourMap';
+import TourInclusions from '../../../../components/TourCurated/TourInclusions';
+import TourItinerary from '../../../../components/TourCurated/TourItinerary';
+import TourReviews from '../../../../components/TourCurated/TourReview';
+import MakeReview from '../../../../components/TourCurated/MakeReview';
+import TourFAQ from '../../../../components/TourCurated/TourFAQ';
+import EnquireNow from '../../../../components/TourCurated/BookingCard';
+import TourHero from '../../../../components/TourCurated/TourHero';
+import UserCard from '../../../../components/TourCurated/UserCard';
+import TourVideoTestimonials from '../../../../components/TourCurated/TestimonialVideoCarousel';
+import Spinner from '../../../../components/CustomUI/Spinner/Spinner';
+import Banner from '../../../../components/Banner/Banner';
+import { MdHiking, MdOutlineCardTravel } from 'react-icons/md';
+import { ArrowRight, Clock, IndianRupee, Plus } from 'lucide-react';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '../../../../components/ui/dialog';
+import Button from '../../../../components/CustomUI/Button/Button';
+import parsePrice from '../../../../util/parsePrice';
 
-const API_URL = (process.env.NEXT_PUBLIC_API_URL || "").replace(/\/+$/, "");
-const API_TOKEN = process.env.NEXT_PUBLIC_API_TOKEN || "";
+const API_URL = (process.env.NEXT_PUBLIC_API_URL || '').replace(/\/+$/, '');
+const API_TOKEN = process.env.NEXT_PUBLIC_API_TOKEN || '';
 
 const FALLBACK_IMG =
-  "https://images.musement.com/cover/0003/14/koh-samui-xxl-jpg_header-213595.jpeg";
+  'https://images.musement.com/cover/0003/14/koh-samui-xxl-jpg_header-213595.jpeg';
 const image = FALLBACK_IMG;
 
 export default function TourPage() {
   const { slug } = useParams();
   const sections = [
-    { id: "overview", label: "Overview" },
-    { id: "itinerary", label: "Itinerary" },
-    { id: "inclusions", label: "Inclusions" },
-    // { id: "reviews", label: "Reviews" },
-    { id: "map", label: "Map" },
-    { id: "gallery", label: "Gallery" },
+    { id: 'overview', label: 'Overview' },
+    { id: 'itinerary', label: 'Itinerary' },
+    { id: 'inclusions', label: 'Inclusions' },
+    { id: 'gallery', label: 'Gallery' },
+    { id: 'reviews', label: 'Reviews' },
   ];
-  const [active, setActive] = useState("overview");
+  const [active, setActive] = useState('overview');
   const [tour, setTour] = useState(null);
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState(null);
   const controllerRef = useRef(null);
+  const scrollAnimRef = useRef(null);
+  const heroRef = useRef(null);
+  const [showStickyBooking, setShowStickyBooking] = useState(false);
 
   const endpoint = useMemo(() => {
     if (!slug) return null;
@@ -78,7 +90,7 @@ export default function TourPage() {
       const mapped = toTourModel(apiData?.data || apiData);
       setTour(mapped);
     } catch (e) {
-      if (e?.name !== "AbortError") setErr(e?.message || "Failed to load tour");
+      if (e?.name !== 'AbortError') setErr(e?.message || 'Failed to load tour');
     } finally {
       setLoading(false);
     }
@@ -91,7 +103,7 @@ export default function TourPage() {
 
   useEffect(() => {
     const handleScroll = () => {
-      let current = "overview";
+      let current = 'overview';
       sections.forEach(({ id }) => {
         const section = document.getElementById(id);
         if (section && window.scrollY >= section.offsetTop - 200) {
@@ -100,14 +112,72 @@ export default function TourPage() {
       });
       setActive(current);
     };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  useEffect(() => () => cancelAnimationFrame(scrollAnimRef.current), []);
+  useEffect(() => {
+    const heroEl = heroRef.current;
+    if (!heroEl) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setShowStickyBooking(!entry.isIntersecting);
+      },
+      { threshold: 0.05 },
+    );
+    observer.observe(heroEl);
+    return () => observer.disconnect();
+  }, []);
+
+  const scrollToSection = useCallback((id) => {
+    if (!id) return;
+    const target = document.getElementById(id);
+    if (!target) return;
+
+    const globalNav = document.querySelector('nav');
+    const tourNav = document.getElementById('tour-sticky-nav');
+    const buffer = 16;
+    const offset =
+      (globalNav?.offsetHeight || 0) + (tourNav?.offsetHeight || 0) + buffer;
+
+    const start = window.scrollY;
+    const end = target.offsetTop - offset;
+    const distance = end - start;
+    const duration = 900;
+    const startTime = performance.now();
+
+    const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+
+    const step = (now) => {
+      const elapsed = now - startTime;
+      const t = Math.min(elapsed / duration, 1);
+      const eased = easeOutCubic(t);
+      window.scrollTo(0, start + distance * eased);
+      if (t < 1) {
+        scrollAnimRef.current = requestAnimationFrame(step);
+      }
+    };
+
+    scrollAnimRef.current = requestAnimationFrame(step);
+  }, []);
+
+  const handlePlanJourney = useCallback(
+    (e) => {
+      e?.preventDefault();
+      const targets = ['enquire-desktop', 'enquire-mobile'];
+      const visibleTarget =
+        targets
+          .map((id) => document.getElementById(id))
+          .find((el) => el && el.offsetParent !== null)?.id || targets[0];
+      scrollToSection(visibleTarget);
+    },
+    [scrollToSection],
+  );
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-100 to-white flex items-center justify-center">
+      <div className='min-h-screen bg-gradient-to-b from-gray-100 to-white flex items-center justify-center'>
         <Spinner />
       </div>
     );
@@ -115,40 +185,48 @@ export default function TourPage() {
 
   if (err || !tour) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-100 to-white flex items-center justify-center">
-        <div className="p-6 rounded-xl bg-white shadow">
-          <p className="text-red-600 font-medium mb-3">
-            {err || "Tour not found"}
+      <div className='min-h-screen bg-gradient-to-b from-gray-100 to-white flex items-center justify-center'>
+        <div className='p-6 rounded-xl bg-white shadow'>
+          <p className='text-red-600 font-medium mb-3'>
+            {err || 'Tour not found'}
           </p>
           <button
             onClick={fetchTour}
-            className="px-4 py-2 rounded-lg bg-black text-white"
-          >
+            className='px-4 py-2 rounded-lg bg-black text-white'>
             Retry
           </button>
         </div>
       </div>
     );
   }
-  console.log("tour", tour);
+  console.log('tour', tour);
   const badgeConfig = {
-    fixed_date: { label: "Smith-Led", icon: "✦", variant: "default" },
+    fixed_date: { label: 'Smith-Led', icon: MdHiking, variant: 'default' },
     selectable_date: {
-      label: "Smith-Curated",
-      icon: "★",
-      variant: "secondary",
+      label: 'Smith-Curated',
+      icon: MdOutlineCardTravel,
+      variant: 'secondary',
     },
   };
 
   const badge = badgeConfig[tour.tourType];
+
+  const priceDisplay =
+    typeof tour.price === 'number' && Number.isFinite(tour.price)
+      ? parsePrice(tour.price)
+      : tour.price || 'Price on request';
+  const durationDisplay =
+    tour?.overview?.duration ||
+    (tour?.itinerary?.length
+      ? `${tour.itinerary.length} day${tour.itinerary.length === 1 ? '' : 's'}`
+      : '');
+
   return (
     <>
-      <div className="min-h-screen max-w-screen bg-gradient-to-b from-gray-100 to-white">
-        {/* Sticky Menu */}
-
+      <div className='min-h-screen max-w-screen bg-gradient-to-b from-gray-100 to-white'>
         {/* Hero Section */}
         {tour && (
-          <div className="">
+          <div className='' ref={heroRef}>
             <TourHero
               id={tour.id}
               price={tour.price}
@@ -156,165 +234,91 @@ export default function TourPage() {
               duration={tour.overview.duration}
               subtitle={tour.subtitle}
               curatedBy={tour.creator}
+              tourType={tour.tourType}
               location={tour.location}
               rating={tour.rating}
               reviewCount={tour.reviewCount}
               bookingCount={tour.bookingCount}
               badges={badge}
               heroImage={tour.images.hero}
+              onPlanJourney={handlePlanJourney}
             />
           </div>
         )}
 
-        <div className=" mx-auto px-5 lg:px-10 py-8">
-          <div className="grid lg:grid-cols-3 gap-8">
-            {/* Main Content */}
-            <div className="lg:col-span-2 space-y-12">
-              <div
-                className={` font-sans sticky top-[3.6rem] md:top-17 z-30 bg-white/95 backdrop-blur-md border-b border-gray-200 mb-6`}
-              >
-                {/* Desktop */}
-                <div className="hidden md:flex gap-6 px-4 py-3">
-                  <a
-                    href={`#overview`}
-                    className={`text-sm font-medium ${
-                      active === "overview"
-                        ? "text-[#ff5b06] border-b-2 border-[#ff5b06]"
-                        : "text-gray-600 hover:text-orange-500"
-                    }`}
-                  >
-                    Overview
-                  </a>
-                  <a
-                    href={`#itinerary`}
-                    className={`text-sm font-medium ${
-                      active === "itinerary"
-                        ? "text-[#ff5b06] border-b-2 border-[#ff5b06]"
-                        : "text-gray-600 hover:text-orange-500"
-                    }`}
-                  >
-                    Itinerary
-                  </a>
-                  <a
-                    href={`#inclusions`}
-                    className={`text-sm font-medium ${
-                      active === "inclusions"
-                        ? "text-[#ff5b06] border-b-2 border-[#ff5b06]"
-                        : "text-gray-600 hover:text-orange-500"
-                    }`}
-                  >
-                    Inclusions
-                  </a>
-                  {tour.map && (
+        <div
+          id='tour-sticky-nav'
+          className='sticky top-[3.6rem] md:top-17 z-30 bg-white/95 backdrop-blur-md border-b border-gray-200 w-full overflow-y-hidden'>
+          <div className=' mx-auto px-4 md:px-8 py-3 md:py-4'>
+            <div className='flex flex-col md:flex-row md:items-start md:justify-between gap-3 md:gap-4'>
+              <div className='flex-1 my-auto min-w-0'>
+                <div className='flex flex-nowrap md:flex-wrap items-center justify-start gap-3 overflow-x-auto scrollbar-hidden'>
+                  {sections.map((item) => (
                     <a
-                      href={`#map`}
-                      className={`text-sm font-medium ${
-                        active === "map"
-                          ? "text-[#ff5b06] border-b-2 border-[#ff5b06]"
-                          : "text-gray-600 hover:text-orange-500"
-                      }`}
-                    >
-                      Map
+                      key={item.id}
+                      href={`#${item.id}`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        scrollToSection(item.id);
+                      }}
+                      className={`px-4 max-lg:py-1 py-2 max-lg:my-1 rounded-full border text-sm font-medium transition-colors whitespace-nowrap ${
+                        active === item.id
+                          ? 'border-[#ff5b06] text-[#ff5b06]'
+                          : 'border-gray-200 text-gray-700 hover:text-[#ff5b06] hover:border-[#ff5b06]'
+                      }`}>
+                      {item.label}
                     </a>
-                  )}
-                  {
-                    <a
-                      href={`#gallery`}
-                      className={`text-sm font-medium ${
-                        active === "gallery"
-                          ? "text-[#ff5b06] border-b-2 border-[#ff5b06]"
-                          : "text-gray-600 hover:text-orange-500"
-                      }`}
-                    >
-                      Gallery
-                    </a>
-                  }
+                  ))}
                 </div>
-                {/* Mobile */}
-                <div className="flex md:hidden overflow-x-auto gap-4 px-4 py-2 scrollbar-hide">
-                  <a
-                    href={`#overview`}
-                    className={`text-sm font-medium ${
-                      active === "overview"
-                        ? "text-[#ff5b06] border-b-2 border-[#ff5b06]"
-                        : "text-gray-600 hover:text-orange-500"
-                    }`}
-                  >
-                    Overview
-                  </a>
-                  <a
-                    href={`#itinerary`}
-                    className={`text-sm font-medium ${
-                      active === "itinerary"
-                        ? "text-[#ff5b06] border-b-2 border-[#ff5b06]"
-                        : "text-gray-600 hover:text-orange-500"
-                    }`}
-                  >
-                    Itinerary
-                  </a>
-                  <a
-                    href={`#inclusions`}
-                    className={`text-sm font-medium ${
-                      active === "inclusions"
-                        ? "text-[#ff5b06] border-b-2 border-[#ff5b06]"
-                        : "text-gray-600 hover:text-orange-500"
-                    }`}
-                  >
-                    Inclusions
-                  </a>
-                  {tour.map && (
-                    <a
-                      href={`#map`}
-                      className={`text-sm font-medium ${
-                        active === "map"
-                          ? "text-[#ff5b06] border-b-2 border-[#ff5b06]"
-                          : "text-gray-600 hover:text-orange-500"
-                      }`}
-                    >
-                      Map
-                    </a>
-                  )}
-                  {
-                    <a
-                      href={`#gallery`}
-                      className={`text-sm font-medium ${
-                        active === "gallery"
-                          ? "text-[#ff5b06] border-b-2 border-[#ff5b06]"
-                          : "text-gray-600 hover:text-orange-500"
-                      }`}
-                    >
-                      Gallery
-                    </a>
-                  }
-                </div>
+                <p className='mt-2 pl-5 text-base md:text-lg font-semibold text-gray-900 truncate hidden md:block'>
+                  {tour.title}
+                </p>
               </div>
+
+              <div className='flex flex-col items-stretch md:items-end gap-2 shrink-0'>
+                <button
+                  onClick={handlePlanJourney}
+                  className='w-full md:w-auto whitespace-nowrap inline-flex items-center justify-center gap-2 rounded-sm border border-[#ff5b06] bg-white text-[#ff5b06] px-5 py-2.5 shadow-[0_10px_30px_-12px_rgba(0,0,0,0.25)] hover:bg-[#ff5b06] hover:text-white hover:shadow-[0_16px_38px_-14px_rgba(255,91,6,0.5)] hover:-translate-y-0.5 transition-all duration-200'>
+                  Plan your journey
+                  <ArrowRight className='w-4 h-4' />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className=' mx-auto px-5 lg:px-10 py-8'>
+          <div className='grid lg:grid-cols-3 gap-8'>
+            {/* Main Content */}
+            <div className='lg:col-span-2 space-y-12'>
               {/* Tour Overview */}
-              <section id="overview" className="scroll-mt-28">
+              <section id='overview' className='scroll-mt-80'>
                 <TourOverview
                   duration={tour.overview.duration}
                   groupSize={tour.overview.groupSize}
                   ageRange={tour.overview.ageRange}
                   languages={tour.overview.languages}
+                  price={tour.price}
                   description={tour.overview.description}
                   tagMonths={tour.tagMonths}
                 />
               </section>
 
               {/* Tour Highlights */}
-              {tour.highlights.length > 0 && (
-                <section id="highlights" className="scroll-mt-28">
+              <section id='highlights' className='scroll-mt-80'>
+                {tour.highlights.length > 0 && (
                   <TourHighlights highlights={tour.highlights} />
-                </section>
-              )}
+                )}
+              </section>
 
               {/* Itinerary */}
-              <section id="itinerary" className="scroll-mt-28">
+              <section id='itinerary' className='scroll-mt-80 '>
                 <TourItinerary itinerary={tour.itinerary} />
               </section>
 
               {/* What's Included/Excluded */}
-              <section id="inclusions" className="scroll-mt-28">
-                <h2 className="text-2xl font-bold mb-6">
+              <section id='inclusions' className='scroll-mt-80'>
+                <h2 className='text-2xl md:text-3xl font-bold mb-6'>
                   Inclusions & Exclusions
                 </h2>
 
@@ -326,51 +330,20 @@ export default function TourPage() {
 
               {/* Hotel Stays */}
               {tour.stays.length > 0 && (
-                <section id="stays" className="scroll-mt-28">
+                <section id='stays' className='scroll-mt-80'>
                   <TourStays stays={tour.stays} />
                 </section>
               )}
 
               {/* Memorable Moments */}
               {tour.moments.length > 0 && (
-                <section id="moments" className="scroll-mt-28">
+                <section id='moments' className='scroll-mt-80'>
                   <TourMoments moments={tour.moments} />
                 </section>
               )}
-
-              {/* Reviews */}
-              <section id="reviews" className="scroll-mt-28">
-                <h2 className="text-2xl font-semibold mb-4 mt-6">
-                  Customer Reviews
-                </h2>
-
-                {tour.reviews.length > 0 && (
-                  <TourReviews
-                    reviews={tour.reviews}
-                    overallRating={tour.rating}
-                    totalReviews={tour.reviewCount}
-                  />
-                )}
-                <MakeReview tourIdOrSlug={tour.slug /* or tour.id */} />
-              </section>
-
-              {/* FAQ */}
-              {tour.faq.length > 0 && (
-                <section id="faq" className="scroll-mt-28">
-                  <TourFAQ faqs={tour.faq} />
-                </section>
-              )}
-
-              {/* Location Map */}
-              {tour.mapEmbed && (
-                <section id="map" className="scroll-mt-28">
-                  <TourMap mapEmbed={tour.mapEmbed} />
-                </section>
-              )}
-
               {tour.video?.length > 0 && (
-                <section id="gallery" className="scroll-mt-28">
-                  <h2 className="text-2xl font-semibold mb-4 mt-6">
+                <section id='gallery' className='scroll-mt-80'>
+                  <h2 className='text-2xl md:text-3xl font-semibold mb-4 mt-6'>
                     Video Gallery
                   </h2>
 
@@ -380,20 +353,68 @@ export default function TourPage() {
 
               {/* Image Gallery */}
               {tour.images.gallery.length > 0 && (
-                <section id="gallery" className="scroll-mt-28">
-                  <h2 className="text-2xl font-semibold mb-4 mt-6">Gallery</h2>
+                <section id='gallery' className='scroll-mt-80'>
+                  <h2 className='text-2xl md:text-3xl font-semibold mb-4 mt-6'>
+                    Gallery
+                  </h2>
                   <ImageGallery images={tour.images.gallery} />
+                </section>
+              )}
+              {/* FAQ */}
+              {tour.faq.length > 0 && (
+                <section id='faq' className='scroll-mt-80'>
+                  <TourFAQ faqs={tour.faq} />
+                </section>
+              )}
+
+              {/* Reviews */}
+              <section id='reviews' className='scroll-mt-80'>
+                <div className='flex items-center justify-between gap-3 mb-4 mt-6'>
+                  <h2 className='text-2xl md:text-3xl font-semibold'>
+                    Customer Reviews
+                  </h2>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <button
+                        type='button'
+                        aria-label='Add review'
+                        className='h-10 w-10 rounded-full bg-[#ff5b06] text-white flex items-center justify-center shadow-md hover:bg-[#ff5b06]/90 transition-colors'>
+                        <Plus className='w-5 h-5' />
+                      </button>
+                    </DialogTrigger>
+                    <DialogContent className='max-w-3xl w-full max-h-[80vh] overflow-y-auto border-none'>
+                      <MakeReview
+                        tourIdOrSlug={tour.slug /* or tour.id */}
+                        variant='dialog'
+                      />
+                    </DialogContent>
+                  </Dialog>
+                </div>
+
+                {tour.reviews.length > 0 && (
+                  <TourReviews
+                    reviews={tour.reviews}
+                    overallRating={tour.rating}
+                    totalReviews={tour.reviewCount}
+                  />
+                )}
+              </section>
+
+              {/* Location Map */}
+              {tour.mapEmbed && (
+                <section id='map' className='scroll-mt-80'>
+                  <TourMap mapEmbed={tour.mapEmbed} />
                 </section>
               )}
             </div>
 
             {/* Booking Sidebar */}
-            <div className="lg:col-span-1">
+            <div className='lg:col-span-1'>
               {/* Mobile: Show booking at top */}
-              <div id="enquire" className="lg:hidden mb-8">
+              <div id='enquire-mobile' className='lg:hidden top-40'>
                 <EnquireNow
                   basePrice={tour.booking.pricing.adult}
-                  tourDuration={parseInt(tour.overview.duration.split(" ")[0])}
+                  tourDuration={parseInt(tour.overview.duration.split(' ')[0])}
                   tagMonths={tour.tagMonths}
                   tourType={tour.tourType}
                   tourId={tour.id}
@@ -403,24 +424,19 @@ export default function TourPage() {
               </div>
 
               {/* Desktop: sticky sidebar */}
-              <div className="hidden lg:block lg:sticky lg:top-20">
-                <OverviewCard
-                  duration={tour.overview.duration}
-                  suggestedAges={tour.overview.ageRange}
-                  maxGroupSize={tour.overview.groupSize}
-                  price={tour.price}
-                />
-
+              <div
+                id='enquire-desktop'
+                className='hidden lg:block lg:sticky lg:top-48'>
                 <EnquireNow
                   basePrice={tour.booking.pricing.adult}
-                  tourDuration={parseInt(tour.overview.duration.split(" ")[0])}
+                  tourDuration={parseInt(tour.overview.duration.split(' ')[0])}
                   tagMonths={tour.tagMonths}
                   tourType={tour.tourType}
                   tourId={tour.id}
                   getDateRange={tour.dateRange}
                   creatorId={tour.creator.id}
                 />
-                <div className="w-full mt-4  shadow-xs transition-shadow duration-300">
+                <div className='w-full mt-4  shadow-xs transition-shadow duration-300'>
                   <UserCard
                     avatar={tour.creator.profileImg}
                     name={tour.creator.name}
@@ -431,14 +447,37 @@ export default function TourPage() {
                 </div>
               </div>
             </div>
+            {showStickyBooking && (
+              <div className='fixed bottom-4 left-0 right-0 px-4 md:hidden z-40'>
+                <div className='max-w-4xl mx-auto bg-white shadow-lg border border-gray-200 rounded-2xl px-4 py-3 flex items-center justify-between gap-3'>
+                  <div>
+                    <p className='text-xs text-gray-500'>Starting from</p>
+                    <p className='text-lg font-semibold text-[#ff5b06]'>
+                      {tour.price || tour.price === 0
+                        ? `₹${Number(tour.price || 0).toLocaleString('en-IN')}`
+                        : 'Price on request'}
+                    </p>
+                    <p className='text-xs text-gray-500'>
+                      Duration: {tour.overview.duration}
+                    </p>
+                  </div>
+                  <button
+                    type='button'
+                    onClick={() => scrollToSection('enquire')}
+                    className='flex-1 flex justify-center items-center px-4 py-3 rounded-xl bg-[#ff5b06] text-white font-semibold shadow-md hover:bg-[#ff5b06]/90 transition-colors'>
+                    Book / Enquire
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
           {/* Conditionally render Tours Component */}
           {tour.tours && tour.tours.length > 0 && (
             <Tours
               tours={tour.tours}
               heading={{
-                title: "/sTours\\s you might /n enjoy",
-                description: "Explore the world with our curated tours",
+                title: '/sTours\\s you might /n enjoy',
+                description: 'Explore the world with our curated tours',
               }}
             />
           )}
@@ -448,8 +487,8 @@ export default function TourPage() {
             <Blogs
               blogs={tour.blogs}
               heading={{
-                title: "Similar /sPosts\\s",
-                description: "You might like these blogs",
+                title: 'Similar /sPosts\\s',
+                description: 'You might like these blogs',
               }}
             />
           )}
@@ -458,8 +497,8 @@ export default function TourPage() {
             <Destinations
               destinations={tour.destinations}
               heading={{
-                title: "/sDestinations\\s you might /n enjoy",
-                description: "Explore the world with our curated destinations",
+                title: '/sDestinations\\s you might /n enjoy',
+                description: 'Explore the world with our curated destinations',
               }}
             />
           )}
@@ -470,7 +509,7 @@ export default function TourPage() {
       </div>
       <Banner
         title={`Plan Your Adventure!`}
-        cta={"Get Inspired"}
+        cta={'Get Inspired'}
         url={`/contact?src=${slug}`}
       />
     </>
@@ -484,14 +523,14 @@ function clamp(n, min, max) {
   return Number.isFinite(n) ? Math.max(min, Math.min(max, n)) : min;
 }
 
-function normalizeTime12(s = "") {
+function normalizeTime12(s = '') {
   // Accepts: "9:00 AM", "09:00am", "0900AM" → returns "9:00 AM"
-  const t = String(s).trim().replace(/\s+/g, "");
+  const t = String(s).trim().replace(/\s+/g, '');
   const m = t.match(/^(\d{1,2}):?(\d{2})?([AaPp][Mm])$/);
   if (!m) return s;
   let h = Number(m[1]);
   if (h < 1 || h > 12) return s;
-  const min = (m[2] || "00").padStart(2, "0");
+  const min = (m[2] || '00').padStart(2, '0');
   return `${h}:${min} ${m[3].toUpperCase()}`;
 }
 
@@ -499,21 +538,21 @@ function mapBlocks(blocks) {
   // Your schema sometimes has blocks as an *array*, sometimes a single object.
   if (Array.isArray(blocks)) {
     return blocks.map((b) => ({
-      time: b?.time ? normalizeTime12(b.time) : "",
-      title: b?.title || "",
-      activity: b?.activity || "",
-      notes: b?.notes || "",
-      image: b?.image || "",
+      time: b?.time ? normalizeTime12(b.time) : '',
+      title: b?.title || '',
+      activity: b?.activity || '',
+      notes: b?.notes || '',
+      image: b?.image || '',
     }));
   }
-  if (blocks && typeof blocks === "object") {
+  if (blocks && typeof blocks === 'object') {
     return [
       {
-        time: blocks?.time ? normalizeTime12(blocks.time) : "",
-        title: blocks?.title || "",
-        activity: blocks?.activity || "",
-        notes: blocks?.notes || "",
-        image: blocks?.image || "",
+        time: blocks?.time ? normalizeTime12(blocks.time) : '',
+        title: blocks?.title || '',
+        activity: blocks?.activity || '',
+        notes: blocks?.notes || '',
+        image: blocks?.image || '',
       },
     ];
   }
@@ -586,14 +625,14 @@ function simplifyTour(t) {
 }
 
 function mapCreator(u) {
-  if (!u || typeof u !== "object") return null;
+  if (!u || typeof u !== 'object') return null;
   return {
     id: u?._id || u?.id,
-    name: u?.name || "",
-    email: u?.email || "",
-    profileImg: u?.profileImg || "",
-    bio: u?.bio || "",
-    slug: u?.slug || "",
+    name: u?.name || '',
+    email: u?.email || '',
+    profileImg: u?.profileImg || '',
+    bio: u?.bio || '',
+    slug: u?.slug || '',
   };
 }
 
@@ -602,9 +641,9 @@ function toTourModel(api) {
   if (!api) return null;
 
   // Slug
-  const slug = api?.slug || "";
+  const slug = api?.slug || '';
 
-  console.log("👉 API Data:", api);
+  console.log('👉 API Data:', api);
 
   // Dates & duration
   let startDate = api?.dateRange?.startDate
@@ -626,7 +665,7 @@ function toTourModel(api) {
   if (api?.details?.totalDays) {
     durationDays = Number(api.details.totalDays) || durationDays;
   }
-  const durationStr = `${durationDays} day${durationDays === 1 ? "" : "s"}`;
+  const durationStr = `${durationDays} day${durationDays === 1 ? '' : 's'}`;
 
   // Images
   const gallery = Array.isArray(api?.galleryImgs) ? api.galleryImgs : [];
@@ -652,7 +691,7 @@ function toTourModel(api) {
   const itinerary = mapItinerary(api?.itinerary);
 
   // Price / currency (prefer details)
-  const currency = api?.price?.currency || api?.currency || "INR";
+  const currency = api?.price?.currency || api?.currency || 'INR';
   const priceAdult =
     api?.details?.pricePerPerson ??
     api?.price?.adult ??
@@ -661,8 +700,8 @@ function toTourModel(api) {
 
   // Badges
   const badges = [];
-  if (api?.tourType === "fixed_date") badges.push("Fixed Date");
-  if (api?.status === "published") badges.push("Published");
+  if (api?.tourType === 'fixed_date') badges.push('Fixed Date');
+  if (api?.status === 'published') badges.push('Published');
 
   // Related (simplified)
   const related = {
@@ -682,8 +721,8 @@ function toTourModel(api) {
           id: m?._id || m?.id,
           month: m?.month,
           monthTag: m?.monthTag,
-          heroImg: m?.heroImg || "",
-          displayImg: m?.displayImg || "",
+          heroImg: m?.heroImg || '',
+          displayImg: m?.displayImg || '',
         }))
       : [],
   };
@@ -691,13 +730,13 @@ function toTourModel(api) {
   // Creator (createdBy — already selectively populated on server)
   const creator = mapCreator(api?.createdBy);
 
-  console.log("creator", creator);
+  console.log('creator', creator);
 
   return {
     // Hero / top
-    title: api?.title || "Untitled Tour",
-    subtitle: api?.brief || "",
-    location: api?.place || "—",
+    title: api?.title || 'Untitled Tour',
+    subtitle: api?.brief || '',
+    location: api?.place || '—',
     rating,
     reviewCount: testimonials.length,
     bookingCount: api?.bookingCount || 0,
@@ -712,10 +751,10 @@ function toTourModel(api) {
     // Overview
     overview: {
       duration: durationStr,
-      groupSize: api?.details?.groupSize || "—",
-      ageRange: api?.details?.ageRestriction || api?.overview?.ageRange || "—",
+      groupSize: api?.details?.groupSize || '—',
+      ageRange: api?.details?.ageRestriction || api?.overview?.ageRange || '—',
       languages: api?.details?.languages || [],
-      description: api?.description || "",
+      description: api?.description || '',
     },
 
     tagMonths: Array.isArray(api?.tagMonths) ? api.tagMonths : [],
@@ -728,7 +767,7 @@ function toTourModel(api) {
     stays: Array.isArray(api?.stays) ? api.stays : [],
     moments: Array.isArray(api?.moments) ? api.moments : [],
     faq: Array.isArray(api?.faqs) ? api.faqs : [],
-    mapEmbed: api?.mapEmbed || api?.extras?.mapEmbed || "",
+    mapEmbed: api?.mapEmbed || api?.extras?.mapEmbed || '',
 
     // Reviews
     reviews: testimonials,
@@ -742,7 +781,7 @@ function toTourModel(api) {
     },
 
     // Misc / passthrough
-    tourType: api?.tourType || "",
+    tourType: api?.tourType || '',
     dateRange: { startDate, endDate },
     getDateRange: () => ({ startDate, endDate }),
     slug: api?.slug,

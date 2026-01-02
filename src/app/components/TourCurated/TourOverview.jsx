@@ -1,5 +1,4 @@
-import { Card, CardContent } from "../ui/card";
-import { Clock, Users, Calendar, Globe } from "lucide-react";
+import { Clock, Users, Calendar, Globe, IndianRupee } from 'lucide-react';
 
 function TourOverview({
   duration,
@@ -7,92 +6,68 @@ function TourOverview({
   ageRange,
   languages,
   description,
+  price,
   tagMonths = [],
 }) {
+  const languageValue = Array.isArray(languages)
+    ? languages.filter(Boolean).join(', ')
+    : languages;
+  const priceValue =
+    price !== undefined && price !== null && !Number.isNaN(Number(price))
+      ? `₹${Number(price || 0).toLocaleString('en-IN')}`
+      : null;
+
   const stats = [
     {
       icon: Clock,
-      label: "Duration",
+      label: 'Duration',
       value: duration,
     },
     {
       icon: Users,
-      label: "Group Size",
+      label: 'Group Size',
       value: groupSize,
     },
     {
       icon: Calendar,
-      label: "Ages",
+      label: 'Ages',
       value: ageRange,
+    },
+    {
+      icon: IndianRupee,
+      label: 'Price',
+      value: priceValue,
+    },
+    {
+      icon: Globe,
+      label: 'Languages',
+      value: languageValue,
     },
   ];
 
+  const displayStats = stats.filter((s) => s.value);
+
   return (
-    <div className="space-y-6 flex flex-col gap-6 mb-6">
-      {/* Clean stats grid */}
-      {/* {stats.length > 0 && stats[1].value !== "" && stats[2].value !== "" && (
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 ">
-          {stats.map((stat, index) => (
-            <Card
-              key={index}
-              className="border border-gray-100 text-center p-0   w-full"
-            >
-              <CardContent className="p-4">
-                <stat.icon className="h-6 w-6 text-orange-400 mx-auto mb-2" />
-                <div className="text-sm text-muted-foreground mb-1">
-                  {stat.label}
-                </div>
-                <div
-                  className="font-medium text-base"
-                  data-testid={`text-${stat.label
-                    .toLowerCase()
-                    .replace(" ", "-")}`}
-                >
-                  {stat.value}
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      )} */}
-
-      {/* Best Months Section */}
-      {/* {tagMonths.length > 0 && (
-        <div className='space-y-4'>
-          <h3 className='text-xl font-[500] mb-3'>Best Times to Visit</h3>
-          <div className='grid grid-cols-2 md:grid-cols-4 gap-3'>
-            {tagMonths.map((month, index) => (
-              <Card
-                key={index}
-                className='border border-gray-100 text-center w-full p-0'>
-                <CardContent className='p-3'>
-                  <img
-                    src={month.displayImg}
-                    alt={month.highlight.title}
-                    className='w-full h-15 object-cover rounded-lg mb-2'
-                  />
-                  <div
-                    className='text-base font-base mb-1 capitalize'
-                    data-testid={`month-${index}`}>
-                    {month.month}
-                  </div>
-                  <div className='text-xs text-muted-foreground'>
-                    {month.highlight.title}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      )} */}
-
+    <div className='space-y-6 flex flex-col gap-6 mb-6'>
       {/* Clean overview section */}
       <div>
-        <h2 className="text-3xl font-bold mb-4">Tour Overview</h2>
+        <h2 className='text-2xl md:text-3xl font-bold mb-4'>Tour Overview</h2>
+        {displayStats.length > 0 && (
+          <div className='flex flex-wrap items-center gap-3 mb-4'>
+            {displayStats.map((stat, index) => (
+              <div
+                key={index}
+                className='flex items-center gap-2 rounded-full bg-[#ff5b06]/10 text-[#ff5b06] border border-[#ff5b06]/20 px-3 py-2 text-sm'>
+                <stat.icon className='h-4 w-4' />
+                <span className='font-semibold'>{stat.label}:</span>
+                <span className='text-[#ff5b06]'>{stat.value}</span>
+              </div>
+            ))}
+          </div>
+        )}
         <p
-          className="text-base text-muted-foreground leading-relaxed"
-          data-testid="text-description"
-        >
+          className='text-base text-muted-foreground leading-relaxed '
+          data-testid='text-description'>
           {description}
         </p>
       </div>

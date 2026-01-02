@@ -1,7 +1,7 @@
 @tailwind utilities;
-@import "tailwindcss";
-@import "tailwindcss/preflight";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tailwindcss/preflight';
+@import 'tw-animate-css';
 
 .ytp-chrome-top,
 .ytp-title,
@@ -121,7 +121,7 @@
 }
 
 /* global.css */
-div[role="presentation"] iframe {
+div[role='presentation'] iframe {
   width: 100% !important;
 }
 /* Custom CSS to hide scrollbar */
@@ -212,8 +212,8 @@ body::-webkit-scrollbar {
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
 
-  --font-alt: "Caveat", cursive;
-  --font-prime: "Open Sans", sans-serif;
+  --font-alt: 'Caveat', cursive;
+  --font-prime: 'Open Sans', sans-serif;
 }
 
 [id] {
@@ -227,7 +227,6 @@ body::-webkit-scrollbar {
 }
 .font-handwriting {
   font-family: var(--font-alt);
-  font-size: 1.1em;
 }
 
 h1 {

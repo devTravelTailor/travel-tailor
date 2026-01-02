@@ -50,8 +50,10 @@ export default function PlacesCarousel({
     const first = parts.shift() || '';
     const rest = parts.join(' ');
     return (
-      <h2 className="text-3xl md:text-4xl font-semibold text-center text-gray-900">
-        <span className="text-[#ff5b06] font-handwriting">{first}</span>
+      <h2 className='text-3xl md:text-4xl font-semibold text-center text-gray-900'>
+        <span className='text-[#ff5b06] text-4xl md:text-5xl font-handwriting'>
+          {first}
+        </span>
         {rest ? ` ${rest}` : ''}
       </h2>
     );
@@ -75,10 +77,10 @@ export default function PlacesCarousel({
           onMouseDown={onPointerDown}
           onMouseLeave={onPointerLeave}
           onMouseUp={onPointerUp}
-          onMouseMove={onPointerMove}
-        >
+          onMouseMove={onPointerMove}>
           {safeItems.map((item, idx) => {
-            const imgSrc = item.img || item.image || item.imgUrl || item.displayImg;
+            const imgSrc =
+              item.img || item.image || item.imgUrl || item.displayImg;
             return (
               <div
                 key={idx}

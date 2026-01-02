@@ -27,7 +27,9 @@ export default function ThingsToDoAlt({
     const rest = parts.join(' ');
     return (
       <h2 className='text-3xl md:text-4xl font-semibold text-center text-gray-900'>
-        <span className='text-[#ff5b06] font-handwriting'>{first}</span>
+        <span className='text-[#ff5b06] text-4xl md:text-5xl font-handwriting'>
+          {first}
+        </span>
         {rest ? ` ${rest}` : ''}
       </h2>
     );

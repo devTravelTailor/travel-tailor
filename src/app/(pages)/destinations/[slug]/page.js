@@ -222,7 +222,9 @@ export default async function DestinationPage({ params }) {
     const rest = parts.join(' ');
     return (
       <h2 className='text-2xl md:text-3xl font-semibold text-center text-gray-900'>
-        <span className='text-[#ff5b06] font-handwriting mr-2'>{first}</span>
+        <span className='text-[#ff5b06] text-3xl md:text-4xl font-handwriting mr-2'>
+          {first}
+        </span>
         {rest ? ` ${rest}` : ''}
       </h2>
     );

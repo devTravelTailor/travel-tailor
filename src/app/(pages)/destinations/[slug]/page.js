@@ -15,9 +15,9 @@ import Highlights from '../../../components/Sections/Highlights';
 import ParallaxScrollImg from '../../../components/CustomUI/Animation/ParallaxScrollImg';
 import parseUrl from '../../../util/parseUrl';
 
-// Configure the page to be statically generated
-export const dynamic = 'force-static';
-export const revalidate = false;
+// Keep this route dynamic so dashboard edits (e.g., idealFor) show up immediately
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 // Separate function to fetch destination data
 async function fetchDestinationData(slug) {
@@ -26,7 +26,7 @@ async function fetchDestinationData(slug) {
     const response = await fetch(
       `${process.env.API_URL}/api/destinations/${slug}`,
       {
-        // cache: "force-cache",
+        cache: 'no-store',
         headers: {
           Authorization: `Bearer ${process.env.API_TOKEN}`,
         },

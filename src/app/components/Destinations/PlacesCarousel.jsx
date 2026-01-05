@@ -105,7 +105,7 @@ export default function PlacesCarousel({
                       {item.title || 'Place'}
                     </h3>
                     {item.description && (
-                      <p className='text-sm md:text-base text-gray-600 leading-relaxed break-words line-clamp-3 md:line-clamp-4'>
+                      <p className='text-sm md:text-base text-gray-600 leading-relaxed max-h-[8rem] overflow-y-scroll scrollbar-hidden'>
                         {item.description}
                       </p>
                     )}

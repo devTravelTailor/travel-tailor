@@ -179,7 +179,8 @@ export default async function DestinationPage({ params }) {
     destinationData.idealFor ||
     destinationData.travellers ||
     destinationData.travelers ||
-    destinationData.travelerType;
+    destinationData.travelerType ||
+    '';
 
   const thingsToDo = Array.isArray(destinationData.thingsToDo)
     ? destinationData.thingsToDo
@@ -231,6 +232,10 @@ export default async function DestinationPage({ params }) {
   };
 
   const navItems = [
+    {
+      label: 'Highlights',
+      href: '#highlights',
+    },
     {
       label: 'Things to do',
       href: '#things-to-do',
@@ -444,13 +449,12 @@ export default async function DestinationPage({ params }) {
                           const href = slug ? `/experiences/${slug}` : '#';
 
                           return (
-                            <a
+                            <span
                               key={`${slug || idx}`}
-                              href={href}
                               className='group inline-flex items-center gap-2 rounded-full bg-[#ff5b06]/10 text-[#ff5b06] border border-[#ff5b06]/25 px-3 py-2 text-xs font-semibold shadow-sm transition hover:bg-[#ff5b06] hover:text-white'>
                               <span className='h-2 w-2 rounded-full bg-[#ff5b06] transition-colors duration-200 group-hover:bg-white'></span>
                               {label}
-                            </a>
+                            </span>
                           );
                         })}
                       </div>

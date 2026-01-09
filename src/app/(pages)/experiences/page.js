@@ -47,7 +47,9 @@ export default function ExperiencesPage() {
   return (
     <section className={styles.experiences}>
       {isLoading ? (
-        <Spinner />
+        <div className="min-h-[60vh] flex items-center justify-center">
+          <Spinner />
+        </div>
       ) : error ? (
         <div
           style={{

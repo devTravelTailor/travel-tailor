@@ -3,10 +3,11 @@ import { useEffect, useRef, useState } from "react";
 import { Card, CardContent } from "../ui/card";
 import { MapPin } from "lucide-react";
 import Link from "next/link";
+import ImageCollageGrid from "../Shared/ImageCollageGrid";
 
 const fallback = "/images/avatar.webp";
 
-const AdvisorCarousel = ({ data }) => {
+const AdvisorCarousel = ({ data, imageGridData = { description: "", images: [] } }) => {
   const carouselRef = useRef(null); // Reference to the carousel container
   const [displayData, setDisplayData] = useState([]);
   console.log(data);
@@ -59,6 +60,15 @@ const AdvisorCarousel = ({ data }) => {
           </p>
         </div>
 
+        {/* Image Collage Grid */}
+        {imageGridData?.images?.length > 0 && (
+          <ImageCollageGrid
+            description={imageGridData.description || "Passionate industry experts and content creators serve as your Jrny Maestros, sharing their deep knowledge and rich experiences. Gain invaluable insights from their expertise and connect with fellow travellers as you experience destinations like never before."}
+            items={imageGridData.images}
+          />
+        )}
+
+
         {/* Advisor Cards */}
         <div className="overflow-x-auto scrollbar-hidden" ref={carouselRef}>
           <div className="flex gap-4 min-w-max">
@@ -84,11 +94,15 @@ const AdvisorCarousel = ({ data }) => {
                           {advisor.name}
                         </h3>
 
-                        {advisor?.location && (
+                        {advisor?.tagLine && (
                           <div className="flex items-center gap-2">
-                            <MapPin className="h-4 w-4 text-white/70" />
                             <span className="text-sm text-white/70">
-                              {advisor.location}
+                              {(() => {
+                                const words = advisor.tagLine.split(" ");
+                                return words.length > 15
+                                  ? words.slice(0, 15).join(" ") + "..." // Truncate if > 15 words
+                                  : advisor.tagLine;
+                              })()}
                             </span>
                           </div>
                         )}

@@ -3,7 +3,8 @@ import TextList from "../../components/TextList/TextList";
 import Spinner from "../../components/CustomUI/Spinner/Spinner";
 import styles from "./styles.module.css";
 
-export const revalidate = 120; // cache for 2 minutes
+// Cache destinations but refresh regularly
+export const revalidate = 300;
 
 export default async function DestinationsPage() {
   try {
@@ -14,7 +15,7 @@ export default async function DestinationsPage() {
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
         },
         cache: "force-cache",
-        next: { revalidate: 120 },
+        next: { revalidate: 300 },
       }
     );
 

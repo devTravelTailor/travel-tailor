@@ -72,6 +72,19 @@ export default async function Main() {
   const upcomingTrips = data?.upcomingTours || [];
   const fallback = '/images/avatar.webp';
   const stats = data?.global?.stats || {};
+  const heroContent =
+    data?.global?.mainHero ||
+    data?.global?.hero || // legacy fallback
+    homeData?.global?.mainHero ||
+    homeData?.global?.hero ||
+    {};
+  const heroLine1 = heroContent.line1 || 'Every Step,';
+  const heroLine2 = heroContent.line2 || 'Every Journey';
+  const heroTagline =
+    heroContent.tagline || 'Fly above the ordinary, travel today.';
+  const heroCtaText =
+    heroContent.ctaText || "Let's craft your next adventure today!";
+  const heroCtaUrl = heroContent.ctaUrl || '/contact';
   const shouldShowGroupHome =
     destinations.length > 0 ||
     months.length > 0 ||
@@ -100,20 +113,20 @@ export default async function Main() {
         {/* Center Content */}
         <div className='relative z-10 text-center max-w-4xl mx-auto px-6'>
           <h2 className='text-6xl mb-4 font-light text-[#ff5b06] tracking-tight leading-tight font-handwriting'>
-            Every Step,
+            {heroLine1}
             <br />
             <span className='text-white font-sans text-6xl xl:text-8xl'>
-              Every Journey
+              {heroLine2}
             </span>
           </h2>
 
           <p className='text-md md:text-2xl xl:text-3xl text-white/90 mb-6 xl:mb-12 font-light'>
-            Fly above the ordinary, travel today.
+            {heroTagline}
           </p>
           <div>
-            <Link href='/contact'>
+            <Link href={heroCtaUrl || '/contact'}>
               <Button varient='outline' className=' bg-[#ff5b06] text-white'>
-                Let&#39;s craft your next adventure today!
+                {heroCtaText}
               </Button>
             </Link>
           </div>
@@ -298,11 +311,11 @@ export default async function Main() {
                                 {advisor.name}
                               </h3>
 
-                              {advisor?.location && (
+                              {advisor?.tagLine && (
                                 <div className='flex items-center gap-1'>
-                                  <MapPin className='h-3.5 w-3.5 text-white/70' />
+                                  {/* <MapPin className='h-3.5 w-3.5 text-white/70' /> */}
                                   <span className='text-xs text-white/70 truncate'>
-                                    {advisor.location}
+                                    {advisor.tagLine}
                                   </span>
                                 </div>
                               )}

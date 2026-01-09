@@ -2,7 +2,8 @@ import Calender from "../../components/Featured/Calender";
 import Spinner from "../../components/CustomUI/Spinner/Spinner";
 import styles from "./styles.module.css";
 
-export const revalidate = 600;
+export const revalidate = 0;
+export const dynamic = "force-dynamic";
 
 export default async function CalenderPage() {
   const res = await fetch(
@@ -11,7 +12,7 @@ export default async function CalenderPage() {
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
       },
-      cache: "force-cache",
+      cache: "no-store",
     }
   );
 

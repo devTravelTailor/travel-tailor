@@ -1,7 +1,8 @@
-"use client";
+'use client';
 
-import { useState, useEffect, useRef } from "react";
-import TourList from "../../components/TourList/TourList";
+import { useState, useEffect, useRef } from 'react';
+import TourList from '../../components/TourList/TourList';
+import ImageCollageGrid from '../../components/Shared/ImageCollageGrid';
 
 export default function ToursPage() {
   const [tourData, setTourData] = useState([]);
@@ -12,12 +13,12 @@ export default function ToursPage() {
 
   const [destinations, setDestinations] = useState([]);
   const [months, setMonths] = useState([]);
-  const [selectedDestination, setSelectedDestination] = useState("");
-  const [selectedMonth, setSelectedMonth] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedDestination, setSelectedDestination] = useState('');
+  const [selectedMonth, setSelectedMonth] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
 
   // Guards for Strict Mode + race conditions
-  const requestKeyRef = useRef("");
+  const requestKeyRef = useRef('');
   const didMountRef = useRef(false);
 
   // Load filter options once
@@ -26,12 +27,15 @@ export default function ToursPage() {
     const fetchFilters = async () => {
       try {
         const [destRes, monthRes] = await Promise.all([
-          fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/destinations?limit=200`, {
-            headers: {
-              Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+          fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/api/destinations?limit=200`,
+            {
+              headers: {
+                Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+              },
+              signal: controller.signal,
             },
-            signal: controller.signal,
-          }),
+          ),
           fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/months?limit=200`, {
             headers: {
               Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
@@ -49,8 +53,8 @@ export default function ToursPage() {
           setMonths(monthJson.data?.items || []);
         }
       } catch (err) {
-        if (err.name === "AbortError") return;
-        console.error("Failed to fetch filter options", err);
+        if (err.name === 'AbortError') return;
+        console.error('Failed to fetch filter options', err);
       }
     };
 
@@ -60,7 +64,7 @@ export default function ToursPage() {
 
   useEffect(() => {
     // In dev, Strict Mode re-invokes effects on mount; this guard prevents double run.
-    if (process.env.NODE_ENV !== "production") {
+    if (process.env.NODE_ENV !== 'production') {
       if (!didMountRef.current) {
         didMountRef.current = true;
       }
@@ -72,19 +76,19 @@ export default function ToursPage() {
 
     const params = new URLSearchParams({
       page: String(page),
-      limit: "10",
+      limit: '10',
     });
 
     if (selectedDestination) {
-      params.append("destination", selectedDestination); // relation graph
-      params.append("destinations", selectedDestination); // legacy array field
+      params.append('destination', selectedDestination); // relation graph
+      params.append('destinations', selectedDestination); // legacy array field
     }
     if (selectedMonth) {
-      params.append("month", selectedMonth); // relation graph (monthTag/_id)
-      params.append("tagMonths", selectedMonth); // legacy array field
+      params.append('month', selectedMonth); // relation graph (monthTag/_id)
+      params.append('tagMonths', selectedMonth); // legacy array field
     }
     if (searchQuery) {
-      params.append("q", searchQuery);
+      params.append('q', searchQuery);
     }
 
     (async () => {
@@ -99,8 +103,8 @@ export default function ToursPage() {
               Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
             },
             signal: controller.signal,
-            cache: "no-store",
-          }
+            cache: 'no-store',
+          },
         );
 
         if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
@@ -129,9 +133,9 @@ export default function ToursPage() {
           return merged;
         });
       } catch (err) {
-        if (err.name === "AbortError") return; // ignore aborted fetch
-        console.error("Failed to fetch tours:", err);
-        setError(err.message || "Failed to fetch tour data.");
+        if (err.name === 'AbortError') return; // ignore aborted fetch
+        console.error('Failed to fetch tours:', err);
+        setError(err.message || 'Failed to fetch tour data.');
       } finally {
         if (!controller.signal.aborted) setIsLoading(false);
       }
@@ -143,8 +147,8 @@ export default function ToursPage() {
   const handleFilterChange = (filterKey, value) => {
     setTourData([]);
     setPage(1);
-    if (filterKey === "destination") setSelectedDestination(value);
-    if (filterKey === "month") setSelectedMonth(value);
+    if (filterKey === 'destination') setSelectedDestination(value);
+    if (filterKey === 'month') setSelectedMonth(value);
   };
 
   const handleSearchChange = (value) => {
@@ -158,20 +162,22 @@ export default function ToursPage() {
   };
 
   return (
-    <section className="h-screen py-10">
-      <TourList
-        tourData={tourData}
-        isLoading={isLoading}
-        error={error}
-        destinations={destinations}
-        months={months}
-        selectedDestination={selectedDestination}
-        selectedMonth={selectedMonth}
-        searchQuery={searchQuery}
-        handleFilterChange={handleFilterChange}
-        handleSearchChange={handleSearchChange}
-        handleLoadMore={handleLoadMore}
-      />
-    </section>
+    <>
+      <section className='h-screen py-10'>
+        <TourList
+          tourData={tourData}
+          isLoading={isLoading}
+          error={error}
+          destinations={destinations}
+          months={months}
+          selectedDestination={selectedDestination}
+          selectedMonth={selectedMonth}
+          searchQuery={searchQuery}
+          handleFilterChange={handleFilterChange}
+          handleSearchChange={handleSearchChange}
+          handleLoadMore={handleLoadMore}
+        />
+      </section>
+    </>
   );
 }

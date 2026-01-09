@@ -8,19 +8,22 @@ import { notFound } from "next/navigation";
 import Experiences from "../../../components/Sections/Experiences";
 import Destinations from "../../../components/Sections/Destinations";
 
-// Configure the page to be statically generated
-export const dynamic = "force-static";
-export const revalidate = false;
+// Always fetch fresh blog content
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 // Fetch Blog Data
 async function fetchBlogData(slug) {
   try {
-    const response = await fetch(`${process.env.API_URL}/api/blog/${slug}`, {
-      // cache: 'force-cache',
-      headers: {
-        Authorization: `Bearer ${process.env.API_TOKEN}`,
-      },
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/blog/${slug}`,
+      {
+        cache: "no-store",
+        headers: {
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+        },
+      }
+    );
 
     if (!response.ok) {
       return null;
@@ -146,11 +149,15 @@ export async function generateMetadata({ params }) {
 // Generate static params for pre-rendering
 export async function generateStaticParams() {
   try {
-    const response = await fetch(`${process.env.API_URL}/apihome/slugs/blog`, {
-      headers: {
-        Authorization: `Bearer ${process.env.API_TOKEN}`,
-      },
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/apihome/slugs/blog`,
+      {
+        cache: "no-store",
+        headers: {
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+        },
+      }
+    );
 
     const blogs = await response.json();
 

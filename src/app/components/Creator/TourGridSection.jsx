@@ -4,6 +4,7 @@ import React from 'react';
 import styles from './styles.module.css';
 import Tour from '../CustomUI/Card/Tour';
 import { TourCard } from '../TourList/TourCard';
+import ImageCollageGrid from '../Shared/ImageCollageGrid';
 
 const ITEMS_PER_PAGE = 4;
 
@@ -14,21 +15,40 @@ const TourGridSection = ({
   description,
   data,
   visibleCount,
+  tourType,
   className = '',
   type,
+  imageGridData = { description: '', images: [] },
 }) => {
   const isExpanded = visibleCount >= data?.length;
   const router = useRouter();
 
   return (
     <section className={styles.section + ' ' + className + ' '}>
-      <h2 className={styles.sectionTitle}>
-        <span>{title.split(' ')[0]}</span> {title.split(' ').slice(1).join(' ')}
-      </h2>
+      {title && (
+        <h2 className={styles.sectionTitle}>
+          <span>{title.split(' ')[0]}</span>{' '}
+          {title.split(' ').slice(1).join(' ')}
+        </h2>
+      )}
 
       {description && (
         <p className={styles.sectionDescription}>{description}</p>
       )}
+
+      {/* Image Collage Grid - 5 images (6-masonry variant) */}
+      {imageGridData?.images?.length > 0 && (
+        <ImageCollageGrid
+          description={
+            imageGridData.description ||
+            'Passionate industry experts and content creators serve as your Jrny Maestros, sharing their deep knowledge and rich experiences. Gain invaluable insights from their expertise and connect with fellow travellers as you experience destinations like never before.'
+          }
+          variant='6-masonry'
+          items={imageGridData.images}
+        />
+      )}
+
+      {tourType && <h2 className='lg:m-6'>{tourType}</h2>}
       <div className={styles.gridWrapper + ` max-w-[95rem] mx-auto `}>
         {data?.slice(0, visibleCount).map((item, index) => {
           const tags =

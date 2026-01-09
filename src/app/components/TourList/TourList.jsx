@@ -139,7 +139,7 @@ export default function TourList({
         </div>
 
         <div className='flex-1 overflow-y-auto scrollbar-hidden'>
-          {isLoading && tourData?.length > 0 ? (
+          {isLoading ? (
             <Spinner />
           ) : error ? (
             <div className='text-center text-red-600 py-10'>Error: {error}</div>

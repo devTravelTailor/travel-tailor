@@ -56,12 +56,12 @@ export default async function Creator() {
         {smithCuratedTours.length > 0 && (
           <div className='mt-20 w-full max-w-[95rem] mx-auto'>
             <TourGridSection
-              title='Smith-curated Tours'
+              title='Smith-curated Experiences'
               type={`tours`}
               data={smithCuratedTours}
               url={`/tours`}
               description={
-                'Join expert-curated journeys designed for immersive experiences and authentic connections.'
+                'Expert-designed journeys, available as group or private travel.'
               }
               visibleCount={4}
               imageGridData={smithCuratedImageGrid}
@@ -74,13 +74,11 @@ export default async function Creator() {
           <div className='mt-20 w-full max-w-[95rem] mx-auto'>
             <TourGridSection
               type={`tours`}
-              title='Smith-led Tours'
+              title='Smith-led Journeys'
               url={`/tours`}
               data={smithLedTours}
               visibleCount={4}
-              description={
-                'Handpicked travel experiences led by industry experts and content creators.'
-              }
+              description={'Immersive journeys personally led by creators.'}
               imageGridData={smithLedImageGrid}
             />
 

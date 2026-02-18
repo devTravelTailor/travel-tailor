@@ -34,7 +34,7 @@
 }
 
 .strong {
-  font-weight: var(--font-weight-medium); /* Or bold if preferred */
+  font-weight: var(--font-weight-bold);
 }
 
 .blogImage {
@@ -151,7 +151,7 @@
 }
 
 .strong {
-  font-weight: var(--font-weight-medium); /* Or bold if preferred */
+  font-weight: var(--font-weight-bold);
 }
 
 .blogImage {

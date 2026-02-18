@@ -66,6 +66,15 @@ export default async function Creator() {
               visibleCount={4}
               imageGridData={smithCuratedImageGrid}
             />
+
+            <Link href='/tours'>
+              <Button
+                type='block'
+                varient='outline'
+                className='mx-auto block mt-12 rounded-full hover:bg-white border border-[#ff5b06] hover:text-[#ff5b06] bg-[#ff5b06] text-white'>
+                More Tours
+              </Button>
+            </Link>
           </div>
         )}
 

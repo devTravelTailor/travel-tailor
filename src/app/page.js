@@ -13,26 +13,24 @@ export const revalidate = 0;
 
 export default async function Main() {
   // ✅ Fetch on the server (SSR)
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/main`, {
-    headers: {
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
-    },
-    // cache: "no-store",
+  let data = {};
 
-    // Force cache (no revalidation)
-    cache: 'force-cache',
-    // Or, if you want timed revalidation:
-    next: { revalidate: 3 }, // revalidate every hour
-  });
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/main`, {
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+      },
+      cache: 'no-store',
+    });
 
-  if (!res.ok) {
-    console.error('Failed to fetch hero data:', res.statusText);
-    throw new Error('Failed to load homepage data');
+    if (!res.ok) {
+      console.error('Failed to fetch hero data:', res.status, res.statusText);
+    } else {
+      data = (await res.json())?.data || {};
+    }
+  } catch (err) {
+    console.error('Main homepage fetch errored:', err);
   }
-
-  const { data } = await res.json();
-
-  console.log(data);
 
   let homeData = {};
 
@@ -41,14 +39,17 @@ export default async function Main() {
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
       },
-      cache: 'force-cache',
-      next: { revalidate: 3 },
+      cache: 'no-store',
     });
 
     if (homeRes.ok) {
       homeData = (await homeRes.json())?.data || {};
     } else {
-      console.warn('Fallback home fetch failed:', homeRes.statusText);
+      console.warn(
+        'Fallback home fetch failed:',
+        homeRes.status,
+        homeRes.statusText
+      );
     }
   } catch (err) {
     console.warn('Fallback home fetch errored:', err);

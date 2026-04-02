@@ -1,5 +1,33 @@
 import Script from "next/script";
 import "./globals.css";
+
+export const metadata = {
+  metadataBase: new URL(process.env.DOMAIN || "https://traveltailor.in"),
+  title: {
+    default: "Travel Tailor | Custom Travel Experiences",
+    template: "%s | Travel Tailor",
+  },
+  description:
+    "Travel Tailor crafts personalised holidays, tours, and destination experiences across India and beyond.",
+  alternates: {
+    canonical: "/",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  openGraph: {
+    siteName: "Travel Tailor",
+    locale: "en_US",
+    type: "website",
+  },
+};
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import WhatsAppButton from "./components/CustomUI/Button/Whatsapp";

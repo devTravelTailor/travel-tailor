@@ -52,12 +52,19 @@ export async function generateMetadata({ params }) {
     };
   }
 
+  const canonicalUrl = `${process.env.DOMAIN}/tours/${resolvedParams.slug}`;
+
   return {
-    title: `${tour.title} | Travel Tailor` || "Tour Details",
+    title: `${tour.title} | Travel Tailor`,
     description: tour.description || "Description of the tour",
+    alternates: {
+      canonical: canonicalUrl,
+    },
     openGraph: {
       title: tour.title,
       description: tour.description,
+      url: canonicalUrl,
+      siteName: "Travel Tailor",
       images: tour.displayImg ? [{ url: parseUrl(tour.displayImg) }] : [],
     },
     twitter: {
@@ -65,6 +72,16 @@ export async function generateMetadata({ params }) {
       title: tour.title,
       description: tour.description,
       images: tour.displayImg ? [parseUrl(tour.displayImg)] : [],
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
     },
   };
 }
@@ -98,8 +115,6 @@ export default async function TourPage({ params }) {
   if (!tourData) {
     return notFound();
   }
-
-  console.log(tourData);
 
   const reviews = Array.isArray(tourData.reviews)
     ? tourData.reviews

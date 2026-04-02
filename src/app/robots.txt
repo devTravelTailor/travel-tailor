@@ -1,12 +1,8 @@
 User-agent: *
 Allow: /
 
-
 Disallow: /api/
-Disallow: /about
-Disallow: /contact
 Disallow: /calendar/
 Disallow: /search
 
-
-Sitemap: https://www.traveltailor.in/sitemap.xml
+Sitemap: https://traveltailor.in/sitemap.xml

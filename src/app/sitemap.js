@@ -1,6 +1,12 @@
-import { MetadataRoute } from "next";
+function getBaseUrl() {
+  const rawUrl = process.env.DOMAIN || "https://traveltailor.in";
+  const withProtocol = /^https?:\/\//i.test(rawUrl)
+    ? rawUrl
+    : `https://${rawUrl}`;
+  return withProtocol.replace(/\/+$/, "");
+}
 
-const baseUrl = process.env.DOMAIN;
+const baseUrl = getBaseUrl();
 
 async function fetchSlugs(endpoint) {
   try {
@@ -8,26 +14,20 @@ async function fetchSlugs(endpoint) {
       headers: {
         Authorization: `Bearer ${process.env.API_TOKEN}`,
       },
-
-      next: {
-        revalidate: 86400, // Revalidate daily (in seconds: 60*60*24)
-      },
+      next: { revalidate: 86400 },
     });
 
-    // console.log("response", response);
-
-    if (response.status !== 200) {
+    if (!response.ok) {
       console.error(
-        `Failed to fetch slugs from ${endpoint}`,
+        `Sitemap: failed to fetch slugs from ${endpoint}`,
         response.status,
         response.statusText
       );
-      return []; // Return empty array on error
+      return [];
     }
 
     const json = await response.json();
 
-    // unwrap if the API returns { data: [...] } or { slugs: [...] }
     const data = Array.isArray(json)
       ? json
       : Array.isArray(json.data)
@@ -36,60 +36,103 @@ async function fetchSlugs(endpoint) {
       ? json.slugs
       : [];
 
-    // check empty
-    if (!Array.isArray(data) || !data.length) {
-      console.warn(`⚠️ ${endpoint} returned no valid slugs`);
+    if (!data.length) {
+      console.warn(`Sitemap: ${endpoint} returned no slugs`);
       return [];
     }
 
-    // Assuming each item in the array has a 'slug' property
     return data.map((item) => ({
       slug: item.slug,
-      lastModified: item.updatedAt ? new Date(item.updatedAt) : new Date(), // Use updatedAt if available, otherwise current date
-      // changeFrequency: 'weekly', // Optional hint
-      // priority: 0.8, // Optional hint for dynamic content
+      lastModified: item.updatedAt ? new Date(item.updatedAt) : new Date(),
     }));
   } catch (error) {
-    console.error(`Error fetching slugs from ${endpoint}:`, error);
-    return []; // Return empty array on error
+    console.error(`Sitemap: error fetching ${endpoint}:`, error);
+    return [];
   }
 }
 
 export default async function sitemap() {
   try {
-    const blogSlugs = await fetchSlugs("/apihome/slugs/blog");
-    const tourSlugs = await fetchSlugs("/apihome/slugs/tour");
-    const destinationSlugs = await fetchSlugs("/apihome/slugs/destination");
+    const [blogSlugs, tourSlugs, destinationSlugs, experienceSlugs] =
+      await Promise.all([
+        fetchSlugs("/apihome/slugs/blog"),
+        fetchSlugs("/apihome/slugs/tour"),
+        fetchSlugs("/apihome/slugs/destination"),
+        fetchSlugs("/apihome/slugs/experience"),
+      ]);
 
-    console.log(`✅ Sitemap data fetched`, {
+    console.log("Sitemap generated", {
       blogs: blogSlugs.length,
       tours: tourSlugs.length,
       destinations: destinationSlugs.length,
+      experiences: experienceSlugs.length,
     });
 
-    const mapEntries = (arr, prefix) =>
+    const mapEntries = (arr, prefix, priority = 0.7, changeFrequency = "weekly") =>
       arr.map((item) => ({
         url: `${baseUrl}/${prefix}/${item.slug}`,
         lastModified: item.lastModified || new Date(),
+        changeFrequency,
+        priority,
       }));
 
     const staticPages = [
-      { url: `${baseUrl}/`, lastModified: new Date() },
-      { url: `${baseUrl}/contact`, lastModified: new Date() },
-      { url: `${baseUrl}/about`, lastModified: new Date() },
+      {
+        url: `${baseUrl}/`,
+        lastModified: new Date(),
+        changeFrequency: "daily",
+        priority: 1.0,
+      },
+      {
+        url: `${baseUrl}/about`,
+        lastModified: new Date(),
+        changeFrequency: "monthly",
+        priority: 0.6,
+      },
+      {
+        url: `${baseUrl}/contact`,
+        lastModified: new Date(),
+        changeFrequency: "monthly",
+        priority: 0.6,
+      },
+      {
+        url: `${baseUrl}/blogs`,
+        lastModified: new Date(),
+        changeFrequency: "daily",
+        priority: 0.8,
+      },
+      {
+        url: `${baseUrl}/tours`,
+        lastModified: new Date(),
+        changeFrequency: "daily",
+        priority: 0.8,
+      },
+      {
+        url: `${baseUrl}/destinations`,
+        lastModified: new Date(),
+        changeFrequency: "daily",
+        priority: 0.8,
+      },
+      {
+        url: `${baseUrl}/experiences`,
+        lastModified: new Date(),
+        changeFrequency: "weekly",
+        priority: 0.7,
+      },
     ];
 
     return [
       ...staticPages,
-      ...mapEntries(blogSlugs, "blogs"),
-      ...mapEntries(tourSlugs, "tours"),
-      ...mapEntries(destinationSlugs, "destinations"),
+      ...mapEntries(blogSlugs, "blogs", 0.8, "weekly"),
+      ...mapEntries(tourSlugs, "tours", 0.9, "weekly"),
+      ...mapEntries(destinationSlugs, "destinations", 0.9, "weekly"),
+      ...mapEntries(experienceSlugs, "experiences", 0.7, "monthly"),
     ];
   } catch (err) {
-    console.error("❌ Sitemap generation failed:", err);
+    console.error("Sitemap generation failed:", err);
     return [
-      { url: `${baseUrl}/`, lastModified: new Date() },
-      { url: `${baseUrl}/contact`, lastModified: new Date() },
-    ]; // Always return something so build passes
+      { url: `${baseUrl}/`, lastModified: new Date(), changeFrequency: "daily", priority: 1.0 },
+      { url: `${baseUrl}/contact`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.6 },
+    ];
   }
 }

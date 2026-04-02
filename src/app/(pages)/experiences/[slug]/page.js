@@ -75,12 +75,19 @@ export async function generateMetadata({ params }) {
     `https://storage.googleapis.com/tt-media/photo_1527824404775_dce343118ebc_9e67a75db2/photo_1527824404775_dce343118ebc_9e67a75db2.jpeg`
   );
 
+  const canonicalUrl = `${process.env.DOMAIN}/experiences/${resolvedParams.slug}`;
+
   return {
     title: `${title} | Travel Tailor`,
     description: description,
+    alternates: {
+      canonical: canonicalUrl,
+    },
     openGraph: {
       title: title,
       description: description,
+      url: canonicalUrl,
+      siteName: "Travel Tailor",
       images: imageUrl ? [{ url: imageUrl }] : [],
     },
     twitter: {
@@ -88,6 +95,16 @@ export async function generateMetadata({ params }) {
       title: title,
       description: description,
       images: imageUrl ? [imageUrl] : [],
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
     },
   };
 }

@@ -68,7 +68,8 @@ function generateKeywords(title, description) {
 export async function generateMetadata({ params }) {
   const resolvedParams = await params;
   const slug = resolvedParams.slug;
-  const { data } = await fetchBlogData(slug);
+  const result = await fetchBlogData(slug);
+  const data = result?.data ?? null;
 
   if (!data) {
     // Returning minimal metadata, Page component will handle the 404 display
@@ -159,12 +160,18 @@ export async function generateStaticParams() {
       }
     );
 
+    if (!response.ok) {
+      console.error(`Failed to fetch blog slugs: ${response.status}`);
+      return [];
+    }
+
     const blogs = await response.json();
 
-    return blogs.map((blog) => ({
-      slug: blog.slug,
-    }));
+    return Array.isArray(blogs)
+      ? blogs.map((blog) => ({ slug: blog.slug }))
+      : [];
   } catch (error) {
+    console.error("Error fetching blog slugs:", error);
     return [];
   }
 }
@@ -172,7 +179,8 @@ export async function generateStaticParams() {
 async function BlogPage({ params }) {
   const resolvedParams = await params;
   const slug = resolvedParams.slug;
-  const { data } = await fetchBlogData(slug);
+  const result = await fetchBlogData(slug);
+  const data = result?.data ?? null;
 
   if (!data) {
     return notFound();

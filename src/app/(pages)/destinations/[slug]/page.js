@@ -64,19 +64,25 @@ export async function generateMetadata({ params }) {
   }
 
   // *** Adjust metadata fields based on expected destination data structure ***
-  const title = destination.title || 'Destination Details'; // Use specific meta title if available, fallback to title
+  const title = destination.title || 'Destination Details';
   const description =
-    destination.description || 'Explore this amazing destination.'; // Use specific meta description
+    destination.description || 'Explore this amazing destination.';
   const imageUrl = destination.displayImg
     ? process.env.NEXT_PUBLIC_API_URL + destination.displayImg
-    : null; // Construct image URL
+    : null;
+  const canonicalUrl = `${process.env.DOMAIN}/destinations/${resolvedParams.slug}`;
 
   return {
     title: `${title} | Travel Tailor`,
     description: description,
+    alternates: {
+      canonical: canonicalUrl,
+    },
     openGraph: {
       title: title,
       description: description,
+      url: canonicalUrl,
+      siteName: 'Travel Tailor',
       images: imageUrl ? [{ url: imageUrl }] : [],
     },
     twitter: {
@@ -84,6 +90,16 @@ export async function generateMetadata({ params }) {
       title: title,
       description: description,
       images: imageUrl ? [imageUrl] : [],
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
     },
   };
 }
@@ -133,8 +149,6 @@ export default async function DestinationPage({ params }) {
   if (!destinationData) {
     notFound();
   }
-
-  console.log(destinationData);
 
   const heroImage =
     destinationData.heroImg ||

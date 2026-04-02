@@ -14,7 +14,6 @@ import Button from '../CustomUI/Button/Button';
 
 function GroupHome({ destinations, months, traveller, expereinces }) {
   const [activeTab, setActiveTab] = useState('popularDestinations');
-  console.log('destinations', destinations, months, traveller, expereinces);
 
   const renderContent = () => {
     switch (activeTab) {

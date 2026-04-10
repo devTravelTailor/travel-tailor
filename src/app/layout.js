@@ -38,11 +38,15 @@ import { ToastContainer } from "react-toastify";
 
 async function getSettings() {
   try {
+    const authToken =
+      process.env.NEXT_PUBLIC_API_TOKEN ||
+      process.env.NEXT_PUBLIC_TOKEN ||
+      process.env.API_TOKEN;
     const url = `${process.env.NEXT_PUBLIC_API_URL}/api/settings/`;
     const res = await fetch(url, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+        ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
       },
       next: { revalidate: 300 },
     });
@@ -61,7 +65,10 @@ async function getSettings() {
 
 export default async function RootLayout({ children }) {
   const setting = await getSettings();
-  const gtmId = setting?.tracking?.gtmId?.trim();
+  const fallbackGtmId =
+    process.env.NEXT_PUBLIC_GTM_ID?.trim() ||
+    process.env.NEXT_PUBLIC_GA_ID?.trim();
+  const gtmId = setting?.tracking?.gtmId?.trim() || fallbackGtmId;
   const extraScripts = setting?.tracking?.extraScripts;
 
   return (

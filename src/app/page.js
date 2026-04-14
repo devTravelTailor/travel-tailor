@@ -48,24 +48,25 @@ export default async function Main() {
       console.warn(
         'Fallback home fetch failed:',
         homeRes.status,
-        homeRes.statusText
+        homeRes.statusText,
       );
     }
   } catch (err) {
     console.warn('Fallback home fetch errored:', err);
   }
 
-  const destinations =
-    data?.destinations ||
-    data?.popularDestination ||
-    homeData?.destinations ||
-    [];
   const months = data?.months || homeData?.months || [];
   const features =
     (Array.isArray(data?.features) && data.features.length > 0
       ? data.features
       : homeData?.features) || [];
   const featureSource = Array.isArray(features) ? features[0] : features;
+  const destinations =
+    featureSource?.destinations ||
+    data?.destinations ||
+    data?.popularDestination ||
+    homeData?.destinations ||
+    [];
   const traveller = featureSource?.traveller || [];
   const experiences =
     featureSource?.experiences || data?.popularExperience || [];

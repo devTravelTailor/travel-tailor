@@ -1,9 +1,7 @@
 // app/page.js
 import { notFound } from "next/navigation";
 import HomeHero from "../../components/Hero/HomeHero";
-
 import Trips from "../../components/Featured/Trips";
-
 import GroupHome from "../../components/Featured/GroupHome";
 import Testimonials from "../../components/Testimonials/Testimonials";
 import Blogs from "../../components/Featured/Blogs";
@@ -15,7 +13,6 @@ export const revalidate = 0;
 
 async function getHomepageData() {
   console.log(`API_URL: ${process.env.API_URL}`);
-
   try {
     const response = await fetch(`${process.env.API_URL}/api/home`, {
       // cache: "force-cache",
@@ -56,7 +53,7 @@ export default async function Home() {
         months?.length > 0 &&
         features[0]?.traveller?.length > 0 && (
           <GroupHome
-            destinations={destinations}
+            destinations={features[0]?.destinations}
             months={months}
             traveller={features[0]?.traveller}
             expereinces={features[0]?.experiences}
@@ -65,7 +62,7 @@ export default async function Home() {
 
       {reviews && reviews.length > 0 && <Testimonials reviews={reviews} />}
 
-      {/* {data.moments && data.moments.length > 0 && <MomentsHome monents={data.moments} />} */}
+      {/* {data.moments && data.moments.length > 0 && <MomentsHome moments={data.moments} />} */}
       {/* {reviews && reviews.length > 0 && <Reviews reviews={reviews} />} */}
       {data?.tours && data?.tours.length > 0 && <Trips trips={data.tours} />}
 

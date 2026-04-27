@@ -5,28 +5,26 @@ import Trips from "../../components/Featured/Trips";
 import GroupHome from "../../components/Featured/GroupHome";
 import Testimonials from "../../components/Testimonials/Testimonials";
 import Blogs from "../../components/Featured/Blogs";
-import Banner from "../../components/Banner/Banner";
 import Steps from "../../components/Steps/Steps";
+import ContactFormSection from "../../components/Shared/ContactFormSection";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+export const revalidate = 300;
 
 async function getHomepageData() {
   console.log(`API_URL: ${process.env.API_URL}`);
   try {
     const response = await fetch(`${process.env.API_URL}/api/home`, {
-      // cache: "force-cache",
       headers: {
         Authorization: `Bearer ${process.env.API_TOKEN}`,
       },
-      cache: "no-cache",
+      next: { revalidate: 300 },
     });
 
     if (!response.ok) {
       // Throw an error for non-2xx responses
       throw new Error(`Failed to fetch data: ${response.status}`);
     }
-    const home = response.json();
+    const home = await response.json();
     return home;
   } catch (error) {
     console.error("Error fetching homepage data:", error);
@@ -38,9 +36,6 @@ export default async function Home() {
   const { data } = await getHomepageData();
 
   const { hero, months, destinations, reviews, features } = data || {};
-
-  const bannerTitle = "Dreaming of an Adventure? /n Let's Talk!";
-  const bannerCta = "Enquire now";
 
   // console.log(hero, months, destinations, reviews, features);
 
@@ -69,7 +64,7 @@ export default async function Home() {
       {features[0]?.blogs && features[0]?.blogs.length > 0 && (
         <Blogs blogs={features[0]?.blogs.reverse()} />
       )}
-      <Banner title={bannerTitle} cta={bannerCta} />
+      <ContactFormSection source="home" />
     </main>
   );
 }

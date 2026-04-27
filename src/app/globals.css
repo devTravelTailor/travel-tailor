@@ -3,6 +3,10 @@
 @import 'tailwindcss/preflight';
 @import 'tw-animate-css';
 
+:root {
+  --font-heading: var(--font-open-sans), Outfit, sans-serif;
+}
+
 .ytp-chrome-top,
 .ytp-title,
 .ytp-gradient-top {
@@ -212,8 +216,8 @@ body::-webkit-scrollbar {
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
 
-  --font-alt: 'Caveat', cursive;
-  --font-prime: 'Open Sans', sans-serif;
+  --font-alt: var(--font-caveat), cursive;
+  --font-prime: var(--font-open-sans), sans-serif;
 }
 
 [id] {
@@ -245,7 +249,7 @@ h3 {
 }
 
 html {
-  scroll-behavior: auto;
+  scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
 }
 

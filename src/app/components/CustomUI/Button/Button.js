@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 
 function Button({
@@ -6,9 +8,25 @@ function Button({
   href = "/",
   varient = "fill",
   type = "link",
+  onClick,
   ...props
 }) {
   const classes = `btn ${varient} ${className}`.trim();
+
+  const handleClick = (event) => {
+    if (typeof onClick === "function") {
+      onClick(event);
+      if (event.defaultPrevented) return;
+    }
+
+    if (typeof href === "string" && href.startsWith("#")) {
+      const target = document.querySelector(href);
+      if (target) {
+        event.preventDefault();
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+  };
 
   if (type === "block") {
     return (
@@ -19,7 +37,7 @@ function Button({
   }
 
   return (
-    <Link className={classes} href={href} {...props}>
+    <Link className={classes} href={href} onClick={handleClick} {...props}>
       {children}
     </Link>
   );

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useDeferredValue } from 'react';
 import TourList from '../../components/TourList/TourList';
 import ImageCollageGrid from '../../components/Shared/ImageCollageGrid';
 
@@ -16,10 +16,10 @@ export default function ToursPage() {
   const [selectedDestination, setSelectedDestination] = useState('');
   const [selectedMonth, setSelectedMonth] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
+  const deferredSearchQuery = useDeferredValue(searchQuery);
 
   // Guards for Strict Mode + race conditions
   const requestKeyRef = useRef('');
-  const didMountRef = useRef(false);
 
   // Load filter options once
   useEffect(() => {
@@ -29,18 +29,20 @@ export default function ToursPage() {
         const [destRes, monthRes] = await Promise.all([
           fetch(
             `${process.env.NEXT_PUBLIC_API_URL}/api/destinations?limit=200`,
-            {
-              headers: {
-                Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+              {
+                headers: {
+                  Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+                },
+                signal: controller.signal,
+                cache: 'force-cache',
               },
-              signal: controller.signal,
-            },
           ),
           fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/months?limit=200`, {
             headers: {
               Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
             },
             signal: controller.signal,
+            cache: 'force-cache',
           }),
         ]);
 
@@ -63,15 +65,8 @@ export default function ToursPage() {
   }, []);
 
   useEffect(() => {
-    // In dev, Strict Mode re-invokes effects on mount; this guard prevents double run.
-    if (process.env.NODE_ENV !== 'production') {
-      if (!didMountRef.current) {
-        didMountRef.current = true;
-      }
-    }
-
     const controller = new AbortController();
-    const key = `${selectedDestination}:${selectedMonth}:${page}:${Date.now()}`;
+    const key = `${selectedDestination}:${selectedMonth}:${deferredSearchQuery}:${page}`;
     requestKeyRef.current = key;
 
     const params = new URLSearchParams({
@@ -87,8 +82,8 @@ export default function ToursPage() {
       params.append('month', selectedMonth); // relation graph (monthTag/_id)
       params.append('tagMonths', selectedMonth); // legacy array field
     }
-    if (searchQuery) {
-      params.append('q', searchQuery);
+    if (deferredSearchQuery) {
+      params.append('q', deferredSearchQuery);
     }
 
     (async () => {
@@ -98,14 +93,14 @@ export default function ToursPage() {
       try {
         const res = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/api/tour/?${params.toString()}`,
-          {
-            headers: {
-              Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+            {
+              headers: {
+                Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+              },
+              signal: controller.signal,
+              cache: 'force-cache',
             },
-            signal: controller.signal,
-            cache: 'no-store',
-          },
-        );
+          );
 
         if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
 
@@ -142,7 +137,7 @@ export default function ToursPage() {
     })();
 
     return () => controller.abort();
-  }, [selectedDestination, selectedMonth, searchQuery, page]);
+  }, [selectedDestination, selectedMonth, deferredSearchQuery, page]);
 
   const handleFilterChange = (filterKey, value) => {
     setTourData([]);

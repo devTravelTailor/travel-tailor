@@ -44,7 +44,7 @@ export function TourCard({
 
   return (
     <Link
-      href={`/creator/tour/${slug}`}
+      href={`/tours/${slug}`}
       target="_blank"
       rel="noopener noreferrer"
       className="block"
@@ -55,7 +55,7 @@ export function TourCard({
             <img
               src={heroImg}
               alt={title}
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+              className="w-full h-full object-cover scale-105 transition-transform duration-700 group-hover:scale-100"
             />
           ) : (
             <div className="flex items-center justify-center w-full h-full bg-muted">

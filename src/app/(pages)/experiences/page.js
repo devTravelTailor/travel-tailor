@@ -1,84 +1,65 @@
-"use client";
+import List from '../../components/List/List';
+import styles from './styles.module.css';
 
-import { useState, useEffect } from "react";
-import List from "../../components/List/List";
-import Spinner from "../../components/CustomUI/Spinner/Spinner";
-import styles from "./styles.module.css";
+export const revalidate = 300;
 
-export default function ExperiencesPage() {
-  const [experienceData, setExperienceData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+async function getExperienceData() {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/site_experienceslist/`,
+    {
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+      },
+      next: { revalidate: 300 },
+    },
+  );
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      setError(null);
+  if (!response.ok) {
+    throw new Error(`HTTP error! Status: ${response.status}`);
+  }
 
-      try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/site_experienceslist/`,
-          {
-            headers: {
-              Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
-            },
-          }
-        );
+  const data = await response.json();
+  return data.data;
+}
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
+export default async function ExperiencesPage() {
+  try {
+    const experienceData = await getExperienceData();
 
-        const data = await response.json();
-        // console.log('data', data);
-
-        setExperienceData(data.data);
-      } catch (err) {
-        console.error("Failed to fetch experiences:", err);
-        setError(err.message || "Failed to fetch experience data.");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  return (
-    <section className={styles.experiences}>
-      {isLoading ? (
-        <div className="min-h-[60vh] flex items-center justify-center">
-          <Spinner />
-        </div>
-      ) : error ? (
-        <div
-          style={{
-            padding: "var(--pd-page)",
-            color: "red",
-            textAlign: "center",
-          }}
-        >
-          Error: {error}
-        </div>
-      ) : !experienceData ||
+    return (
+      <section className={styles.experiences}>
+        {!experienceData ||
         !experienceData.group ||
         experienceData.group.length === 0 ? (
+          <div
+            style={{
+              padding: 'var(--pd-page)',
+              textAlign: 'center',
+              color: 'var(--color-grey)',
+            }}>
+            No experiences found.
+          </div>
+        ) : (
+          <List
+            data={experienceData}
+            itemBasePath='/experiences'
+            itemKeyName='experiences'
+          />
+        )}
+      </section>
+    );
+  } catch (err) {
+    return (
+      <section className={styles.experiences}>
         <div
           style={{
-            padding: "var(--pd-page)",
-            textAlign: "center",
-            color: "var(--color-grey)",
-          }}
-        >
-          No experiences found.
+            padding: 'var(--pd-page)',
+            color: 'red',
+            textAlign: 'center',
+          }}>
+          Error: {err.message}
         </div>
-      ) : (
-        <List
-          data={experienceData}
-          itemBasePath="/experiences"
-          itemKeyName="experiences"
-        />
-      )}
-    </section>
-  );
+      </section>
+    );
+  }
 }

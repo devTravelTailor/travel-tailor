@@ -34,12 +34,21 @@ function Navbar() {
   const [token, setToken] = useState(null);
 
   useEffect(() => {
-    // Fetch user data and check for token on page load
     try {
       const savedToken = localStorage.getItem('token');
+      const savedUser = localStorage.getItem('tt_user');
       setToken(savedToken);
 
-      if (savedToken) {
+      if (savedUser) {
+        try {
+          setUser(JSON.parse(savedUser));
+        } catch (parseError) {
+          console.error('Error parsing cached user', parseError);
+          localStorage.removeItem('tt_user');
+        }
+      }
+
+      if (savedToken && !savedUser) {
         async function fetchUser() {
           const response = await fetch(
             `${process.env.NEXT_PUBLIC_API_URL}/api/users/me`,

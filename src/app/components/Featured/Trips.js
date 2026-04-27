@@ -2,7 +2,6 @@ import styles from "./styles.module.css";
 
 import SectionTitle from "../CustomUI/SectionTitle/SectionTitle";
 import Tour from "../CustomUI/Card/Tour";
-import Button from "../CustomUI/Button/Button";
 function Trips({ trips }) {
   // trips = [
   //     {
@@ -88,9 +87,6 @@ function Trips({ trips }) {
             ))}
         </div>
 
-        <Button href="/tours" varient="outline" className="sw">
-          View more
-        </Button>
       </div>
     </section>
   );

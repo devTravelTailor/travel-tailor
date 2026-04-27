@@ -2,18 +2,21 @@ import { notFound } from 'next/navigation';
 import {
   ArrowUpRight,
   CalendarRange,
+  FileDown,
   Sparkles,
   Users,
   Wallet,
 } from 'lucide-react';
-import Banner from '../../../components/Banner/Banner';
 import SectionGrid from '../../../components/Destinations/SectionGrid';
 import ThingsToDoAlt from '../../../components/Destinations/ThingsToDoAlt';
 import PlacesCarousel from '../../../components/Destinations/PlacesCarousel';
 import TourRow from '../../../components/Destinations/TourRow';
+import DestinationTestimonial from '../../../components/Destinations/DestinationTestimonial';
 import Highlights from '../../../components/Sections/Highlights';
 import ParallaxScrollImg from '../../../components/CustomUI/Animation/ParallaxScrollImg';
+import SmoothScroll from '../../../components/Shared/SmoothScroll';
 import parseUrl from '../../../util/parseUrl';
+import ContactFormSection from '../../../components/Shared/ContactFormSection';
 
 // Keep this route dynamic so dashboard edits (e.g., idealFor) show up immediately
 export const dynamic = 'force-dynamic';
@@ -126,13 +129,20 @@ export async function generateStaticParams() {
     }
 
     const destinations = await response.json();
+    const destinationList = Array.isArray(destinations)
+      ? destinations
+      : Array.isArray(destinations?.data)
+        ? destinations.data
+        : Array.isArray(destinations?.items)
+          ? destinations.items
+          : [];
 
-    if (!Array.isArray(destinations)) {
+    if (!Array.isArray(destinationList)) {
       console.error('Fetched destination slugs is not an array:', destinations);
       return [];
     }
 
-    return destinations.map((dest) => ({
+    return destinationList.map((dest) => ({
       slug: dest.slug,
     }));
   } catch (error) {
@@ -160,11 +170,11 @@ export default async function DestinationPage({ params }) {
   const bestTimeMonths = Array.isArray(rawTagMonths)
     ? rawTagMonths
     : typeof rawTagMonths === 'string'
-    ? rawTagMonths
-        .split(/[,/|]+/)
-        .map((m) => m.trim())
-        .filter(Boolean)
-    : [];
+      ? rawTagMonths
+          .split(/[,/|]+/)
+          .map((m) => m.trim())
+          .filter(Boolean)
+      : [];
   const bestTimeDisplay =
     bestTimeMonths.length > 0
       ? bestTimeMonths
@@ -206,8 +216,8 @@ export default async function DestinationPage({ params }) {
   const placesToVisit = Array.isArray(destinationData.placesToVisit)
     ? destinationData.placesToVisit
     : Array.isArray(destinationData.spotlights)
-    ? destinationData.spotlights
-    : [];
+      ? destinationData.spotlights
+      : [];
 
   const tours = Array.isArray(destinationData.tours)
     ? destinationData.tours
@@ -215,6 +225,9 @@ export default async function DestinationPage({ params }) {
 
   const blogs = Array.isArray(destinationData.blogs)
     ? destinationData.blogs
+    : [];
+  const testimonials = Array.isArray(destinationData.testimonials)
+    ? destinationData.testimonials
     : [];
   const experienceTags = (
     experiences.length > 0 ? experiences : thingsToDo
@@ -236,7 +249,9 @@ export default async function DestinationPage({ params }) {
     const first = parts.shift() || '';
     const rest = parts.join(' ');
     return (
-      <h2 className='text-2xl md:text-3xl font-semibold text-center text-gray-900'>
+      <h2
+        className='text-2xl md:text-3xl font-semibold text-center text-gray-900'
+        style={{ fontFamily: "'Filson Pro', sans-serif" }}>
         <span className='text-[#ff5b06] text-3xl md:text-4xl font-handwriting mr-2'>
           {first}
         </span>
@@ -262,11 +277,17 @@ export default async function DestinationPage({ params }) {
     },
     { label: 'Tours', href: '#tours', hasData: tours.length > 0 },
 
+    {
+      label: 'Testimonials',
+      href: '#testimonials',
+      hasData: testimonials.length > 0,
+    },
     { label: 'Blogs', href: '#blogs', hasData: blogs.length > 0 },
   ].filter((item) => item.hasData);
 
   return (
     <main>
+      <SmoothScroll />
       <section className='pt-8 md:pt-12 pb-4'>
         <div className='w-full px-4 md:px-8'>
           {/* Mobile-first hero */}
@@ -298,7 +319,9 @@ export default async function DestinationPage({ params }) {
                     <p className='text-[11px] uppercase tracking-[0.18em] text-[#ff5b06] font-semibold'>
                       Destination spotlight
                     </p>
-                    <h1 className='text-xl sm:text-2xl font-semibold leading-tight text-gray-900'>
+                    <h1
+                      className='text-xl sm:text-2xl font-semibold leading-tight text-gray-900'
+                      style={{ fontFamily: "'Filson Pro', sans-serif" }}>
                       {destinationData.title}
                     </h1>
                     {destinationData.description && (
@@ -341,7 +364,7 @@ export default async function DestinationPage({ params }) {
                     </div>
 
                     <a
-                      href={`/contact?src=${resolvedParams.slug || ''}`}
+                      href='#contact-form'
                       className='mt-3 inline-flex items-center justify-center gap-2 w-full rounded-full bg-[#ff5b06] text-white border border-[#ff5b06] px-4 py-2 text-sm font-semibold shadow-sm hover:-translate-y-0.5 hover:bg-transparent hover:text-[#ff5b06] hover:border-[#ff5b06] transition'>
                       Enquire now
                       <ArrowUpRight className='w-4 h-4' />
@@ -382,7 +405,9 @@ export default async function DestinationPage({ params }) {
               <p className='text-xs uppercase tracking-[0.25em] text-[#ff5b06]/80 font-semibold'>
                 Destination spotlight
               </p>
-              <h1 className='text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight text-gray-900'>
+              <h1
+                className='text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight text-gray-900'
+                style={{ fontFamily: "'Filson Pro', sans-serif" }}>
                 {destinationData.title}
               </h1>
               {destinationData.description && (
@@ -490,7 +515,7 @@ export default async function DestinationPage({ params }) {
                         </p>
                       </div>
                       <a
-                        href={`/contact?src=${resolvedParams.slug || ''}`}
+                        href='#contact-form'
                         className='inline-flex items-center gap-2 justify-center whitespace-nowrap rounded-full bg-[#ff5b06] text-white border border-[#ff5b06] px-4 py-2 text-sm font-semibold shadow-sm hover:-translate-y-0.5 hover:bg-transparent hover:text-[#ff5b06] hover:border-[#ff5b06] transition'>
                         Enquire now
                         <ArrowUpRight className='w-4 h-4' />
@@ -571,6 +596,10 @@ export default async function DestinationPage({ params }) {
         />
       )}
 
+      {testimonials.length > 0 && (
+        <DestinationTestimonial testimonials={testimonials} />
+      )}
+
       {blogs.length > 0 && (
         <SectionGrid
           id='blogs'
@@ -586,14 +615,25 @@ export default async function DestinationPage({ params }) {
         />
       )}
 
-      {/* Render Banner - Using specific data or fallbacks */}
-      <Banner
-        title={
-          destinationData.bannerTitle ||
-          "Ready to Explore?\nLet's Plan Your Trip!"
-        }
-        cta={destinationData.bannerCta || 'Get a Quote'}
-        url={`/contact?src=${resolvedParams.slug}`}
+      {destinationData.guidePdf && (
+        <a
+          href={`/api/destinations/${resolvedParams.slug}/guide`}
+          aria-label='Download destination guide'
+          title='Download destination guide'
+          className='group fixed right-5 bottom-28 md:bottom-32 z-[1001] inline-flex flex-col items-end gap-2 transition hover:-translate-y-0.5'>
+          <div className='pointer-events-none rounded-2xl border border-black bg-white px-4 py-2 text-xs sm:text-sm font-medium text-gray-900 shadow-[2px_3px_0px_#ff5b06] transition group-hover:-translate-y-0.5'>
+            <span className='hidden sm:inline'>Download destination guide</span>
+            <span className='sm:hidden'>Guide</span>
+          </div>
+          <div className='flex h-12 w-12 items-center justify-center rounded-full border border-[#ff5b06] bg-white text-[#ff5b06] shadow-lg shadow-black/10 transition group-hover:bg-[#ff5b06] group-hover:text-white'>
+            <FileDown className='h-5 w-5' />
+          </div>
+        </a>
+      )}
+
+      {/* Shared CTA contact-form section */}
+      <ContactFormSection
+        source={destinationData.title || resolvedParams.slug}
       />
     </main>
   );

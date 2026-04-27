@@ -13,10 +13,10 @@ const BASE_PATHS = {
   blogs: "/blogs",
   destinations: "/destinations",
   experiences: "/experiences",
-  tours: "/creator/tour",
+  tours: "/tours",
   creators: "/creator",
   creatorBlogs: "/blogs",
-  creatorTours: "/creator/tour",
+  creatorTours: "/tours",
 };
 
 const CATEGORY_TITLES = {

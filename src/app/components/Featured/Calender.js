@@ -4,15 +4,30 @@ import Image from "next/image";
 
 import parseUrl from "../../util/parseUrl";
 
+function capitalizeFirstLetter(value) {
+  const text = String(value || "").trim();
+  if (!text) return "";
+  return text.charAt(0).toUpperCase() + text.slice(1);
+}
+
 function Calender({ months }) {
   const MonthCard = ({ month, imgUrl }) => {
+    const monthLabel = capitalizeFirstLetter(month);
+
     return (
       <Link className={styles.monthCard} href={`/calendar/${month}`}>
         <div className={styles.monthCardBg}>
-          <Image src={parseUrl(imgUrl)} alt={month} width={400} height={300} />
+          <Image
+            src={parseUrl(imgUrl)}
+            alt={monthLabel || month}
+            width={400}
+            height={300}
+          />
         </div>
         <div className={styles.monthCardContent}>
-          <div className={styles.monthCardTitle + "capitalize"}>{month}</div>
+          <div className={`${styles.monthCardTitle} capitalize`}>
+            {monthLabel || month}
+          </div>
         </div>
       </Link>
     );

@@ -1,46 +1,41 @@
 import Link from 'next/link';
 import { Card, CardContent } from './components/ui/card';
 import { Compass, MapPin, Route, Star, Users } from 'lucide-react';
-import { Button } from './components/ui/button';
-import Banner from './components/Banner/Banner';
+import ContactFormSection from './components/Shared/ContactFormSection';
 import Image from 'next/image';
 import { TourCard } from './components/TourList/TourCard';
 import GroupHome from './components/Featured/GroupHome';
 
-export const dynamic = 'force-dynamic';
-export const fetchCache = 'force-no-store';
-export const revalidate = 0;
+export const revalidate = 300;
 
 export default async function Main() {
   // ✅ Fetch on the server (SSR)
   let data = {};
-
-  try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/main`, {
-      headers: {
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
-      },
-      cache: 'no-store',
-    });
-
-    if (!res.ok) {
-      console.error('Failed to fetch hero data:', res.status, res.statusText);
-    } else {
-      data = (await res.json())?.data || {};
-    }
-  } catch (err) {
-    console.error('Main homepage fetch errored:', err);
-  }
-
   let homeData = {};
 
-  try {
-    const homeRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/home`, {
-      headers: {
+  const authHeader = process.env.NEXT_PUBLIC_API_TOKEN
+    ? {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
-      },
-      cache: 'no-store',
-    });
+      }
+    : undefined;
+
+  try {
+    const [res, homeRes] = await Promise.all([
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/main`, {
+        headers: authHeader,
+        next: { revalidate: 300 },
+      }),
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/home`, {
+        headers: authHeader,
+        next: { revalidate: 300 },
+      }),
+    ]);
+
+    if (res.ok) {
+      data = (await res.json())?.data || {};
+    } else {
+      console.error('Failed to fetch hero data:', res.status, res.statusText);
+    }
 
     if (homeRes.ok) {
       homeData = (await homeRes.json())?.data || {};
@@ -52,7 +47,7 @@ export default async function Main() {
       );
     }
   } catch (err) {
-    console.warn('Fallback home fetch errored:', err);
+    console.warn('Homepage fetch errored:', err);
   }
 
   const months = data?.months || homeData?.months || [];
@@ -84,9 +79,6 @@ export default async function Main() {
   const heroLine2 = heroContent.line2 || 'Every Journey';
   const heroTagline =
     heroContent.tagline || 'Fly above the ordinary, travel today.';
-  const heroCtaText =
-    heroContent.ctaText || "Let's craft your next adventure today!";
-  const heroCtaUrl = heroContent.ctaUrl || '/contact';
   const shouldShowGroupHome =
     destinations.length > 0 ||
     months.length > 0 ||
@@ -125,13 +117,6 @@ export default async function Main() {
           <p className='text-md md:text-2xl xl:text-3xl text-white/90 mb-6 xl:mb-12 font-light'>
             {heroTagline}
           </p>
-          <div>
-            <Link href={heroCtaUrl || '/contact'}>
-              <Button varient='outline' className=' bg-[#ff5b06] text-white'>
-                {heroCtaText}
-              </Button>
-            </Link>
-          </div>
         </div>
       </div>
 
@@ -299,10 +284,12 @@ export default async function Main() {
                           <a href={`/creator/${advisor.slug || advisor._id}`}>
                             {/* Image */}
                             <div className='absolute inset-0 overflow-hidden'>
-                              <img
+                              <Image
                                 src={advisor.profileImg || fallback}
                                 alt={advisor.name}
-                                className='w-full h-full object-cover transition-transform scale-110 duration-700 ease-in-out group-hover:scale-100'
+                                fill
+                                sizes='200px'
+                                className='object-cover transition-transform scale-110 duration-700 ease-in-out group-hover:scale-100'
                               />
                               <div className='absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent' />
                             </div>
@@ -364,21 +351,10 @@ export default async function Main() {
             )}
           </div>
 
-          <Link href='/creator'>
-            <Button
-              type='block'
-              varient='outline'
-              className='mx-auto block mt-12 rounded-full hover:bg-white border border-[#ff5b06] hover:text-[#ff5b06] bg-[#ff5b06] text-white'>
-              Explore More
-            </Button>
-          </Link>
         </section>
       )}
 
-      <Banner
-        title={"Dreaming of an Adventure? /nLet's Talk!"}
-        cta={'Enquire now'}
-      />
+      <ContactFormSection source='home' />
     </section>
   );
 }

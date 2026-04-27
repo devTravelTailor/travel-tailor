@@ -6,6 +6,7 @@ import { CalendarClock, MapPin, MapPinned, NotebookPen } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import parseUrl from '../../util/parseUrl';
+import BlogCard from '../Shared/BlogCard';
 
 const getImage = (item) =>
   item?.imgUrl ||
@@ -107,12 +108,17 @@ export default function SectionGrid({
             const description = getDescription(item);
             const location = getLocation(item);
             const link = resolveLink(type, item);
+            const isBlogCard = type === 'blogs';
             const days =
               item?.details?.totalDays ||
               item?.details?.duration ||
               item?.duration ||
               item?.days ||
               item?.nights;
+
+            if (isBlogCard) {
+              return <BlogCard key={idx} blog={item} />;
+            }
 
             const card = (
               <div className='h-full flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl'>
@@ -134,11 +140,6 @@ export default function SectionGrid({
                       {days} days
                     </Badge>
                   )}
-                  {type === 'blogs' && (
-                    <Badge className='absolute top-3 right-3 bg-white/90 text-[#ff5b06] border-0 shadow-sm'>
-                      Blog
-                    </Badge>
-                  )}
                 </div>
 
                 <div className='flex-1 p-6 flex flex-col gap-3'>
@@ -146,8 +147,6 @@ export default function SectionGrid({
                     <span>
                       {type === 'tours'
                         ? 'Tour'
-                        : type === 'blogs'
-                        ? 'Story'
                         : type === 'places'
                         ? 'Place'
                         : 'Experience'}

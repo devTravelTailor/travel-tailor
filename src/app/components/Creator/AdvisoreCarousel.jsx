@@ -13,6 +13,7 @@ const AdvisorCarousel = ({
 }) => {
   const carouselRef = useRef(null); // Reference to the carousel container
   const [displayData, setDisplayData] = useState([]);
+
   console.log(data);
 
   useEffect(() => {

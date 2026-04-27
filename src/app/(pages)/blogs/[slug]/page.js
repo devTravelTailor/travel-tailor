@@ -2,7 +2,7 @@ import BlogBody from "../../../components/BlogBody/BlogBody";
 import BlogHero from "../../../components/Hero/BlogHero";
 import Tours from "../../../components/Sections/Tours";
 import Blogs from "../../../components/Featured/Blogs";
-import Banner from "../../../components/Banner/Banner";
+import ContactFormSection from "../../../components/Shared/ContactFormSection";
 
 import { notFound } from "next/navigation";
 import Experiences from "../../../components/Sections/Experiences";
@@ -267,11 +267,7 @@ async function BlogPage({ params }) {
         {data.experiences && data.experiences.length > 2 && (
           <Experiences experiences={data.experiences} />
         )}
-        <Banner
-          title={data.bannerTitle || "Ready to Explore?/nLet's Plan Your Trip!"}
-          cta={data.bannerCta || "Get a Quote"}
-          url={`/contact?src=${resolvedParams.slug}`}
-        />
+        <ContactFormSection source={slug} />
       </aside>
     </article>
   );

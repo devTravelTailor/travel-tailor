@@ -7,7 +7,7 @@ import styles from "../../contact/styles.module.css";
 import Spinner from "../../../components/CustomUI/Spinner/Spinner";
 
 import CampaignForm from "../../../components/CustomUI/CampaignForm/CampaignForm";
-import Banner from "../../../components/Banner/Banner";
+import ContactFormSection from "../../../components/Shared/ContactFormSection";
 import Steps from "../../../components/Steps/Steps";
 import Plans from "../../../components/Plans/Plans";
 import Moments from "../../../components/CustomUI/BentoGrid/Moments";
@@ -115,9 +115,7 @@ function Campaign() {
         />
       )}
 
-      <div style={{ marginTop: "80px" }}>
-        <Banner />
-      </div>
+      <ContactFormSection source={campaignId} />
     </section>
   );
 }

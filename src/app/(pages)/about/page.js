@@ -2,7 +2,7 @@ import MonthHero from "../../components/Hero/MonthHero";
 import Highlights from "../../components/Sections/Highlights";
 import DreamVacaySteps from "../../components/Steps/DreamVacaySteps";
 import FoundersSection from "../../components/Sections/Founders/FoundersSection";
-import Banner from "../../components/Banner/Banner";
+import ContactFormSection from "../../components/Shared/ContactFormSection";
 
 export const metadata = {
   title: "About | Travel Tailor",
@@ -32,10 +32,7 @@ At Travel Tailor, we call ourselves digital nomads, and the world is our playgro
 
       <DreamVacaySteps />
       <FoundersSection />
-      <Banner
-        title="Ready for an Adventure? /n Let's Talk!"
-        cta="Enquire now"
-      />
+      <ContactFormSection source="about" />
     </main>
   );
 }

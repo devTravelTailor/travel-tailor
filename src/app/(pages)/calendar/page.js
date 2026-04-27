@@ -1,9 +1,8 @@
+import { Suspense } from "react";
 import Calender from "../../components/Featured/Calender";
-import Spinner from "../../components/CustomUI/Spinner/Spinner";
 import styles from "./styles.module.css";
 
-export const revalidate = 0;
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
 export default async function CalenderPage() {
   const res = await fetch(
@@ -12,7 +11,8 @@ export default async function CalenderPage() {
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
       },
-      cache: "no-store",
+      cache: "force-cache",
+      next: { revalidate: 300 },
     }
   );
 
@@ -20,7 +20,9 @@ export default async function CalenderPage() {
     console.error("Failed to fetch months:", res.status);
     return (
       <main className={styles.calender}>
-        <Spinner />
+        <div className="min-h-[50vh] flex items-center justify-center">
+          <p className="text-gray-500">Failed to load months.</p>
+        </div>
       </main>
     );
   }
@@ -31,7 +33,14 @@ export default async function CalenderPage() {
   return (
     <main>
       <div className={styles.calender}>
-        <Calender months={months} />
+        <Suspense
+          fallback={
+            <div className="min-h-[50vh] flex items-center justify-center">
+              <div className="h-12 w-12 rounded-full border-4 border-gray-200 border-t-[#ff5b06] animate-spin" />
+            </div>
+          }>
+          <Calender months={months} />
+        </Suspense>
       </div>
     </main>
   );

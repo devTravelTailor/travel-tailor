@@ -19,7 +19,7 @@ import {
 const BASE_PATHS = {
   creators: "/creator",
   blogs: "/blogs",
-  tours: "/creator/tour",
+  tours: "/tours",
 };
 
 const CATEGORY_TITLES = {

@@ -18,7 +18,7 @@ import TourHero from '../../../../components/TourCurated/TourHero';
 import UserCard from '../../../../components/TourCurated/UserCard';
 import TourVideoTestimonials from '../../../../components/TourCurated/TestimonialVideoCarousel';
 import Spinner from '../../../../components/CustomUI/Spinner/Spinner';
-import Banner from '../../../../components/Banner/Banner';
+import ContactFormSection from '../../../../components/Shared/ContactFormSection';
 import { MdHiking, MdOutlineCardTravel } from 'react-icons/md';
 import { ArrowRight, Clock, IndianRupee, Plus } from 'lucide-react';
 import {
@@ -85,7 +85,6 @@ export default function TourPage() {
 
       const apiData = await res.json();
       // console.log("res", apiData);
-
       // allow API to return {tour: {...}} or the object directly
       const mapped = toTourModel(apiData?.data || apiData);
       setTour(mapped);
@@ -165,12 +164,7 @@ export default function TourPage() {
   const handlePlanJourney = useCallback(
     (e) => {
       e?.preventDefault();
-      const targets = ['enquire-desktop', 'enquire-mobile'];
-      const visibleTarget =
-        targets
-          .map((id) => document.getElementById(id))
-          .find((el) => el && el.offsetParent !== null)?.id || targets[0];
-      scrollToSection(visibleTarget);
+      scrollToSection('contact-form');
     },
     [scrollToSection],
   );
@@ -507,11 +501,7 @@ export default function TourPage() {
           )}
         </div>
       </div>
-      <Banner
-        title={`Plan Your Adventure!`}
-        cta={'Get Inspired'}
-        url={`/contact?src=${slug}`}
-      />
+      <ContactFormSection source={slug} />
     </>
   );
 }

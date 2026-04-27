@@ -7,9 +7,7 @@ import BlogGridSection from '../../components/Creator/BlogGridSection';
 import Link from 'next/link';
 import { Button } from '../../components/ui/button';
 
-export const dynamic = 'force-dynamic';
-export const fetchCache = 'force-no-store';
-export const revalidate = 0;
+export const revalidate = 300;
 
 export default async function Creator() {
   try {
@@ -19,8 +17,7 @@ export default async function Creator() {
         headers: {
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
         },
-        cache: 'no-store',
-        // next: { revalidate: 60 }, // Optional: revalidation to refresh data every minute
+        next: { revalidate: 300 },
       },
     );
 

@@ -1,4 +1,5 @@
 import Script from "next/script";
+import { Caveat, Open_Sans } from "next/font/google";
 import "./globals.css";
 
 export const metadata = {
@@ -34,7 +35,19 @@ import WhatsAppButton from "./components/CustomUI/Button/Whatsapp";
 import AnalyticsLoader from "./lib/AnLoader";
 import PopupForm from "./components/Popup/PopupForm";
 import GoogleProviderClient from "./components/Auth/GoogleProviderClient";
-import { ToastContainer } from "react-toastify";
+import ToastProvider from "./components/Toast/ToastProvider";
+
+const caveat = Caveat({
+  subsets: ["latin"],
+  variable: "--font-caveat",
+  display: "swap",
+});
+
+const openSans = Open_Sans({
+  subsets: ["latin"],
+  variable: "--font-open-sans",
+  display: "swap",
+});
 
 async function getSettings() {
   try {
@@ -72,7 +85,11 @@ export default async function RootLayout({ children }) {
   const extraScripts = setting?.tracking?.extraScripts;
 
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      className={`${caveat.variable} ${openSans.variable}`}
+      suppressHydrationWarning
+    >
       <head>
         {gtmId ? (
           <Script
@@ -106,9 +123,6 @@ export default async function RootLayout({ children }) {
           defer
         ></script>
 
-        <style>{`
-          @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap');
-        `}</style>
       </head>
       <body suppressHydrationWarning>
         {gtmId ? (
@@ -135,16 +149,7 @@ export default async function RootLayout({ children }) {
 
           <PopupForm />
         </GoogleProviderClient>
-        <ToastContainer
-          position="top-right"
-          autoClose={3000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          pauseOnHover
-          draggable
-          theme="light"
-        />
+        <ToastProvider />
 
         <AnalyticsLoader />
       </body>

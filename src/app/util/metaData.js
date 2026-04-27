@@ -6,7 +6,7 @@ export const metadata = {
     "travel consultant, custom trip planner, customised itinerary, travel advisor, travel agent and travel consultant",
 
   icons: {
-    icon: "/favicon.ico",
+    icon: "/images/logoAlt.png",
     shortcut: "/images/logoAlt.png",
     apple: "/images/logoAlt.png",
   },

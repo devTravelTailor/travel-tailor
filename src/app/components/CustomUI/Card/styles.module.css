@@ -139,7 +139,7 @@
   object-position: center bottom;
   filter: brightness(0.7);
   transition: scale 0.6s ease-in-out;
-  scale: 1.04;
+  scale: 1.05;
 }
 
 .previewImgBox:hover img {

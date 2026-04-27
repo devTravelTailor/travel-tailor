@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import styles from "./styles.module.css";
 
-import Button from "../CustomUI/Button/Button";
 import ArrowBtn from "../CustomUI/Button/ArrowBtn";
 
 import Varients from "../../lib/varients";
@@ -104,21 +103,6 @@ function HomeHero({ heroData }) {
                 </motion.p>
               </div>
 
-              <motion.div variants={Varients.heroHomeContentChildFinal}>
-                <Button
-                  href={
-                    hero.url?.startsWith("http://") ||
-                    hero.url?.startsWith("https://")
-                      ? hero.url
-                      : `${process.env.NEXT_PUBLIC_URL_PREFIX || ""}${
-                          hero.url || ""
-                        }`
-                  }
-                  className="md"
-                >
-                  {hero.CTA || hero.cta || "Explore"}
-                </Button>
-              </motion.div>
             </motion.div>
           </AnimatePresence>
 

@@ -149,21 +149,17 @@ function CarouselItem({ className, ...props }) {
 
 function CarouselPrevious({
   className,
-  variant = "outline",
-  size = "icon",
   ...props
 }) {
   const { orientation, scrollPrev, canScrollPrev } = useCarousel();
 
   return (
-    <Button
+    <button
       data-slot="carousel-previous"
-      variant={variant}
-      size={size}
       className={cn(
-        "absolute size-8 rounded-full",
+        "absolute size-12 rounded-full flex items-center justify-center bg-transparent backdrop-blur-md border border-white/60 text-[#f05a22] hover:bg-[#f05a22] hover:text-white hover:border-[#f05a22] transition-all duration-300 z-20 group disabled:opacity-50 disabled:pointer-events-none",
         orientation === "horizontal"
-          ? "top-1/2 -left-12 -translate-y-1/2"
+          ? "top-1/2 -left-6 lg:-left-12 -translate-y-1/2"
           : "-top-12 left-1/2 -translate-x-1/2 rotate-90",
         className
       )}
@@ -171,29 +167,25 @@ function CarouselPrevious({
       onClick={scrollPrev}
       {...props}
     >
-      <ArrowLeft />
+      <ArrowLeft size={20} strokeWidth={1.5} className="group-hover:-translate-x-0.5 transition-transform" />
       <span className="sr-only">Previous slide</span>
-    </Button>
+    </button>
   );
 }
 
 function CarouselNext({
   className,
-  variant = "outline",
-  size = "icon",
   ...props
 }) {
   const { orientation, scrollNext, canScrollNext } = useCarousel();
 
   return (
-    <Button
+    <button
       data-slot="carousel-next"
-      variant={variant}
-      size={size}
       className={cn(
-        "absolute size-8 rounded-full",
+        "absolute size-12 rounded-full flex items-center justify-center bg-transparent backdrop-blur-md border border-white/60 text-[#f05a22] hover:bg-[#f05a22] hover:text-white hover:border-[#f05a22] transition-all duration-300 z-20 group disabled:opacity-50 disabled:pointer-events-none",
         orientation === "horizontal"
-          ? "top-1/2 -right-12 -translate-y-1/2"
+          ? "top-1/2 -right-6 lg:-right-12 -translate-y-1/2"
           : "-bottom-12 left-1/2 -translate-x-1/2 rotate-90",
         className
       )}
@@ -201,9 +193,9 @@ function CarouselNext({
       onClick={scrollNext}
       {...props}
     >
-      <ArrowRight />
+      <ArrowRight size={20} strokeWidth={1.5} className="group-hover:translate-x-0.5 transition-transform" />
       <span className="sr-only">Next slide</span>
-    </Button>
+    </button>
   );
 }
 

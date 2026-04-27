@@ -147,7 +147,7 @@ export default function Page({ params }) {
                   {galleryLoop.map((item, idx) => (
                     <Link
                       key={`${item.slug || item.title || idx}-${idx}`}
-                      href={item.slug ? `/creator/tour/${item.slug}` : '#'}
+                      href={item.slug ? `/tours/${item.slug}` : '#'}
                       className='gallery-card mx-3 relative w-56 md:w-64 lg:w-72 h-44 md:h-52 flex-shrink-0 overflow-hidden rounded-xl bg-black/5'>
                       <img
                         src={item.img}

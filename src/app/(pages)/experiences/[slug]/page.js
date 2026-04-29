@@ -123,6 +123,7 @@ export default async function ExperiencePage({ params }) {
   const destinations = Array.isArray(data.destinations)
     ? data.destinations
     : [];
+  const categories = Array.isArray(data.categories) ? data.categories : [];
   const blogs = Array.isArray(data.blogs) ? data.blogs : [];
   const testimonials = Array.isArray(data.testimonials)
     ? data.testimonials
@@ -132,6 +133,7 @@ export default async function ExperiencePage({ params }) {
     destinations.find((destination) => destination?.category) ||
     destinations[0] ||
     null;
+  const primaryCategory = categories[0] || primaryDestination?.category || null;
   const bestTime = tagMonths.length
     ? tagMonths
         .map(
@@ -160,9 +162,9 @@ export default async function ExperiencePage({ params }) {
         bestTime={bestTime}
       />
       <ExperienceQuote
-        category={primaryDestination?.category}
+        category={primaryCategory}
         destination={primaryDestination}
-        quote={primaryDestination?.category?.quote}
+        quote={primaryCategory?.quote}
       />
       <ExperienceHighlight
         highlight={data.highlight}

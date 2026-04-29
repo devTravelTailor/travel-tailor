@@ -36,7 +36,7 @@ export default function DestinationCard({ destination }) {
         <img
           src={parseUrl(image)}
           alt={destination.title}
-          className='absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105'
+          className='absolute inset-0 w-full h-full object-cover scale-105 transition-transform duration-700 ease-out group-hover:scale-100'
         />
       )}
       <div className='absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/80' />

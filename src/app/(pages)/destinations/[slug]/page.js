@@ -237,12 +237,9 @@ export default async function DestinationPage({ params }) {
   const highlightSubtitle =
     destinationData.highlight?.brief ||
     `Signature moments and must-see details from ${destinationData.title}.`;
-  const highlightHeader = `Highlight for ${
-    destinationData.location || destinationData.title || 'this destination'
-  }`;
-  const highlightSubheader = `Check out the highlights of ${
-    destinationData.location || destinationData.title || 'this destination'
-  }.`;
+  const highlightDestinationName = destinationData.title || 'this destination';
+  const highlightHeader = `Highlight for ${highlightDestinationName}`;
+  const highlightSubheader = `Check out the highlights of ${highlightDestinationName}.`;
 
   const renderAccentHeading = (text) => {
     const parts = String(text || '').split(' ');

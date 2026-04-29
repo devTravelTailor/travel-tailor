@@ -21,7 +21,7 @@ export default async function Creator() {
       },
     );
 
-    if (res.status !== 200) {
+    if (!res.ok) {
       throw new Error(`Failed to fetch (${res.status} ${res.statusText})`);
     }
 

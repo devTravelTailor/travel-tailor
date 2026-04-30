@@ -7,7 +7,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "../ui/avatar";
 import Autoplay from "embla-carousel-autoplay";
 import parseUrl from "../../util/parseUrl";
 
-const reviewsSection = ({ data, happyCustomers = "2,340" }) => {
+const ReviewsSection = ({ data, happyCustomers = "2,340" }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   // console.log(data);
@@ -26,7 +26,7 @@ const reviewsSection = ({ data, happyCustomers = "2,340" }) => {
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
             <span className="text-orange-500 font-handwriting">
               {" "}
-              Traveller's{" "}
+              Traveller&apos;s{" "}
             </span>
             Picks
           </h2>
@@ -108,7 +108,7 @@ const reviewsSection = ({ data, happyCustomers = "2,340" }) => {
                                 </div>
 
                                 <p className="text-muted-foreground mb-4 leading-relaxed">
-                                  "{testimonial.review}"
+                                  &quot;{testimonial.review}&quot;
                                 </p>
                               </CardContent>
                             </Card>
@@ -136,4 +136,4 @@ const reviewsSection = ({ data, happyCustomers = "2,340" }) => {
   );
 };
 
-export default reviewsSection;
+export default ReviewsSection;

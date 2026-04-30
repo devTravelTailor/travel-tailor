@@ -1,5 +1,4 @@
 import Script from "next/script";
-import { Caveat, Open_Sans } from "next/font/google";
 import "./globals.css";
 
 export const metadata = {
@@ -36,18 +35,6 @@ import AnalyticsLoader from "./lib/AnLoader";
 import PopupForm from "./components/Popup/PopupForm";
 import GoogleProviderClient from "./components/Auth/GoogleProviderClient";
 import ToastProvider from "./components/Toast/ToastProvider";
-
-const caveat = Caveat({
-  subsets: ["latin"],
-  variable: "--font-caveat",
-  display: "swap",
-});
-
-const openSans = Open_Sans({
-  subsets: ["latin"],
-  variable: "--font-open-sans",
-  display: "swap",
-});
 
 async function getSettings() {
   try {
@@ -87,7 +74,6 @@ export default async function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={`${caveat.variable} ${openSans.variable}`}
       suppressHydrationWarning
     >
       <head>

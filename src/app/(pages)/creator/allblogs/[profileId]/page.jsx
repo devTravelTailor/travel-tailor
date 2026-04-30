@@ -6,7 +6,7 @@ import { useParams } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Spinner from "../../../../components/CustomUI/Spinner/Spinner";
 
-const page = () => {
+const Page = () => {
   const params = useParams();
   const profileId = params?.profileId; // ✅ matches folder name [profileId]
 
@@ -156,4 +156,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

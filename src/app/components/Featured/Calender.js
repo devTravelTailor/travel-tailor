@@ -4,6 +4,8 @@ import Image from "next/image";
 
 import parseUrl from "../../util/parseUrl";
 
+const FALLBACK_MONTH_IMAGE = "/images/placeholder-image.png";
+
 function capitalizeFirstLetter(value) {
   const text = String(value || "").trim();
   if (!text) return "";
@@ -12,13 +14,15 @@ function capitalizeFirstLetter(value) {
 
 function Calender({ months }) {
   const MonthCard = ({ month, imgUrl }) => {
-    const monthLabel = capitalizeFirstLetter(month);
+    const monthSlug = String(month || "").trim().toLowerCase();
+    const monthLabel = capitalizeFirstLetter(monthSlug);
+    const imageUrl = parseUrl(imgUrl) || FALLBACK_MONTH_IMAGE;
 
     return (
-      <Link className={styles.monthCard} href={`/calendar/${month}`}>
+      <Link className={styles.monthCard} href={`/calendar/${monthSlug}`}>
         <div className={styles.monthCardBg}>
           <Image
-            src={parseUrl(imgUrl)}
+            src={imageUrl}
             alt={monthLabel || month}
             width={400}
             height={300}
@@ -35,9 +39,15 @@ function Calender({ months }) {
 
   return (
     <div className={styles.calender}>
-      {months.map((month, index) => (
-        <MonthCard key={index} month={month.month} imgUrl={month.heroImg} />
-      ))}
+      {(Array.isArray(months) ? months : [])
+        .filter((month) => month?.month)
+        .map((month) => (
+          <MonthCard
+            key={month._id || month.id || month.month}
+            month={month.month}
+            imgUrl={month.heroImg}
+          />
+        ))}
     </div>
   );
 }

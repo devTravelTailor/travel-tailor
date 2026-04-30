@@ -1,5 +1,4 @@
 import { notFound } from 'next/navigation';
-import { Outfit } from 'next/font/google';
 
 import parseUrl from '../../../util/parseUrl';
 import SmoothScroll from '../../../components/Shared/SmoothScroll';
@@ -11,13 +10,6 @@ import DesignedForOne from '../../../components/Experiences/DesignedForOne';
 import ExperienceTestimonial from '../../../components/Experiences/ExperienceTestimonial';
 import BeforeYouGoSection from '../../../components/Experiences/BeforeYouGoSection';
 import ExperienceContactForm from '../../../components/Experiences/ExperienceContactForm';
-
-const outfit = Outfit({
-  subsets: ['latin'],
-  weight: ['400', '500', '700', '800'],
-  variable: '--font-outfit',
-  display: 'swap',
-});
 
 export const revalidate = 3600;
 
@@ -150,7 +142,7 @@ export default async function ExperiencePage({ params }) {
     : null;
 
   return (
-    <main className={`${outfit.variable} font-sans antialiased bg-white pb-0`}>
+    <main className='font-sans antialiased bg-white pb-0'>
       <SmoothScroll />
       <ExperienceHero
         heroImg={data.heroImg}

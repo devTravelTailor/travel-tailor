@@ -1,5 +1,12 @@
 import Script from "next/script";
+import { Caveat } from "next/font/google";
 import "./globals.css";
+
+const caveat = Caveat({
+  subsets: ["latin"],
+  variable: "--font-alt",
+  display: "swap",
+});
 
 export const metadata = {
   metadataBase: new URL(process.env.DOMAIN || "https://traveltailor.in"),
@@ -84,6 +91,7 @@ export default async function RootLayout({ children }) {
   return (
     <html
       lang="en"
+      className={caveat.variable}
       suppressHydrationWarning
     >
       <head>

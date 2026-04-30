@@ -8,6 +8,7 @@ function SectionTitle({
   className = "",
   variant = "left",
   description,
+  highlightedClassName = "",
   ...props
 }) {
   const variantClass = variant === "center" ? styles.center : styles.left;
@@ -18,7 +19,7 @@ function SectionTitle({
       {...props}
     >
       {/* Parse the title string to inject <br /> and <span> elements */}
-      <h2 className={styles.title}>{parseTitle(title)}</h2>
+      <h2 className={styles.title}>{parseTitle(title, highlightedClassName)}</h2>
       <p className={styles.description}>{description}</p>
     </div>
   );

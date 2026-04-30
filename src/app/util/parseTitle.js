@@ -1,4 +1,4 @@
-function parseTitle(text) {
+function parseTitle(text, spanClassName = "") {
     const result = [];
     let lastIndex = 0;
     let key = 0;
@@ -17,7 +17,11 @@ function parseTitle(text) {
         result.push(<br key={key++} />);
       } else if (match[1] !== undefined) {
         // Wrap the captured text with a span
-        result.push(<span key={key++}>{match[1]}</span>);
+        result.push(
+          <span key={key++} className={spanClassName}>
+            {match[1]}
+          </span>
+        );
       }
       lastIndex = regex.lastIndex;
     }

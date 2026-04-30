@@ -32,6 +32,7 @@ function Blogs({
           title={heading.title}
           description={heading.description}
           className={styles.blogsTitle}
+          highlightedClassName="font-handwriting"
           variant="center"
         />
 

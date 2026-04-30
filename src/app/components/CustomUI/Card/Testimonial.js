@@ -19,8 +19,8 @@ function Testimonial({
           <Image
             src={parseUrl(imgUrl)}
             alt={`Testimonial from ${name}`}
-            layout="fill"
-            objectFit="cover"
+            fill
+            style={{ objectFit: "cover" }}
             quality={100}
           />
         </div>

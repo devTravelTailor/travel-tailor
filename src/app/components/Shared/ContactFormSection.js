@@ -168,12 +168,12 @@ export default function ContactFormSection({
   return (
     <section
       id='contact-form'
-      className='bg-[#df5226] w-full text-white mx-auto mt-0'
+      className='w-full px-4 md:px-6 lg:px-8 py-8 md:py-12'
     >
-      <div className='max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-2 w-full min-h-[700px]'>
+      <div className='max-w-[1780px] mx-auto overflow-hidden rounded-[34px] md:rounded-[40px] border border-[#e7b29d]/55 bg-[#df5226] text-white shadow-[0_28px_80px_rgba(127,49,18,0.18)] grid grid-cols-1 lg:grid-cols-2 w-full min-h-[700px]'>
 
         {/* ── Left panel: editorial copy ── */}
-        <div className='p-8 sm:p-12 lg:p-24 xl:px-32 xl:py-24 flex flex-col justify-center border-b lg:border-b-0 lg:border-r border-white/20'>
+        <div className='p-8 sm:p-12 lg:p-24 xl:px-32 xl:py-24 flex flex-col justify-start border-b lg:border-b-0 lg:border-r border-white/20'>
           <h2
             style={{ fontFamily: 'var(--font-heading)' }}
             className='text-[28px] sm:text-[34px] md:text-[44px] lg:text-[58px] font-extrabold tracking-tighter leading-[1.02] mb-8 md:mb-12 max-w-[600px]'
@@ -198,7 +198,7 @@ export default function ContactFormSection({
         </div>
 
         {/* ── Right panel: form ── */}
-        <div className='p-8 sm:p-12 lg:p-24 xl:px-32 xl:py-24 flex flex-col justify-center w-full max-w-full'>
+        <div className='p-8 sm:p-12 lg:p-24 xl:px-32 xl:py-24 flex flex-col justify-start w-full max-w-full'>
 
           {/* Status message */}
           {submitStatus && (
@@ -226,11 +226,11 @@ export default function ContactFormSection({
                 <label
                   htmlFor={`ctaform-${name}`}
                   style={{ fontFamily: 'var(--font-heading)' }}
-                  className='text-xs md:text-sm font-bold tracking-[0.15em] uppercase text-white/80 mb-3 block'
+                  className='text-xs md:text-sm font-semibold tracking-[0.15em] uppercase text-white mb-3 block'
                 >
                   {label}
                   {['name', 'email', 'phone'].includes(name) && (
-                    <span className='text-white/50 ml-1'>*</span>
+                    <span className='text-white ml-1'>*</span>
                   )}
                 </label>
 
@@ -242,10 +242,10 @@ export default function ContactFormSection({
                   onChange={handleChange}
                   placeholder={placeholder}
                   disabled={isSubmitting || submitStatus === 'success'}
-                  className={`w-full bg-transparent border-b pb-3 md:pb-4 text-white placeholder-white/50 outline-none transition-colors text-base md:text-lg font-medium ${
+                  className={`w-full bg-transparent border-b pb-3 md:pb-4 text-white placeholder-white/65 outline-none transition-colors text-base md:text-lg font-medium ${
                     errors[name]
                       ? 'border-red-300'
-                      : 'border-white/30 focus:border-white'
+                      : 'border-white/35 focus:border-white'
                   }`}
                 />
 

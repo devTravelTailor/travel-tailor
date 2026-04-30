@@ -69,6 +69,7 @@ function Trips({ trips }) {
           title="Best on /n /sTravel Tailor\s"
           description="These are the most enjoyed and loved trips of 2025 by travellers"
           className={styles.tripsTitle}
+          highlightedClassName="font-handwriting"
           variant="center"
         />
 

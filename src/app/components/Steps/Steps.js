@@ -37,6 +37,7 @@ function Steps() {
         <SectionTitle
           title='Steps to your /sDream Trip\s'
           description='see how we can work together to make your dream trip a reality'
+          highlightedClassName='font-handwriting'
           variant='center'></SectionTitle>
 
         <div className={styles.featuresContent}>

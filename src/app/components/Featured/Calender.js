@@ -40,14 +40,23 @@ function Calender({ months }) {
   return (
     <div className={styles.calender}>
       {(Array.isArray(months) ? months : [])
-        .filter((month) => month?.month)
-        .map((month) => (
-          <MonthCard
-            key={month._id || month.id || month.month}
-            month={month.month}
-            imgUrl={month.heroImg}
-          />
-        ))}
+        .map((month) => {
+          const monthValue =
+            month?.month || month?.monthTag || month?.slug || month?.name || month?.title;
+
+          if (!monthValue) {
+            return null;
+          }
+
+          return (
+            <MonthCard
+              key={month._id || month.id || monthValue}
+              month={monthValue}
+              imgUrl={month.heroImg || month.displayImg}
+            />
+          );
+        })
+        .filter(Boolean)}
     </div>
   );
 }

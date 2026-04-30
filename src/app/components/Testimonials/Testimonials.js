@@ -21,6 +21,7 @@ function Testimonials({
       <SectionTitle
         title={title}
         description={description}
+        highlightedClassName="font-handwriting"
         variant="center"
       ></SectionTitle>
 

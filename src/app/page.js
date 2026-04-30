@@ -106,8 +106,8 @@ export default async function Main() {
 
         {/* Center Content */}
         <div className='relative z-10 text-center max-w-4xl mx-auto px-6'>
-          <h2 className='text-6xl mb-4 font-light text-[#ff5b06] tracking-tight leading-tight font-handwriting'>
-            {heroLine1}
+          <h2 className='text-6xl mb-4 font-light text-white tracking-tight leading-tight'>
+            <span className='text-[#ff5b06] font-handwriting'>{heroLine1}</span>
             <br />
             <span className='text-white font-sans text-6xl xl:text-8xl'>
               {heroLine2}
@@ -214,6 +214,7 @@ export default async function Main() {
                   width={280}
                   height={150}
                   alt='logo'
+                  style={{ height: 'auto' }}
                 />
               </Link>
               <span className='text-[#ff5b06] text-3xl md:text-4xl font-handwriting'>
@@ -246,6 +247,7 @@ export default async function Main() {
                     width={250}
                     height={100}
                     alt='logo'
+                    style={{ height: 'auto' }}
                   />
                 </Link>
                 <span className='text-[#ff5b06] text-3xl md:text-4xl font-handwriting'>

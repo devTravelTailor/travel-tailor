@@ -104,8 +104,8 @@ const FoundersSection = () => {
             <Image
               src={himanshuPhotoUrl}
               alt='Himanshu - Co-founder of Travel Tailor'
-              layout='fill'
-              objectFit='cover'
+              fill
+              style={{ objectFit: 'cover' }}
               className={styles.profileImage}
               priority
             />
@@ -148,8 +148,8 @@ const FoundersSection = () => {
             <Image
               src={kanishkaPhotoUrl}
               alt='Kanishka - Co-founder of Travel Tailor'
-              layout='fill'
-              objectFit='cover'
+              fill
+              style={{ objectFit: 'cover' }}
               className={styles.profileImage}
             />
           </motion.div>

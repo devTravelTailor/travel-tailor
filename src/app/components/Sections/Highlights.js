@@ -17,6 +17,8 @@ function Highlights({
 
   ...props
 }) {
+  const highlightImage = parseUrl(imgUrl || img);
+
   return (
     <section className={styles.highlight}>
       <div className={styles.highlightBox}>
@@ -42,11 +44,11 @@ function Highlights({
         <div className={styles.highlightImg}>
           <ParallaxScrollImg speed={6} direction="up">
             <Image
-              src={parseUrl(imgUrl)}
+              src={highlightImage}
               alt="highlight"
               width={790}
               height={740}
-              objectFit="cover"
+              style={{ objectFit: "cover" }}
             />
           </ParallaxScrollImg>
         </div>

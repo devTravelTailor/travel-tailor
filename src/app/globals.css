@@ -216,7 +216,6 @@ body::-webkit-scrollbar {
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
 
-  --font-alt: Caveat, "Comic Sans MS", cursive;
   --font-prime: "Open Sans", Arial, sans-serif;
 }
 
@@ -230,7 +229,22 @@ body::-webkit-scrollbar {
   font-weight: var(--font-weight-medium);
 }
 .font-handwriting {
-  font-family: var(--font-alt);
+  font-family: var(--font-alt), "Comic Sans MS", cursive !important;
+  font-weight: var(--font-weight-regular);
+  line-height: 1.05;
+  letter-spacing: normal;
+}
+
+.text-\[\#ff5b06\],
+.text-\[\#ff5b06\]\/80,
+.text-\[\#ff5b06\]\/90,
+.text-\[\#f05a22\],
+.text-\[\#df5226\],
+.text-\[\#d56a2b\],
+.text-\[\#c84a1d\],
+.text-orange-500,
+.text-orange-500\/20 {
+  font-family: var(--font-alt), "Comic Sans MS", cursive;
 }
 
 h1 {
@@ -251,6 +265,7 @@ h3 {
 html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
+  position: relative;
 }
 
 body {

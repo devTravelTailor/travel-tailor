@@ -16,9 +16,9 @@
 .heading span {
   font-family: var(--font-alt);
   font-size: calc(var(--fs-h2) + 8px);
-  line-height: 0;
+  line-height: 1;
   color: var(--color-primary);
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-regular);
   display: inline-block;
 }
 

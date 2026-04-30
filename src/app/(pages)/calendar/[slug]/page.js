@@ -38,7 +38,8 @@ async function fetchCalendarData(slug) {
 }
 
 export default async function CalendarPage({ params }) {
-  const slug = params?.slug;
+  const resolvedParams = await params;
+  const slug = resolvedParams?.slug;
 
   if (!slug) {
     notFound();
@@ -52,6 +53,20 @@ export default async function CalendarPage({ params }) {
 
   const heroImageUrl = calendarData.heroImg;
   const monthName = slug.charAt(0).toUpperCase() + slug.slice(1);
+  const highlightImage = calendarData.highlight?.img;
+  const isLegacyUploadPath =
+    typeof highlightImage === 'string' && highlightImage.startsWith('/uploads/');
+  const resolvedHighlight =
+    calendarData.highlight &&
+    (calendarData.displayImg || calendarData.heroImg || highlightImage)
+      ? {
+          ...calendarData.highlight,
+          img:
+            !highlightImage || isLegacyUploadPath
+              ? calendarData.displayImg || calendarData.heroImg || highlightImage
+              : highlightImage,
+        }
+      : calendarData.highlight;
 
   const defaultDestinationsHeading = {
     title: `Best places /n to /svisit in ${monthName}\\s`,
@@ -65,7 +80,7 @@ export default async function CalendarPage({ params }) {
   return (
     <main>
       {heroImageUrl && <MonthHero imgUrl={heroImageUrl} month={monthName} />}
-      {calendarData.highlight && <Highlights {...calendarData.highlight} />}
+      {resolvedHighlight && <Highlights {...resolvedHighlight} />}
       {calendarData.tagDestinations &&
         calendarData.tagDestinations.length > 0 && (
           <Destinations

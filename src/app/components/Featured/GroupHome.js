@@ -34,7 +34,11 @@ function GroupHome({ destinations, months, traveller, expereinces }) {
     <section id={styles.groupHome}>
       <div className={styles.groupHomeBox}>
         <div className={styles.groupHomeNav}>
-          <SectionTitle title='Get Set /sTravel...\s' variant='center' />
+          <SectionTitle
+            title='Get Set /sTravel...\s'
+            highlightedClassName='font-handwriting'
+            variant='center'
+          />
 
           <TabNavigation activeTab={activeTab} onTabChange={setActiveTab} />
         </div>

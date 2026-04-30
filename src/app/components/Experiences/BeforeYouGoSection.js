@@ -1,12 +1,23 @@
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+'use client';
+
 import BlogCard from '../Shared/BlogCard';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '../ui/carousel';
 
 export default function BeforeYouGoSection({ blogs }) {
   if (!blogs || blogs.length === 0) return null;
 
+  const showMobileArrows = blogs.length > 1;
+  const showDesktopArrows = blogs.length > 4;
+
   return (
-    <section className='w-full max-w-[1600px] mx-auto py-24 px-4 sm:px-5 lg:px-8 bg-white relative '>
-      <div className='pt-10 mb-16 max-w-[1400px] mx-auto flex items-center px-4 sm:px-5 lg:px-8 relative'>
+    <section className='w-full max-w-[1600px] mx-auto py-24 px-2 sm:px-4 lg:px-8 bg-white relative '>
+      <div className='pt-10 mb-16 max-w-[1400px] mx-auto flex items-center px-2 sm:px-4 lg:px-8 relative'>
         <h2
           style={{ fontFamily: 'var(--font-heading)' }}
           className='text-[28px] font-extrabold tracking-tight text-gray-900 flex items-center bg-white pr-6'>
@@ -17,19 +28,33 @@ export default function BeforeYouGoSection({ blogs }) {
       </div>
 
       <div className='relative max-w-[1400px] mx-auto pb-10'>
-        <button className='group absolute -left-4 lg:-left-6 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center bg-transparent backdrop-blur-md border border-white/60 rounded-full text-[#f05a22] hover:bg-[#f05a22] hover:text-white hover:border-[#f05a22] transition-all duration-300 z-20'>
-          <ArrowLeft size={20} strokeWidth={1.5} className='group-hover:-translate-x-0.5 transition-transform' />
-        </button>
+        <Carousel
+          opts={{ align: 'start', loop: blogs.length > 1 }}
+          className='relative px-2 sm:px-3 lg:px-8'>
+          <CarouselContent className='-ml-2 md:-ml-5 lg:-ml-6'>
+            {blogs.map((blog) => (
+              <CarouselItem
+                key={blog._id || blog.slug}
+                className='pl-2 md:pl-5 lg:pl-6 basis-full md:basis-1/2 lg:basis-1/4'>
+                <BlogCard blog={blog} />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
 
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6 px-4 sm:px-5 lg:px-8'>
-          {blogs.map((blog) => (
-            <BlogCard key={blog._id || blog.slug} blog={blog} />
-          ))}
-        </div>
+          {showMobileArrows && (
+            <>
+              <CarouselPrevious className='md:hidden -left-2 top-1/2 size-11 bg-transparent shadow-none border-white/60 disabled:opacity-30' />
+              <CarouselNext className='md:hidden -right-2 top-1/2 size-11 bg-transparent shadow-none border-white/60 disabled:opacity-30' />
+            </>
+          )}
 
-        <button className='group absolute -right-4 lg:-right-6 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center bg-transparent backdrop-blur-md border border-white/60 rounded-full text-[#f05a22] hover:bg-[#f05a22] hover:text-white hover:border-[#f05a22] transition-all duration-300 z-20'>
-          <ArrowRight size={20} strokeWidth={1.5} className='group-hover:translate-x-0.5 transition-transform' />
-        </button>
+          {showDesktopArrows && (
+            <>
+              <CarouselPrevious className='hidden lg:flex -left-3 top-1/2 size-11 bg-transparent shadow-none border-white/60 disabled:opacity-30' />
+              <CarouselNext className='hidden lg:flex -right-3 top-1/2 size-11 bg-transparent shadow-none border-white/60 disabled:opacity-30' />
+            </>
+          )}
+        </Carousel>
       </div>
     </section>
   );

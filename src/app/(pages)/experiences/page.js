@@ -4,62 +4,68 @@ import styles from './styles.module.css';
 export const revalidate = 300;
 
 async function getExperienceData() {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/site_experienceslist/`,
-    {
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+    if (!baseUrl) {
+      console.warn(
+        'Skipping experiences list fetch: NEXT_PUBLIC_API_URL is not set.',
+      );
+      return null;
+    }
+
+    const authToken =
+      process.env.NEXT_PUBLIC_API_TOKEN ||
+      process.env.NEXT_PUBLIC_TOKEN ||
+      process.env.API_TOKEN;
+
+    const response = await fetch(`${baseUrl}/api/site_experienceslist/`, {
       headers: {
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+        ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
       },
       next: { revalidate: 300 },
-    },
-  );
+    });
 
-  if (!response.ok) {
-    throw new Error(`HTTP error! Status: ${response.status}`);
+    if (!response.ok) {
+      if (response.status === 401 || response.status === 403) {
+        console.warn(
+          `Skipping experiences list fetch: received ${response.status}.`,
+        );
+        return null;
+      }
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data.data;
+  } catch (err) {
+    console.error('Failed to load experiences list:', err);
+    return null;
   }
-
-  const data = await response.json();
-  return data.data;
 }
 
 export default async function ExperiencesPage() {
-  try {
-    const experienceData = await getExperienceData();
+  const experienceData = await getExperienceData();
 
-    return (
-      <section className={styles.experiences}>
-        {!experienceData ||
-        !experienceData.group ||
-        experienceData.group.length === 0 ? (
-          <div
-            style={{
-              padding: 'var(--pd-page)',
-              textAlign: 'center',
-              color: 'var(--color-grey)',
-            }}>
-            No experiences found.
-          </div>
-        ) : (
-          <List
-            data={experienceData}
-            itemBasePath='/experiences'
-            itemKeyName='experiences'
-          />
-        )}
-      </section>
-    );
-  } catch (err) {
-    return (
-      <section className={styles.experiences}>
+  return (
+    <section className={styles.experiences}>
+      {!experienceData ||
+      !experienceData.group ||
+      experienceData.group.length === 0 ? (
         <div
           style={{
             padding: 'var(--pd-page)',
-            color: 'red',
             textAlign: 'center',
+            color: 'var(--color-grey)',
           }}>
-          Error: {err.message}
+          No experiences found.
         </div>
-      </section>
-    );
-  }
+      ) : (
+        <List
+          data={experienceData}
+          itemBasePath='/experiences'
+          itemKeyName='experiences'
+        />
+      )}
+    </section>
+  );
 }

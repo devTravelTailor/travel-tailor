@@ -180,7 +180,7 @@ export default function ContactFormSection({
           >
             {heading || (
               <>
-                This starts with a c<em className='text-white mr-2'>O</em>
+                This starts with a c<em className='text-white mr-0'>O</em>
                 nversation,
                 <br />
                 not a form.

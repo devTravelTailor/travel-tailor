@@ -42,7 +42,13 @@ async function getSettings() {
       process.env.NEXT_PUBLIC_API_TOKEN ||
       process.env.NEXT_PUBLIC_TOKEN ||
       process.env.API_TOKEN;
-    const url = `${process.env.NEXT_PUBLIC_API_URL}/api/settings/`;
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+    if (!baseUrl) {
+      console.warn("Skipping layout settings fetch: NEXT_PUBLIC_API_URL is not set.");
+      return null;
+    }
+
+    const url = `${baseUrl}/api/settings/`;
     const res = await fetch(url, {
       headers: {
         "Content-Type": "application/json",
@@ -52,6 +58,10 @@ async function getSettings() {
     });
 
     if (!res.ok) {
+      if (res.status === 401 || res.status === 403) {
+        console.warn(`Skipping layout settings fetch: received ${res.status}.`);
+        return null;
+      }
       throw new Error(`Settings fetch failed: ${res.status}`);
     }
 

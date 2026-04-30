@@ -21,7 +21,7 @@ export default function ExperienceHero({
   const description = heroDescription || DEFAULT_DESCRIPTION;
 
   return (
-    <section className='pt-4 sm:pt-2 px-16 sm:px-20 lg:px-0 py-5 min-h-fit md:min-h-[80vh] 2xl:min-h-fit max-h-screen w-full max-w-[1600px] mx-auto'>
+    <section className='pt-4 sm:pt-2 px-4 sm:px-6 lg:px-0 py-5 min-h-fit md:min-h-[80vh] 2xl:min-h-fit max-h-screen w-full max-w-[1600px] mx-auto'>
       <div className='bg-[#fcfaf7] rounded-2xl overflow-hidden flex flex-col md:flex-row min-h-fit md:min-h-[80vh] 2xl:min-h-fit max-h-screen shadow-[0px_4px_24px_rgba(0,0,0,0.03)] w-full'>
         {/* Left — content */}
         <div className='p-6 sm:p-9 md:p-10 lg:p-14 xl:p-16 flex-1 flex flex-col justify-center min-w-0'>
@@ -125,7 +125,7 @@ export default function ExperienceHero({
         </div>
 
         {/* Right — image */}
-        <div className='w-full md:flex-1 relative h-56 sm:h-72 md:h-auto max-h-screen'>
+        <div className='order-first md:order-none w-full md:flex-1 relative h-56 sm:h-72 md:h-auto max-h-screen'>
           <div className='absolute inset-0 md:rounded-r-2xl overflow-hidden'>
             <img
               src={heroImg ? parseUrl(heroImg) : '/uploads/solo-hero.jpg'}

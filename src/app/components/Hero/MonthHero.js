@@ -19,6 +19,7 @@ function MonthHero({
             width={1400}
             height={1000}
             className={styles.monthHeroImg}
+            loading='eager'
             priority={true}
           />
         </div>

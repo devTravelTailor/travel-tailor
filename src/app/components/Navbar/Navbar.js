@@ -118,6 +118,9 @@ function Navbar() {
                 alt='Travel Tailor Logo'
                 width={100}
                 height={50}
+                loading='eager'
+                priority
+                style={{ height: 'auto' }}
               />
             </Link>
           </div>
@@ -137,6 +140,7 @@ function Navbar() {
                     alt={item.name}
                     width={24}
                     height={24}
+                    style={{ height: 'auto' }}
                   />
                 )}
                 <p>{item.name}</p>
@@ -194,6 +198,7 @@ function Navbar() {
                 alt='Menu Icon'
                 width={24}
                 height={24}
+                style={{ height: 'auto' }}
               />
             </button>
           </div>
@@ -220,6 +225,7 @@ function Navbar() {
                     alt={item.name}
                     width={24}
                     height={24}
+                    style={{ height: 'auto' }}
                   />
                 )}
                 <p>{item.name}</p>

@@ -9,6 +9,12 @@ import {
   CarouselPrevious,
 } from '../ui/carousel';
 
+const HEADING_FONT_STYLE = {
+  fontFamily: 'var(--font-filson-pro)',
+  fontWeight: 700,
+  fontStyle: 'normal',
+};
+
 const DEFAULT_TITLE = 'Where solo travellers are going right now';
 const DEFAULT_SUBTITLE =
   "Each of these destinations works particularly well for the solo traveller—offering a balance of safety, cultural depth, and the kind of beauty that's best appreciated in silence.";
@@ -32,12 +38,12 @@ export default function SoloTravellersSection({
     <section className='w-full max-w-[1600px] mx-auto py-24 px-3 sm:px-4 lg:px-12 bg-[#f2f2f2] '>
       <div className='text-center mb-16 relative'>
         <h2
-          style={{ fontFamily: 'var(--font-heading)' }}
-          className='text-[32px] md:text-[40px] font-extrabold text-gray-900 mb-6 tracking-tighter uppercase relative z-10 inline-block px-6 md:px-10'>
+          style={HEADING_FONT_STYLE}
+          className='text-[32px] md:text-[40px] font-black text-gray-900 mb-6 tracking-tighter uppercase relative z-10 inline-block px-6 md:px-10'>
           <span className='absolute top-1/2 left-0 right-0 h-px  -z-10 w-[140%] -translate-x-[15%] hidden md:block' />
           <span className='px-4 md:px-6'>
             Where solo travellers are going right n
-            <em className='text-[#f05a22] italic mr-1'>o</em>
+            <em className='text-[#f05a22] not-italic -ml-1 mr-1'>O</em>
             w
           </span>
         </h2>

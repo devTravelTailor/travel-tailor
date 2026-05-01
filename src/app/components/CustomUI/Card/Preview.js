@@ -23,7 +23,7 @@ function Preview({
   return (
     <Link className={`${className} ${styles.preview}`} href={url}>
       <div className={styles.previewImgBox}>
-        <Image src={parseUrl(imgUrl)} alt={title} width={500} height={660} />
+        <Image src={parseUrl(imgUrl)} alt={title} fill sizes='300px' />
       </div>
 
       <div className={styles.previewInfo}>

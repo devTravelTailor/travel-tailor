@@ -16,8 +16,8 @@ function Destinations({ destinations }) {
           <Image
             src={parseUrl(imgUrl)}
             alt={title}
-            width={400}
-            height={560}
+            fill
+            sizes='140px'
           />
         </div>
         <div className={styles.experienceContent}>

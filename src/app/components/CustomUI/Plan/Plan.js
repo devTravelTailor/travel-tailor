@@ -9,8 +9,8 @@ function Plan({ img, title, className }) {
                     src={img} 
                     alt={title}
                     className={styles.planImage}
-                    width={400}
-                    height={560}
+                    fill
+                    sizes='200px'
                 />
                 <div className={styles.overlay} />
             </div>

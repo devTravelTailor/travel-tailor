@@ -27,6 +27,8 @@ export default function about() {
 As a couple, Kanishka and Himanshu visited about 16 countries and 25 cities. Through this platform, they share their adventures with people all over the world, inspiring others to explore just like they did. A big plus, the couple come with a solid experience in planning trips and a deep-rooted passion in building a community that will bring together travel enthusiasts./n /n
 At Travel Tailor, we call ourselves digital nomads, and the world is our playground. So, are you ready to explore the nooks and corners with us? You are just four steps away! Look below:"
         imgUrl="/images/aboutSide.jpg"
+        parallaxSpeed={1.2}
+        imagePosition="top center"
         noBtn={true}
       />
 

@@ -1,6 +1,12 @@
 import { ArrowRight } from 'lucide-react';
 import parseUrl from '../../util/parseUrl';
 
+const HEADING_FONT_STYLE = {
+  fontFamily: 'var(--font-filson-pro)',
+  fontWeight: 700,
+  fontStyle: 'normal',
+};
+
 function normalizeText(value) {
   return typeof value === 'string' ? value.trim() : '';
 }
@@ -44,14 +50,14 @@ export default function ExperienceHighlight({ highlight }) {
         <div className='grid w-full items-center gap-12 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-16'>
           <div className='max-w-2xl text-center lg:text-left'>
             <span
-              style={{ fontFamily: 'var(--font-heading)' }}
+              style={HEADING_FONT_STYLE}
               className='mb-5 block text-[11px] font-black uppercase tracking-[0.45em] text-[#f05a22]'>
               {overline}
             </span>
 
             <h2
-              style={{ fontFamily: 'var(--font-heading)' }}
-              className='text-4xl font-bold leading-[0.96] tracking-[-0.05em] text-gray-950 sm:text-5xl lg:text-6xl xl:text-7xl'>
+              style={HEADING_FONT_STYLE}
+              className='text-4xl font-black leading-[0.96] tracking-[-0.05em] text-gray-950 sm:text-5xl lg:text-6xl xl:text-7xl'>
               {heading}
             </h2>
 

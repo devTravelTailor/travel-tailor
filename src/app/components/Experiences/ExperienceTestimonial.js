@@ -4,6 +4,12 @@ import { useRef, useEffect, useMemo } from 'react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import parseUrl from '../../util/parseUrl';
 
+const HEADING_FONT_STYLE = {
+  fontFamily: 'var(--font-filson-pro)',
+  fontWeight: 700,
+  fontStyle: 'normal',
+};
+
 function TestimonialItem({ testimonial, reverse }) {
   const review = typeof testimonial?.review === 'string' ? testimonial.review.trim() : '';
   const name = typeof testimonial?.name === 'string' ? testimonial.name.trim() : '';
@@ -46,7 +52,10 @@ function TestimonialItem({ testimonial, reverse }) {
 }
 
 export default function ExperienceTestimonial({ testimonials }) {
-  const list = Array.isArray(testimonials) ? testimonials : [];
+  const list = useMemo(
+    () => (Array.isArray(testimonials) ? testimonials : []),
+    [testimonials],
+  );
   const shouldShowControls = list.length > 2;
   const slides = useMemo(() => {
     if (list.length === 0) return [];
@@ -120,8 +129,8 @@ export default function ExperienceTestimonial({ testimonials }) {
       <div className='absolute inset-0 bg-[#ffefe7]/5 pointer-events-none' />
 
       <h4
-        style={{ fontFamily: 'var(--font-heading)' }}
-        className='text-[#f05a22] font-bold tracking-[0.2em] text-[10px] mb-12 lg:mb-16 uppercase relative z-10 px-6'>
+        style={HEADING_FONT_STYLE}
+        className='text-[#f05a22] font-black tracking-[0.2em] text-[10px] mb-12 lg:mb-16 uppercase relative z-10 px-6'>
         What solo travellers say
       </h4>
 

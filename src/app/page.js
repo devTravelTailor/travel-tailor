@@ -209,7 +209,7 @@ export default async function Main() {
           <div className='text-center mb-12 animate-fade-in px-2'>
             <div className='text-3xl flex w-full h-fit flex-col justify-center gap-4 items-center md:text-5xl font-bold mb-2'>
               <Link href='/home'>
-                <Image
+                <img
                   src='/images/Traveltailorliner.png'
                   width={280}
                   height={150}
@@ -242,7 +242,7 @@ export default async function Main() {
             <div className='text-center mb-12 w-full animate-fade-in'>
               <div className='text-3xl flex w-full h-fit flex-col justify-center gap-4 items-center md:text-5xl font-bold mb-2'>
                 <Link href='/creator'>
-                  <Image
+                  <img
                     src='/images/Trailsmith.png'
                     width={250}
                     height={100}

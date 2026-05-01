@@ -142,10 +142,19 @@
     position: relative;
 }
 
+.highlightImg > div {
+    width: 100%;
+    height: 100%;
+}
+
+.highlightImg > div > div {
+    width: 100%;
+    height: 120%;
+}
+
 .highlightImg img {
-    object-fit: cover;
-    width: 140%;
-    height: 140%;
+    width: 100% !important;
+    height: 100% !important;
     filter: brightness(0.9);
     object-position: center;
 }
@@ -322,10 +331,19 @@
         position: relative;
     }
 
-    .highlightImg img {
-        object-fit: cover;
+    .highlightImg > div {
         width: 100%;
-        height: 140%;
+        height: 100%;
+    }
+
+    .highlightImg > div > div {
+        width: 100%;
+        height: 120%;
+    }
+
+    .highlightImg img {
+        width: 100% !important;
+        height: 100% !important;
         filter: brightness(0.9);
         object-position: center;
     }

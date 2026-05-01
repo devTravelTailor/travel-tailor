@@ -14,6 +14,8 @@ function Highlights({
   img = "/uploads/annie_spratt_W_Cgio_Ec_EV_Nc_unsplash_b0a9e215d0.jpg",
   url = "/contact",
   noBtn,
+  parallaxSpeed = 6,
+  imagePosition = "center",
 
   ...props
 }) {
@@ -42,13 +44,13 @@ function Highlights({
         </div>
 
         <div className={styles.highlightImg}>
-          <ParallaxScrollImg speed={6} direction="up">
+          <ParallaxScrollImg speed={parallaxSpeed} direction="up">
             <Image
               src={highlightImage}
               alt="highlight"
-              width={790}
-              height={740}
-              style={{ objectFit: "cover" }}
+              fill
+              sizes='(max-width: 768px) 100vw, 790px'
+              style={{ objectFit: "cover", objectPosition: imagePosition }}
             />
           </ParallaxScrollImg>
         </div>

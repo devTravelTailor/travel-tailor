@@ -1,10 +1,38 @@
 import Script from "next/script";
 import { Caveat } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
 const caveat = Caveat({
   subsets: ["latin"],
   variable: "--font-alt",
+  display: "swap",
+});
+
+const filsonPro = localFont({
+  src: [
+    {
+      path: "./fonts/filson-pro/FilsonProRegular.otf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "./fonts/filson-pro/FilsonProMedium.otf",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "./fonts/filson-pro/FilsonProBold.otf",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "./fonts/filson-pro/FilsonProBlack.otf",
+      weight: "900",
+      style: "normal",
+    },
+  ],
+  variable: "--font-filson-pro",
   display: "swap",
 });
 
@@ -91,7 +119,8 @@ export default async function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={caveat.variable}
+      data-scroll-behavior="smooth"
+      className={`${caveat.variable} ${filsonPro.variable}`}
       suppressHydrationWarning
     >
       <head>

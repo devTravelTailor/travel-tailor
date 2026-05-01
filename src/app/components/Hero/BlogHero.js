@@ -18,8 +18,8 @@ function BlogHero({ imgUrl, title, description, auther, date }) {
               <Image
                 src={parseUrl(imgUrl)}
                 alt="Blog Hero Background"
-                width={1000}
-                height={500}
+                fill
+                sizes='100vw'
               />
             </div>
 

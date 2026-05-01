@@ -54,6 +54,7 @@ function formatSourceText(value = '') {
 
 export default function ContactFormSection({
   heading,
+  headingStyle,
   subtext,
   tagline,
   source = '',
@@ -175,7 +176,7 @@ export default function ContactFormSection({
         {/* ── Left panel: editorial copy ── */}
         <div className='p-8 sm:p-12 lg:p-24 xl:px-32 xl:py-24 flex flex-col justify-start border-b lg:border-b-0 lg:border-r border-white/20'>
           <h2
-            style={{ fontFamily: 'var(--font-heading)' }}
+            style={headingStyle || { fontFamily: 'var(--font-heading)' }}
             className='text-[28px] sm:text-[34px] md:text-[44px] lg:text-[58px] font-extrabold tracking-tighter leading-[1.02] mb-8 md:mb-12 max-w-[600px]'
           >
             {heading || (

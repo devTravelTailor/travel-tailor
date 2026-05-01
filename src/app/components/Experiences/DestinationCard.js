@@ -1,6 +1,12 @@
 import Link from 'next/link';
 import parseUrl from '../../util/parseUrl';
 
+const HEADING_FONT_STYLE = {
+  fontFamily: 'var(--font-filson-pro)',
+  fontWeight: 700,
+  fontStyle: 'normal',
+};
+
 export default function DestinationCard({ destination }) {
   const image = destination.heroImg || destination.displayImg;
   const rawBadge =
@@ -20,10 +26,7 @@ export default function DestinationCard({ destination }) {
           rawBadge.value ||
           null
         : null;
-  const subtag =
-    destination.tagline ||
-    destination.highlight?.brief ||
-    destination.description;
+  const subtag = destination.tagline;
   const price = destination.startingPrice
     ? `From Rs. ${Number(destination.startingPrice).toLocaleString('en-IN')}`
     : null;
@@ -47,8 +50,8 @@ export default function DestinationCard({ destination }) {
       )}
       <div className='absolute bottom-8 left-8 right-8'>
         <h3
-          style={{ fontFamily: 'var(--font-heading)' }}
-          className='text-white text-3xl font-bold mb-2'>
+          style={HEADING_FONT_STYLE}
+          className='text-white text-3xl font-black mb-2'>
           {destination.title}
         </h3>
         {subtag && (

@@ -29,8 +29,8 @@ function Brief({
                         <Image
                             src={imgUrl}
                             alt={title}
-                            width={340}
-                            height={330}
+                            fill
+                            sizes='(max-width: 768px) 100vw, 340px'
                             className={styles.briefImg}
                             priority={true}
                         />

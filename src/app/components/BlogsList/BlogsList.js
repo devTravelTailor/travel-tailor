@@ -352,8 +352,11 @@ function BlogsList() {
                             sizes='(max-width: 768px) 100vw, 33vw'
                             priority={index < 4}
                             className={styles.blogImage + ' w-full'}
-                            onLoadingComplete={(img) =>
-                              img.setAttribute('data-loaded', 'true')
+                            onLoad={(event) =>
+                              event.currentTarget.setAttribute(
+                                'data-loaded',
+                                'true',
+                              )
                             }
                           />
                           <div className={styles.gradientOverlay}></div>

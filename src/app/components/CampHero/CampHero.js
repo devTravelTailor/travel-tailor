@@ -81,8 +81,8 @@ function CampHero({ heroData, children }) {
               <Image
                 src={parseUrl(hero?.img)}
                 alt={hero?.title}
-                width={1400}
-                height={1000}
+                fill
+                sizes='(max-width: 1024px) 100vw, 60vw'
                 className={styles.campHeroImg}
                 priority={true}
               />

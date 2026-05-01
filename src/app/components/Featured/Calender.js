@@ -24,8 +24,8 @@ function Calender({ months }) {
           <Image
             src={imageUrl}
             alt={monthLabel || month}
-            width={400}
-            height={300}
+            fill
+            sizes='(max-width: 768px) 33vw, 240px'
           />
         </div>
         <div className={styles.monthCardContent}>

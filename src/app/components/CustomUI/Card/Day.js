@@ -17,8 +17,8 @@ function Day({ brief, imgUrl, day, ...props }) {
           <Image
             src={parseUrl(imgUrl)}
             alt={brief}
-            width={540}
-            height={430}
+            fill
+            sizes='(max-width: 768px) 100vw, 540px'
             className={styles.dayImg}
             priority={true}
           />

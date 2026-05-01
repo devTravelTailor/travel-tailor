@@ -9,6 +9,12 @@ import {
   CarouselPrevious,
 } from '../ui/carousel';
 
+const HEADING_FONT_STYLE = {
+  fontFamily: 'var(--font-filson-pro)',
+  fontWeight: 700,
+  fontStyle: 'normal',
+};
+
 export default function BeforeYouGoSection({ blogs }) {
   if (!blogs || blogs.length === 0) return null;
 
@@ -19,10 +25,10 @@ export default function BeforeYouGoSection({ blogs }) {
     <section className='w-full max-w-[1600px] mx-auto py-24 px-2 sm:px-4 lg:px-8 bg-white relative '>
       <div className='pt-10 mb-16 max-w-[1400px] mx-auto flex items-center px-2 sm:px-4 lg:px-8 relative'>
         <h2
-          style={{ fontFamily: 'var(--font-heading)' }}
-          className='text-[28px] font-extrabold tracking-tight text-gray-900 flex items-center bg-white pr-6'>
+          style={HEADING_FONT_STYLE}
+          className='text-[28px] font-black tracking-tight text-gray-900 flex items-center bg-white pr-6'>
           BEF
-          <em className='text-[#f05a22] text-4xl mr-1'>O</em>
+          <em className='text-[#f05a22] text-4xl -ml-1 mr-1 not-italic'>O</em>
           RE YOU GO
         </h2>
       </div>

@@ -2,6 +2,12 @@ function normalizeText(value) {
   return typeof value === 'string' ? value.trim() : '';
 }
 
+const HEADING_FONT_STYLE = {
+  fontFamily: 'var(--font-filson-pro)',
+  fontWeight: 700,
+  fontStyle: 'normal',
+};
+
 export default function ExperienceQuote({ category, destination, quote }) {
   const categoryTag = normalizeText(category?.tag);
   const destinationTitle =
@@ -35,15 +41,15 @@ export default function ExperienceQuote({ category, destination, quote }) {
         <div className='max-w-4xl text-center'>
           {categoryTag && (
             <p
-              style={{ fontFamily: 'var(--font-heading)' }}
+              style={HEADING_FONT_STYLE}
               className='mb-4 text-[11px] font-black uppercase tracking-[0.45em] text-[#f05a22]'>
               {categoryTag}
             </p>
           )}
 
           <blockquote
-            style={{ fontFamily: 'var(--font-heading)' }}
-            className='text-3xl font-semibold leading-[1.05] tracking-[-0.04em] text-gray-950 sm:text-4xl lg:text-5xl'>
+            style={HEADING_FONT_STYLE}
+            className='text-3xl font-black leading-[1.05] tracking-[-0.04em] text-gray-950 sm:text-4xl lg:text-5xl'>
             {quoteText}
           </blockquote>
 

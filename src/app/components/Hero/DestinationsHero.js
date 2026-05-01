@@ -17,8 +17,8 @@ function DestinationsHero({
           <Image
             src={parseUrl(imgUrl)}
             alt={title}
-            width={1400}
-            height={1000}
+            fill
+            sizes='100vw'
             className={styles.destinationsHeroImg}
             priority={true}
           />

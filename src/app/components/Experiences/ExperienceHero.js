@@ -1,6 +1,12 @@
 import { Sparkles, User, Banknote } from 'lucide-react';
 import parseUrl from '../../util/parseUrl';
 
+const HEADING_FONT_STYLE = {
+  fontFamily: 'var(--font-filson-pro)',
+  fontWeight: 700,
+  fontStyle: 'normal',
+};
+
 const DEFAULT_LABEL = 'The Editorialist\u2019s Vision';
 const DEFAULT_TITLE =
   'Solo travel is a choice.\nWe make sure it\u2019s also a good one.';
@@ -26,15 +32,15 @@ export default function ExperienceHero({
         {/* Left — content */}
         <div className='p-6 sm:p-9 md:p-10 lg:p-14 xl:p-16 flex-1 flex flex-col justify-center min-w-0'>
           <h4
-            style={{ fontFamily: 'var(--font-heading)' }}
+            style={HEADING_FONT_STYLE}
             className='text-[#f05a22] font-extrabold tracking-[0.2em] text-[9px] sm:text-[10px] mb-4 sm:mb-5 uppercase'>
             {label}
           </h4>
 
           <h1
-            style={{ fontFamily: 'var(--font-heading)' }}
+            style={HEADING_FONT_STYLE}
             suppressHydrationWarning
-            className='text-3xl sm:text-4xl md:text-[38px] lg:text-[52px] xl:text-[60px] font-bold text-gray-900 leading-[1.05] mb-4 sm:mb-5 tracking-tighter whitespace-pre-line'>
+            className='text-3xl sm:text-4xl md:text-[38px] lg:text-[52px] xl:text-[60px] font-black text-gray-900 leading-[1.05] mb-4 sm:mb-5 tracking-tighter whitespace-pre-line'>
             {heading}
           </h1>
 

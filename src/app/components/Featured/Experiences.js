@@ -17,8 +17,8 @@ function Experiences({ expereinces }) {
           <Image
             src={parseUrl(imgUrl)}
             alt="Experience"
-            width={400}
-            height={560}
+            fill
+            sizes='140px'
           />
         </div>
         <div className={styles.experienceContent}>

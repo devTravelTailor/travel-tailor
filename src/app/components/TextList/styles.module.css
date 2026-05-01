@@ -16,8 +16,8 @@
   
   align-self: flex-start; /* Aligns this column to the top */
   position: sticky; /* Makes the navigation sticky */
-  top: var(--sticky-top-offset, 20px); /* Adjust based on your header height or desired top offset */
-  max-height: calc(100vh - var(--sticky-top-offset, 20px) - var(--pd-page)); /* Example max height */
+  top: var(--sticky-top-offset, calc(var(--header-height) - 20px)); /* Clear the sticky navbar only for the left rail */
+  max-height: calc(100vh - var(--sticky-top-offset, calc(var(--header-height) - 20px)) - var(--pd-page)); /* Example max height */
   overflow-y: auto; /* Scroll if too many regions */
 }
 

@@ -81,8 +81,8 @@ function ToursHero({ heroData, varient }) {
             <Image
               src={parseUrl(hero.imgUrl)}
               alt={hero.title}
-              width={1400}
-              height={1000}
+              fill
+              sizes='100vw'
               className={styles.toursHeroImg}
               priority={true}
             />

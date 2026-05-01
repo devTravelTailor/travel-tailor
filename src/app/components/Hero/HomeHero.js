@@ -75,8 +75,8 @@ function HomeHero({ heroData }) {
             <Image
               src={parseUrl(hero.heroImg)}
               alt={hero.title}
-              width={1400}
-              height={1000}
+              fill
+              sizes='100vw'
               className={styles.heroHomeImg}
               priority={true}
             />

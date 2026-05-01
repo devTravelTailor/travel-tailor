@@ -1,5 +1,11 @@
 import { HeadphonesIcon, Settings2, Map, PhoneCall } from 'lucide-react';
 
+const HEADING_FONT_STYLE = {
+  fontFamily: 'var(--font-filson-pro)',
+  fontWeight: 700,
+  fontStyle: 'normal',
+};
+
 const STEPS = [
   {
     icon: PhoneCall,
@@ -30,10 +36,10 @@ export default function DesignedForOne({ visible = true }) {
     <div className='w-full pt-32 max-w-[1600px] mx-auto bg-white'>
       <div className='max-w-[1400px] mx-auto px-6 text-center'>
         <h2
-          style={{ fontFamily: 'var(--font-heading)' }}
-          className='text-[32px] md:text-[40px] font-extrabold text-gray-900 mb-6 tracking-tighter'>
+          style={HEADING_FONT_STYLE}
+          className='text-[32px] md:text-[40px] font-black text-gray-900 mb-6 tracking-tighter'>
           Designed specifically f
-          <span className='text-[#f05a22] italic mr-1'>o</span>
+          <span className='text-[#f05a22] -ml-1 mr-1'>O</span>
           r one
         </h2>
         <p className='text-gray-500 max-w-[600px] mx-auto leading-relaxed mb-20 text-[13px] font-medium'>
@@ -48,8 +54,8 @@ export default function DesignedForOne({ visible = true }) {
                 <Icon size={26} strokeWidth={1.5} />
               </div>
               <h3
-                style={{ fontFamily: 'var(--font-heading)' }}
-                className='font-bold text-gray-900 mb-3 text-[15px]'>
+                style={HEADING_FONT_STYLE}
+                className='font-black text-gray-900 mb-3 text-[15px]'>
                 {step}
               </h3>
               <p className='text-gray-500 text-[12px] leading-relaxed max-w-[220px]'>{desc}</p>

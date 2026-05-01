@@ -130,6 +130,7 @@
   overflow: hidden;
   border-radius: var(--rounded);
   flex-shrink: 0;
+  position: relative;
 }
 
 .previewImgBox img {
@@ -299,6 +300,7 @@
   height: 260px;
   border-radius: var(--rounded);
   overflow: hidden;
+  position: relative;
 }
 
 .dayImgBox img {

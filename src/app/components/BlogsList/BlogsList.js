@@ -40,53 +40,90 @@ function BlogsList() {
   const deferredSearchQuery = useDeferredValue(searchQuery);
   const fetchAbortRef = useRef(null);
 
+  const toTitleCase = useCallback((value) => {
+    const text = String(value || '').trim();
+    if (!text) return '';
+    return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+  }, []);
+
   useEffect(() => {
     const controller = new AbortController();
 
-    const fetchFilters = async () => {
-      try {
-        const authHeader = process.env.NEXT_PUBLIC_API_TOKEN
-          ? {
-              Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
-            }
-          : undefined;
+    const fetchAllItems = async (endpoint) => {
+      const authHeader = process.env.NEXT_PUBLIC_API_TOKEN
+        ? {
+            Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+          }
+        : undefined;
 
-        const [destRes, monthRes, expRes] = await Promise.all([
-          fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/api/destinations?limit=200`,
-            {
-              headers: authHeader,
-              signal: controller.signal,
-              cache: 'force-cache',
-            },
-          ),
-          fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/months?limit=200`, {
+      const allItems = [];
+      let currentPage = 1;
+      let totalPages = 1;
+
+      while (currentPage <= totalPages) {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}${endpoint}?page=${currentPage}&limit=200`,
+          {
             headers: authHeader,
             signal: controller.signal,
             cache: 'force-cache',
-          }),
-          fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/api/experiences?limit=200`,
-            {
-              headers: authHeader,
-              signal: controller.signal,
-              cache: 'force-cache',
-            },
-          ),
+          },
+        );
+        if (!res.ok) break;
+        const json = await res.json();
+        const data = json.data || {};
+        const items = Array.isArray(data.items)
+          ? data.items
+          : Array.isArray(json.items)
+            ? json.items
+            : [];
+        allItems.push(...items);
+        totalPages = Number(data.totalPages || 1);
+        currentPage += 1;
+      }
+
+      return allItems;
+    };
+
+    const fetchFilters = async () => {
+      try {
+        const [destItems, monthItems, expItems] = await Promise.all([
+          fetchAllItems('/api/destinations'),
+          fetchAllItems('/api/months'),
+          fetchAllItems('/api/experiences'),
         ]);
 
-        if (destRes.ok) {
-          const json = await destRes.json();
-          setDestinations(json.data?.items || json.items || []);
+        const blogItems = await fetchAllItems('/api/blog');
+        const destinationMap = new Map();
+
+        for (const dest of destItems) {
+          const key = dest?._id || dest?.id || dest?.slug;
+          if (!key) continue;
+          destinationMap.set(String(key), dest);
         }
-        if (monthRes.ok) {
-          const json = await monthRes.json();
-          setMonths(json.data?.items || json.items || []);
+
+        for (const blog of blogItems) {
+          const related = Array.isArray(blog?.destinations)
+            ? blog.destinations
+            : [];
+          for (const dest of related) {
+            const key = dest?._id || dest?.id || dest?.slug;
+            if (!key) continue;
+            if (!destinationMap.has(String(key))) {
+              destinationMap.set(String(key), dest);
+            }
+          }
         }
-        if (expRes.ok) {
-          const json = await expRes.json();
-          setExperiences(json.data?.items || json.items || []);
-        }
+
+        const sortedDestinations = [...destinationMap.values()].sort((a, b) =>
+          String(a?.title || '').localeCompare(String(b?.title || ''), 'en', {
+            sensitivity: 'base',
+          }),
+        );
+
+        setDestinations(sortedDestinations);
+        setMonths(monthItems);
+        setExperiences(expItems);
       } catch (err) {
         if (err.name !== 'AbortError') console.error('Filter load failed', err);
       }
@@ -95,21 +132,6 @@ function BlogsList() {
     fetchFilters();
     return () => controller.abort();
   }, []);
-
-  const matchesFilters = useCallback(
-    (item) => {
-      if (selectedDestination) {
-        const destIds = (item.destinations || []).map((d) => d._id || d.id);
-        if (!destIds.includes(selectedDestination)) return false;
-      }
-      if (selectedExperience) {
-        const expIds = (item.experiences || []).map((e) => e._id || e.id);
-        if (!expIds.includes(selectedExperience)) return false;
-      }
-      return true;
-    },
-    [selectedDestination, selectedExperience],
-  );
 
   const fetchPage = useCallback(
     async (pageToFetch) => {
@@ -127,6 +149,8 @@ function BlogsList() {
         });
         if (deferredSearchQuery) params.append('q', deferredSearchQuery);
         if (selectedMonth) params.append('tagMonths', selectedMonth);
+        if (selectedDestination) params.append('destinations', selectedDestination);
+        if (selectedExperience) params.append('experiences', selectedExperience);
 
         const url = `${
           process.env.NEXT_PUBLIC_API_URL
@@ -141,8 +165,7 @@ function BlogsList() {
         });
 
         const { data } = await res.json();
-        const newItems = Array.isArray(data?.items) ? data.items : [];
-        const filtered = newItems.filter(matchesFilters);
+        const filtered = Array.isArray(data?.items) ? data.items : [];
 
         setBlogs((prev) => {
           const merged = [...prev];
@@ -166,7 +189,12 @@ function BlogsList() {
         }
       }
     },
-    [deferredSearchQuery, selectedMonth, matchesFilters],
+    [
+      deferredSearchQuery,
+      selectedMonth,
+      selectedDestination,
+      selectedExperience,
+    ],
   );
 
   useEffect(() => {
@@ -212,7 +240,9 @@ function BlogsList() {
           <SelectContent className='rounded-xl shadow-md border border-gray-100'>
             <SelectItem value='all'>All destinations</SelectItem>
             {destinations.map((dest) => (
-              <SelectItem key={dest._id} value={dest._id}>
+              <SelectItem
+                key={dest._id || dest.id || dest.slug}
+                value={dest._id || dest.id || dest.slug}>
                 {dest.title}
               </SelectItem>
             ))}
@@ -232,7 +262,7 @@ function BlogsList() {
             <SelectItem value='all'>All months</SelectItem>
             {months.map((m) => (
               <SelectItem key={m._id} value={m._id}>
-                {m.monthTag || m.month}
+                {toTitleCase(m.monthTag || m.month)}
               </SelectItem>
             ))}
           </SelectContent>

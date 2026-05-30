@@ -15,6 +15,7 @@ function Highlights({
   url = "/contact",
   noBtn,
   parallaxSpeed = 6,
+  parallaxScale = 1,
   imagePosition = "center",
 
   ...props
@@ -44,7 +45,7 @@ function Highlights({
         </div>
 
         <div className={styles.highlightImg}>
-          <ParallaxScrollImg speed={parallaxSpeed} direction="up">
+          <ParallaxScrollImg speed={parallaxSpeed} direction="up" scale={parallaxScale}>
             <Image
               src={highlightImage}
               alt="highlight"

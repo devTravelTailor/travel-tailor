@@ -21,22 +21,12 @@ const WhatsAppButton = ({
   tooltip = "Chat on WhatsApp",
   message = "",
 }) => {
-  const animateButton = () => {
-    const button = document.getElementsByClassName(styles.chatButton)[0];
-    // const pop = document.getElementById('pop');
-    button.classList.add(styles.animate);
-
-    // pop sound effect
-    // const audio = new Audio('/audio/pop.mp3');
-    // audio.play();
-
-    // pop.play();
-  };
+  const [showChat, setShowChat] = React.useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      animateButton();
-    }, 2000);
+      setShowChat(true);
+    }, 2200);
 
     return () => clearTimeout(timer);
   }, []);
@@ -63,7 +53,9 @@ const WhatsAppButton = ({
       aria-label={tooltip}
       title={tooltip}
     >
-      <div className={styles.chatButton}>
+      <div
+        className={`${styles.chatButton} ${showChat ? styles.animate : ""}`}
+      >
         <span>How can we help you?</span>
       </div>
       {/* <audio id="pop" src="/audio/chat.mp3" preload="auto"></audio> */}

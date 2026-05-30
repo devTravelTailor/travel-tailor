@@ -3,7 +3,12 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 
-const ParallaxScrollImg = ({ children, speed = 0.3, direction = 'up' }) => {
+const ParallaxScrollImg = ({
+  children,
+  speed = 0.3,
+  direction = 'up',
+  scale = 1,
+}) => {
   const containerRef = useRef(null);
   
   const { scrollYProgress } = useScroll({
@@ -27,10 +32,12 @@ const ParallaxScrollImg = ({ children, speed = 0.3, direction = 'up' }) => {
       <motion.div
         style={{ 
           width: '100%', 
-          height: '120%', // Larger to avoid exposing edges while moving
+          height: '130%', // Larger to avoid exposing edges while moving
           y: yPercentage, 
+          scale,
+          transformOrigin: 'top center',
           position: 'absolute',
-          top: '-10%' // Offset to ensure full coverage during movement
+          top: '-15%' // Offset to ensure full coverage during movement
         }}
       >
         {children}

@@ -26,6 +26,13 @@ export function TourCard({
   location = "Multiple Locations",
 }) {
   const isFixedDate = tourType === "fixed_date";
+  const getExperienceLabel = (experience) =>
+    (typeof experience === "string" ? experience.trim() : "") ||
+    experience?.title ||
+    experience?.name ||
+    experience?.heading ||
+    experience?.label ||
+    "Experience";
 
   const badgeConfig = {
     fixed_date: {
@@ -120,12 +127,12 @@ export function TourCard({
 
           {experiences?.length > 0 && (
             <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-border/50">
-              {experiences.slice(0, 2).map((experience) => (
+              {experiences.slice(0, 2).map((experience, idx) => (
                 <span
-                  key={experience._id || experience.slug}
+                  key={`${experience?._id || experience?.id || experience?.slug || experience?.title || experience?.name || 'experience'}-${idx}`}
                   className="px-3 py-1 text-xs font-medium bg-[#ff5b06]/70 text-white rounded-full"
                 >
-                  {experience.title}
+                  {getExperienceLabel(experience)}
                 </span>
               ))}
             </div>

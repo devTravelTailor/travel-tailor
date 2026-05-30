@@ -416,6 +416,8 @@ export default function TourPage() {
                   tagMonths={tour.tagMonths}
                   tourType={tour.tourType}
                   tourId={tour.id}
+                  tourSlug={tour.slug || slug}
+                  tourName={tour.title}
                   getDateRange={tour.dateRange}
                   creatorId={tour.creator.id}
                 />
@@ -431,6 +433,8 @@ export default function TourPage() {
                   tagMonths={tour.tagMonths}
                   tourType={tour.tourType}
                   tourId={tour.id}
+                  tourSlug={tour.slug || slug}
+                  tourName={tour.title}
                   getDateRange={tour.dateRange}
                   creatorId={tour.creator.id}
                 />
@@ -505,7 +509,13 @@ export default function TourPage() {
           )}
         </div>
       </div>
-      <ContactFormSection source={slug} />
+      <ContactFormSection
+        source={slug}
+        sourceType='tour'
+        tourId={tour.id}
+        tourSlug={tour.slug || slug}
+        tourName={tour.title}
+      />
     </>
   );
 }
@@ -590,7 +600,13 @@ function simplifyExperience(x) {
   return {
     id: x?._id || x?.id,
     slug: x?.slug,
-    title: x?.title,
+    title:
+      (typeof x === 'string' ? x.trim() : '') ||
+      x?.title ||
+      x?.name ||
+      x?.heading ||
+      x?.label ||
+      '',
     image: x?.heroImg || x?.displayImg || x?.image || FALLBACK_IMG,
     highlight: x?.highlight || null,
     status: x?.status,

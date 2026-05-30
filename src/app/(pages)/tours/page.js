@@ -4,6 +4,12 @@ import { useState, useEffect, useRef, useDeferredValue } from 'react';
 import TourList from '../../components/TourList/TourList';
 import ImageCollageGrid from '../../components/Shared/ImageCollageGrid';
 
+const toTitleCase = (value) => {
+  const text = String(value || '').trim();
+  if (!text) return '';
+  return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+};
+
 export default function ToursPage() {
   const [tourData, setTourData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -24,36 +30,107 @@ export default function ToursPage() {
   // Load filter options once
   useEffect(() => {
     const controller = new AbortController();
-    const fetchFilters = async () => {
-      try {
-        const [destRes, monthRes] = await Promise.all([
-          fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/api/destinations?limit=200`,
-              {
-                headers: {
-                  Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
-                },
-                signal: controller.signal,
-                cache: 'force-cache',
-              },
-          ),
-          fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/months?limit=200`, {
-            headers: {
-              Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
-            },
+    const authHeader = process.env.NEXT_PUBLIC_API_TOKEN
+      ? {
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+        }
+      : undefined;
+
+    const fetchAllItems = async (endpoint) => {
+      const allItems = [];
+      let currentPage = 1;
+      let totalPages = 1;
+
+      while (currentPage <= totalPages) {
+        const sep = endpoint.includes('?') ? '&' : '?';
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}${endpoint}${sep}page=${currentPage}&limit=100`,
+          {
+            headers: authHeader,
             signal: controller.signal,
             cache: 'force-cache',
-          }),
+          },
+        );
+        if (!res.ok) break;
+        const json = await res.json();
+        const data = json.data || {};
+        const items = Array.isArray(data.items)
+          ? data.items
+          : Array.isArray(json.items)
+            ? json.items
+            : [];
+        allItems.push(...items);
+        totalPages = Number(data.totalPages || 1);
+        currentPage += 1;
+      }
+
+      return allItems;
+    };
+
+    const fetchFilters = async () => {
+      try {
+        const [destItems, monthItems, tourItems] = await Promise.all([
+          fetchAllItems('/api/destinations'),
+          fetchAllItems('/api/months'),
+          fetchAllItems('/api/tour'),
         ]);
 
-        if (destRes.ok) {
-          const destJson = await destRes.json();
-          setDestinations(destJson.data?.items || []);
+        const destinationMap = new Map();
+        const monthMap = new Map();
+
+        for (const dest of destItems) {
+          const key = dest?._id || dest?.id || dest?.slug;
+          if (!key) continue;
+          destinationMap.set(String(key), dest);
         }
-        if (monthRes.ok) {
-          const monthJson = await monthRes.json();
-          setMonths(monthJson.data?.items || []);
+
+        for (const month of monthItems) {
+          const key = month?._id || month?.id || month?.slug || month?.monthTag || month?.month;
+          if (!key) continue;
+          monthMap.set(String(key), month);
         }
+
+        for (const tour of tourItems) {
+          const relatedDestinations = Array.isArray(tour?.destinations)
+            ? tour.destinations
+            : [];
+          const relatedMonths = Array.isArray(tour?.tagMonths)
+            ? tour.tagMonths
+            : [];
+
+          for (const dest of relatedDestinations) {
+            const key = dest?._id || dest?.id || dest?.slug;
+            if (!key) continue;
+            if (!destinationMap.has(String(key))) {
+              destinationMap.set(String(key), dest);
+            }
+          }
+
+          for (const month of relatedMonths) {
+            const key = month?._id || month?.id || month?.slug || month?.monthTag || month?.month;
+            if (!key) continue;
+            if (!monthMap.has(String(key))) {
+              monthMap.set(String(key), month);
+            }
+          }
+        }
+
+        const sortedDestinations = [...destinationMap.values()].sort((a, b) =>
+          String(a?.title || '').localeCompare(String(b?.title || ''), 'en', {
+            sensitivity: 'base',
+          }),
+        );
+
+        const sortedMonths = [...monthMap.values()].sort((a, b) =>
+          toTitleCase(a?.monthTag || a?.month).localeCompare(
+            toTitleCase(b?.monthTag || b?.month),
+            'en',
+            { sensitivity: 'base' },
+          ),
+        );
+
+        setDestinations(sortedDestinations);
+        setMonths(sortedMonths);
       } catch (err) {
         if (err.name === 'AbortError') return;
         console.error('Failed to fetch filter options', err);
@@ -94,9 +171,11 @@ export default function ToursPage() {
         const res = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/api/tour/?${params.toString()}`,
             {
-              headers: {
-                Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
-              },
+              headers: process.env.NEXT_PUBLIC_API_TOKEN
+                ? {
+                    Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+                  }
+                : undefined,
               signal: controller.signal,
               cache: 'force-cache',
             },

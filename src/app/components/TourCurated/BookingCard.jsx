@@ -32,6 +32,8 @@ export default function EnquireNow({
   tagMonths = [],
   tourType = "fixed_date",
   tourId,
+  tourSlug,
+  tourName,
   getDateRange,
   creatorId,
 }) {
@@ -49,6 +51,7 @@ export default function EnquireNow({
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const isValidDate = (date) => date instanceof Date && !isNaN(date);
 
@@ -82,10 +85,16 @@ export default function EnquireNow({
 
   const handleSendEnquiry = async (e) => {
     e.preventDefault();
+    if (isSubmitting) return;
+    setIsSubmitting(true);
     const payload = {
       name,
       email,
       phone,
+      sourceType: "tour",
+      sourcePage: tourSlug || "",
+      pageRoute:
+        typeof window !== "undefined" ? window.location.pathname || "" : "",
       startDate: dateRange?.startDate
         ? format(dateRange.startDate, "yyyy-MM-dd")
         : "",
@@ -97,36 +106,44 @@ export default function EnquireNow({
       totalPeople: totalGuests,
       totalPrice: basePrice * totalGuests,
       tour: tourId,
+      tourId,
+      tourSlug: tourSlug || "",
+      tourName: tourName || "",
       tourCreatedBy: creatorId,
     };
     // console.log("Enquiry Payload:", payload);
 
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/enquiries`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
-        },
-        body: JSON.stringify(payload),
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/contact`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+          },
+          body: JSON.stringify(payload),
+        }
+      );
+      const result = await res.json();
+      if (!result.success) {
+        console.error("Failed to send enquiry:", result);
+        toast({
+          title: "Error",
+          description: "Failed to send enquiry. Please try again.",
+          variant: "destructive",
+        });
+        return;
       }
-    );
-    const result = await res.json(); // 👈 parse JSON response
 
-    // console.log(result);
-
-    if (!result.success) {
-      console.error("Failed to send enquiry:", res);
-
-      return;
+      setShowDialog(false);
+      setName("");
+      setEmail("");
+      setPhone("");
+      toast({ title: "Success", description: "Enquiry sent successfully" });
+    } finally {
+      setIsSubmitting(false);
     }
-
-    setShowDialog(false);
-    setName("");
-    setEmail("");
-    setPhone("");
-    toast({ title: "Success", description: "Enquiry sent successfully" });
   };
 
   return (
@@ -343,6 +360,7 @@ export default function EnquireNow({
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
+                disabled={isSubmitting}
                 className="text-sm sm:text-base"
               />
             </div>
@@ -361,6 +379,7 @@ export default function EnquireNow({
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                disabled={isSubmitting}
                 className="text-sm sm:text-base"
               />
             </div>
@@ -379,6 +398,7 @@ export default function EnquireNow({
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 required
+                disabled={isSubmitting}
                 className="text-sm sm:text-base"
               />
             </div>
@@ -418,9 +438,10 @@ export default function EnquireNow({
 
             <Button
               type="submit"
+              disabled={isSubmitting}
               className="w-full h-11 sm:h-12 bg-[#ff5b06] hover:bg-orange-700 text-white font-medium text-sm sm:text-base transition-colors"
             >
-              Send Enquiry
+              {isSubmitting ? "Sending..." : "Send Enquiry"}
             </Button>
           </form>
         </DialogContent>

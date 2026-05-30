@@ -58,6 +58,13 @@ export default function ContactFormSection({
   subtext,
   tagline,
   source = '',
+  sourceType = 'contact',
+  destinationId = '',
+  destinationSlug = '',
+  destinationName = '',
+  tourId = '',
+  tourSlug = '',
+  tourName = '',
   buttonLabel = 'START THE CONVERSATION',
 }) {
   const [formData, setFormData] = useState({
@@ -115,6 +122,25 @@ export default function ContactFormSection({
         name:        formData.name,
         email:       formData.email,
         contact:     formData.phone,
+        sourceType,
+        sourcePage: source || '',
+        pageRoute:
+          typeof window !== 'undefined' ? window.location.pathname || '' : '',
+        destinationId: sourceType === 'destination' ? destinationId : '',
+        destinationSlug:
+          sourceType === 'destination'
+            ? destinationSlug || source || ''
+            : '',
+        destinationName:
+          sourceType === 'destination'
+            ? destinationName || formData.destination || ''
+            : '',
+        tourId: sourceType === 'tour' ? tourId : '',
+        tourSlug: sourceType === 'tour' ? tourSlug || source || '' : '',
+        tourName:
+          sourceType === 'tour'
+            ? tourName || formData.destination || ''
+            : '',
         requirement: [
           formData.destination && `Destination: ${formData.destination}`,
           formData.when        && `When: ${formData.when}`,
@@ -147,6 +173,11 @@ export default function ContactFormSection({
           when: '',
           message: '',
         });
+        // Reset button state after brief success feedback.
+        setTimeout(() => {
+          setSubmitStatus(null);
+          setStatusMessage('');
+        }, 1800);
       } else {
         const code = response.status;
         setSubmitStatus('error');
@@ -242,7 +273,7 @@ export default function ContactFormSection({
                   value={formData[name]}
                   onChange={handleChange}
                   placeholder={placeholder}
-                  disabled={isSubmitting || submitStatus === 'success'}
+                  disabled={isSubmitting}
                   className={`w-full bg-transparent border-b pb-3 md:pb-4 text-white placeholder-white/65 outline-none transition-colors text-base md:text-lg font-medium ${
                     errors[name]
                       ? 'border-red-300'
@@ -259,7 +290,7 @@ export default function ContactFormSection({
             <div className='pt-4'>
               <button
                 type='submit'
-                disabled={isSubmitting || submitStatus === 'success'}
+                disabled={isSubmitting}
                 style={{ fontFamily: 'var(--font-heading)' }}
                 className='bg-white text-[#df5226] font-bold text-xs md:text-sm uppercase tracking-[0.1em] px-10 py-4 md:py-5 rounded-full hover:bg-gray-100 transition-colors w-max block disabled:opacity-60 disabled:cursor-not-allowed'
               >

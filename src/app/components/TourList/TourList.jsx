@@ -27,6 +27,11 @@ export default function TourList({
   handleLoadMore,
 }) {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const toTitleCase = (value) => {
+    const text = String(value || '').trim();
+    if (!text) return '';
+    return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+  };
 
   const handleScroll = (e) => {
     const bottom =
@@ -49,7 +54,9 @@ export default function TourList({
           <SelectContent className='rounded-xl shadow-md border border-gray-100'>
             <SelectItem value='all'>All destinations</SelectItem>
             {destinations.map((dest) => (
-              <SelectItem key={dest._id} value={dest._id}>
+              <SelectItem
+                key={dest._id || dest.id || dest.slug}
+                value={dest._id || dest.id || dest.slug}>
                 {dest.title}
               </SelectItem>
             ))}
@@ -70,8 +77,10 @@ export default function TourList({
           <SelectContent className='rounded-xl shadow-md border border-gray-100'>
             <SelectItem value='all'>All months</SelectItem>
             {months.map((m) => (
-              <SelectItem key={m._id} value={m._id}>
-                {m.monthTag || m.month}
+              <SelectItem
+                key={m._id || m.id || m.slug || m.monthTag || m.month}
+                value={m._id || m.id || m.slug || m.monthTag || m.month}>
+                {toTitleCase(m.monthTag || m.month)}
               </SelectItem>
             ))}
           </SelectContent>

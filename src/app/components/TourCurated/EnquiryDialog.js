@@ -1,5 +1,11 @@
 "use client";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "../ui/dialog";
 import { Button } from "../ui/button";
 import { useState, useEffect } from "react";
 import { format } from "date-fns";
@@ -18,6 +24,7 @@ export default function EnquiryDialog({
     email: "",
     phone: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // compute derived values
   const totalPeople = (guests?.adults || 0) + (guests?.children || 0);
@@ -27,7 +34,9 @@ export default function EnquiryDialog({
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    if (isSubmitting) return;
+    setIsSubmitting(true);
     const payload = {
       ...form,
       adults: guests?.adults || 0,
@@ -37,8 +46,12 @@ export default function EnquiryDialog({
       startDate: dateRange?.startDate,
       endDate: dateRange?.endDate,
     };
-    onSubmit(payload);
-    setOpen(false);
+    try {
+      await Promise.resolve(onSubmit(payload));
+      setOpen(false);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -51,6 +64,9 @@ export default function EnquiryDialog({
               Enquiry
             </span>
           </DialogTitle>
+          <DialogDescription className="text-sm text-gray-500">
+            Enter your contact details to receive a personalized quote.
+          </DialogDescription>
         </DialogHeader>
 
         <div className=" flex flex-col gap-4">
@@ -63,6 +79,7 @@ export default function EnquiryDialog({
               placeholder="Your Name"
               value={form.name}
               onChange={handleChange}
+              disabled={isSubmitting}
               className="w-full border rounded-md p-2 focus:ring-2 focus:ring-orange-500 focus:outline-none"
             />
           </div>
@@ -76,6 +93,7 @@ export default function EnquiryDialog({
               placeholder="you@example.com"
               value={form.email}
               onChange={handleChange}
+              disabled={isSubmitting}
               className="w-full border rounded-md p-2 focus:ring-2 focus:ring-orange-500 focus:outline-none"
             />
           </div>
@@ -89,6 +107,7 @@ export default function EnquiryDialog({
               placeholder="Your Phone Number"
               value={form.phone}
               onChange={handleChange}
+              disabled={isSubmitting}
               className="w-full border rounded-md p-2 focus:ring-2 focus:ring-orange-500 focus:outline-none"
             />
           </div>
@@ -127,10 +146,11 @@ export default function EnquiryDialog({
           {/* Submit */}
           <Button
             type="button"
+            disabled={isSubmitting}
             className="w-full bg-orange-500 hover:bg-[#ff5b06] text-white font-medium"
             onClick={handleSubmit}
           >
-            Submit Enquiry
+            {isSubmitting ? "Sending..." : "Submit Enquiry"}
           </Button>
         </div>
       </DialogContent>

@@ -2,7 +2,6 @@ import { notFound } from 'next/navigation';
 import {
   ArrowUpRight,
   CalendarRange,
-  FileDown,
   Sparkles,
   Users,
   Wallet,
@@ -17,6 +16,7 @@ import ParallaxScrollImg from '../../../components/CustomUI/Animation/ParallaxSc
 import SmoothScroll from '../../../components/Shared/SmoothScroll';
 import parseUrl from '../../../util/parseUrl';
 import ContactFormSection from '../../../components/Shared/ContactFormSection';
+import GuideDownloadButton from '../../../components/CustomUI/Button/GuideDownloadButton';
 
 // Keep this route dynamic so dashboard edits (e.g., idealFor) show up immediately
 export const dynamic = 'force-dynamic';
@@ -179,15 +179,19 @@ export default async function DestinationPage({ params }) {
     bestTimeMonths.length > 0
       ? bestTimeMonths
           .map((m) =>
-            typeof m === 'string'
-              ? m
-              : m?.name ||
+            String(
+              typeof m === 'string'
+                ? m
+                : m?.name ||
                 m?.title ||
                 m?.monthTag ||
                 m?.tag ||
                 m?.label ||
                 m?.month ||
                 '',
+            )
+              .trim()
+              .replace(/\b\w/g, (char) => char.toUpperCase()),
           )
           .filter(Boolean)
           .join(' / ')
@@ -240,6 +244,7 @@ export default async function DestinationPage({ params }) {
   const highlightDestinationName = destinationData.title || 'this destination';
   const highlightHeader = `Highlight for ${highlightDestinationName}`;
   const highlightSubheader = `Check out the highlights of ${highlightDestinationName}.`;
+  const guideHref = `/api/destinations/${resolvedParams.slug}/guide`;
 
   const renderAccentHeading = (text) => {
     const parts = String(text || '').split(' ');
@@ -476,17 +481,21 @@ export default async function DestinationPage({ params }) {
 
                       <div className='flex flex-wrap gap-2'>
                         {experienceTags.map((exp, idx) => {
-                          const label =
+                          const title =
+                            (typeof exp === 'string' ? exp.trim() : '') ||
                             exp.title ||
                             exp.name ||
                             exp.heading ||
                             'Experience';
+                          const label = title;
                           const slug = exp.slug || exp._id;
                           const href = slug ? `/experiences/${slug}` : '#';
+                          const titleAttr = `Experience: ${title}`;
 
                           return (
                             <span
                               key={`${slug || idx}`}
+                              title={titleAttr}
                               className='group inline-flex items-center gap-2 rounded-full bg-[#ff5b06]/10 text-[#ff5b06] border border-[#ff5b06]/25 px-3 py-2 text-xs font-semibold shadow-sm transition hover:bg-[#ff5b06] hover:text-white'>
                               <span className='h-2 w-2 rounded-full bg-[#ff5b06] transition-colors duration-200 group-hover:bg-white'></span>
                               {label}
@@ -558,6 +567,8 @@ export default async function DestinationPage({ params }) {
             img={destinationData.highlight.img}
             url={`/contact?src=${resolvedParams.slug}`}
             noBtn
+            parallaxScale={1.18}
+            imagePosition="top center"
           />
         </section>
       )}
@@ -613,24 +624,16 @@ export default async function DestinationPage({ params }) {
       )}
 
       {destinationData.guidePdf && (
-        <a
-          href={`/api/destinations/${resolvedParams.slug}/guide`}
-          aria-label='Download destination guide'
-          title='Download destination guide'
-          className='group fixed right-5 bottom-28 md:bottom-32 z-[1001] inline-flex flex-col items-end gap-2 transition hover:-translate-y-0.5'>
-          <div className='pointer-events-none rounded-2xl border border-black bg-white px-4 py-2 text-xs sm:text-sm font-medium text-gray-900 shadow-[2px_3px_0px_#ff5b06] transition group-hover:-translate-y-0.5'>
-            <span className='hidden sm:inline'>Download destination guide</span>
-            <span className='sm:hidden'>Guide</span>
-          </div>
-          <div className='flex h-12 w-12 items-center justify-center rounded-full border border-[#ff5b06] bg-white text-[#ff5b06] shadow-lg shadow-black/10 transition group-hover:bg-[#ff5b06] group-hover:text-white'>
-            <FileDown className='h-5 w-5' />
-          </div>
-        </a>
+        <GuideDownloadButton href={guideHref} />
       )}
 
       {/* Shared CTA contact-form section */}
       <ContactFormSection
         source={destinationData.title || resolvedParams.slug}
+        sourceType='destination'
+        destinationId={destinationData.id}
+        destinationSlug={destinationData.slug || resolvedParams.slug}
+        destinationName={destinationData.title}
       />
     </main>
   );

@@ -1,4 +1,7 @@
 import { notFound } from 'next/navigation';
+import Image from 'next/image';
+import { getCanonicalUrl } from '../../../util/seo';
+import { buildBreadcrumbSchema, buildDestinationSchema } from '../../../util/schema';
 import {
   ArrowUpRight,
   CalendarRange,
@@ -73,10 +76,10 @@ export async function generateMetadata({ params }) {
   const imageUrl = destination.displayImg
     ? process.env.NEXT_PUBLIC_API_URL + destination.displayImg
     : null;
-  const canonicalUrl = `${process.env.DOMAIN}/destinations/${resolvedParams.slug}`;
+  const canonicalUrl = getCanonicalUrl(`/destinations/${resolvedParams.slug}`);
 
   return {
-    title: `${title} | Travel Tailor`,
+    title: title,
     description: description,
     alternates: {
       canonical: canonicalUrl,
@@ -245,6 +248,23 @@ export default async function DestinationPage({ params }) {
   const highlightHeader = `Highlight for ${highlightDestinationName}`;
   const highlightSubheader = `Check out the highlights of ${highlightDestinationName}.`;
   const guideHref = `/api/destinations/${resolvedParams.slug}/guide`;
+  const destinationSchema = buildDestinationSchema({
+    name: destinationData.title || 'Destination',
+    description:
+      destinationData.description ||
+      destinationData.highlight?.brief ||
+      `Explore ${destinationData.title || 'this destination'} with Travel Tailor.`,
+    path: `/destinations/${resolvedParams.slug}`,
+    image: heroImage || '',
+  });
+  const breadcrumbSchema = buildBreadcrumbSchema([
+    { name: 'Home', url: getCanonicalUrl('/') },
+    { name: 'Destinations', url: getCanonicalUrl('/destinations') },
+    {
+      name: destinationData.title || 'Destination',
+      url: getCanonicalUrl(`/destinations/${resolvedParams.slug}`),
+    },
+  ]);
 
   const renderAccentHeading = (text) => {
     const parts = String(text || '').split(' ');
@@ -289,6 +309,12 @@ export default async function DestinationPage({ params }) {
 
   return (
     <main>
+      <script
+        type='application/ld+json'
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify([destinationSchema, breadcrumbSchema]),
+        }}
+      />
       <SmoothScroll />
       <section className='pt-8 md:pt-12 pb-4'>
         <div className='w-full px-4 md:px-8'>
@@ -298,10 +324,14 @@ export default async function DestinationPage({ params }) {
               <div className='relative min-h-[500px] w-full'>
                 {heroImage ? (
                   <>
-                    <img
+                    <Image
                       src={parseUrl(heroImage)}
                       alt={destinationData.title}
+                      width={1600}
+                      height={900}
+                      sizes='100vw'
                       className='h-full w-full object-cover'
+                      priority
                     />
                     <div className='absolute inset-0 bg-gradient-to-b from-black/10 via-black/35 to-black/70' />
                     {destinationData?.location && (
@@ -321,11 +351,11 @@ export default async function DestinationPage({ params }) {
                     <p className='text-[11px] uppercase tracking-[0.18em] text-[#ff5b06] font-semibold'>
                       Destination spotlight
                     </p>
-                    <h1
+                    <div
                       className='text-xl sm:text-2xl font-semibold leading-tight text-gray-900'
                       style={{ fontFamily: "'Filson Pro', sans-serif" }}>
                       {destinationData.title}
-                    </h1>
+                    </div>
                     {destinationData.description && (
                       <p className='text-sm sm:text-base text-gray-600 leading-relaxed'>
                         {destinationData.description}
@@ -383,10 +413,14 @@ export default async function DestinationPage({ params }) {
               {heroImage ? (
                 <>
                   <ParallaxScrollImg speed={2.5} direction='up'>
-                    <img
+                    <Image
                       src={parseUrl(heroImage)}
                       alt={destinationData.title}
+                      width={1600}
+                      height={900}
+                      sizes='(min-width: 768px) 50vw, 100vw'
                       className='h-full w-full object-cover scale-[1.25]'
+                      priority
                     />
                   </ParallaxScrollImg>
                   <div className='absolute inset-0 bg-gradient-to-r from-black/35 via-black/10 to-transparent' />
@@ -565,7 +599,7 @@ export default async function DestinationPage({ params }) {
               destinationData.highlight.imgUrl || destinationData.highlight.img
             }
             img={destinationData.highlight.img}
-            url={`/contact?src=${resolvedParams.slug}`}
+            url={`/contact#src=${resolvedParams.slug}`}
             noBtn
             parallaxScale={1.18}
             imagePosition="top center"

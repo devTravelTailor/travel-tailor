@@ -1,21 +1,20 @@
-export const metadata = {
-    title: "Contact Us | Send your inquiry | Travel Tailor",
-    description: "Contact us for any inquiries or to book your next trip with us.",
-    openGraph: {
-      title: "Contact Us | Send your inquiry",
-      description: "Contact us for any inquiries or to book your next trip with us.",
-      type: "website",
-      images: [
-        {
-          url: "https://yourwebsite.com/og-image.jpg",
-          width: 1200,
-          height: 630,
-          alt: "Contact",
-        },
-      ],
-    },
-  };
-  
+import { buildPageMetadata } from "../../util/metaData";
+
+export const metadata = buildPageMetadata({
+  title: "Contact Us",
+  description:
+    "Get in touch with Travel Tailor to plan a custom trip, ask questions, or start your travel enquiry.",
+  path: "/contact",
+  image: "/images/logoAlt.png",
+  imageAlt: "Contact Travel Tailor",
+  keywords: [
+    "contact travel tailor",
+    "travel enquiry",
+    "custom trip planning",
+    "travel consultation",
+  ],
+});
+
 export default function ContactLayout({ children }) {
 return <>{children}</>;
 }

@@ -21,6 +21,7 @@ export default function ToursPage() {
   const [months, setMonths] = useState([]);
   const [selectedDestination, setSelectedDestination] = useState('');
   const [selectedMonth, setSelectedMonth] = useState('');
+  const [selectedTripStatus, setSelectedTripStatus] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const deferredSearchQuery = useDeferredValue(searchQuery);
 
@@ -32,8 +33,8 @@ export default function ToursPage() {
     const controller = new AbortController();
     const authHeader = process.env.NEXT_PUBLIC_API_TOKEN
       ? {
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
-        }
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+      }
       : undefined;
 
     const fetchAllItems = async (endpoint) => {
@@ -48,7 +49,7 @@ export default function ToursPage() {
           {
             headers: authHeader,
             signal: controller.signal,
-            cache: 'force-cache',
+            cache: 'no-store',
           },
         );
         if (!res.ok) break;
@@ -143,7 +144,7 @@ export default function ToursPage() {
 
   useEffect(() => {
     const controller = new AbortController();
-    const key = `${selectedDestination}:${selectedMonth}:${deferredSearchQuery}:${page}`;
+    const key = `${selectedDestination}:${selectedMonth}:${selectedTripStatus}:${deferredSearchQuery}:${page}`;
     requestKeyRef.current = key;
 
     const params = new URLSearchParams({
@@ -159,6 +160,9 @@ export default function ToursPage() {
       params.append('month', selectedMonth); // relation graph (monthTag/_id)
       params.append('tagMonths', selectedMonth); // legacy array field
     }
+    if (selectedTripStatus) {
+      params.append('tripStatus', selectedTripStatus);
+    }
     if (deferredSearchQuery) {
       params.append('q', deferredSearchQuery);
     }
@@ -170,16 +174,16 @@ export default function ToursPage() {
       try {
         const res = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/api/tour/?${params.toString()}`,
-            {
-              headers: process.env.NEXT_PUBLIC_API_TOKEN
-                ? {
-                    Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
-                  }
-                : undefined,
-              signal: controller.signal,
-              cache: 'force-cache',
-            },
-          );
+          {
+            headers: process.env.NEXT_PUBLIC_API_TOKEN
+              ? {
+                Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+              }
+              : undefined,
+            signal: controller.signal,
+            cache: 'no-store',
+          },
+        );
 
         if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
 
@@ -216,13 +220,14 @@ export default function ToursPage() {
     })();
 
     return () => controller.abort();
-  }, [selectedDestination, selectedMonth, deferredSearchQuery, page]);
+  }, [selectedDestination, selectedMonth, selectedTripStatus, deferredSearchQuery, page]);
 
   const handleFilterChange = (filterKey, value) => {
     setTourData([]);
     setPage(1);
     if (filterKey === 'destination') setSelectedDestination(value);
     if (filterKey === 'month') setSelectedMonth(value);
+    if (filterKey === 'tripStatus') setSelectedTripStatus(value);
   };
 
   const handleSearchChange = (value) => {
@@ -231,12 +236,21 @@ export default function ToursPage() {
     setSearchQuery(value);
   };
 
+  const handleResetFilters = () => {
+    setTourData([]);
+    setPage(1);
+    setSelectedDestination('');
+    setSelectedMonth('');
+    setSelectedTripStatus('');
+  };
+
   const handleLoadMore = () => {
     if (page < totalPages) setPage((p) => p + 1);
   };
 
   return (
     <>
+      <h1 className='sr-only'>Tours</h1>
       <section className='h-screen py-10'>
         <TourList
           tourData={tourData}
@@ -246,12 +260,15 @@ export default function ToursPage() {
           months={months}
           selectedDestination={selectedDestination}
           selectedMonth={selectedMonth}
+          selectedTripStatus={selectedTripStatus}
           searchQuery={searchQuery}
           handleFilterChange={handleFilterChange}
           handleSearchChange={handleSearchChange}
+          handleResetFilters={handleResetFilters}
           handleLoadMore={handleLoadMore}
         />
       </section>
     </>
   );
 }
+

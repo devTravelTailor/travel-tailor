@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { ArrowRight } from 'lucide-react';
 import parseUrl from '../../util/parseUrl';
 
@@ -78,13 +79,15 @@ export default function ExperienceHighlight({ highlight }) {
             )}
           </div>
 
-          <div className='relative mx-auto w-full max-w-[24rem] shrink-0 rotate-[-3deg] transition-transform duration-500 hover:rotate-0 lg:max-w-[28rem]'>
+          <div className='relative mx-auto w-full max-w-[24rem] shrink-0 rotate-[-3deg] transition-transform duration-500 hover:rotate-0 lg:w-[28rem] lg:max-w-[28rem]'>
             <div className='border border-black/5 bg-white p-4 pb-16 shadow-[0_28px_70px_rgba(15,23,42,0.14)]'>
               <div className='relative aspect-square overflow-hidden bg-[#111]'>
-                <img
+                <Image
                   src={imageSource}
                   alt={imageAlt}
-                  className='h-full w-full object-cover'
+                  fill
+                  sizes='(max-width: 1024px) 100vw, 28rem'
+                  className='object-cover'
                 />
               </div>
             </div>

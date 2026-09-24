@@ -79,6 +79,7 @@ const TourGridSection = ({
                 duration={item.details.duration + ' days'}
                 location={item.place}
                 tourType={item.tourType}
+                tripStatus={item.tripStatus}
                 className={type === 'blogs' ? styles.creatorBlogs : className}
               />
             </div>
@@ -100,3 +101,4 @@ const TourGridSection = ({
 };
 
 export default TourGridSection;
+

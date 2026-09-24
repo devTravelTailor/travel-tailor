@@ -57,7 +57,7 @@ function TourOverview({
             {displayStats.map((stat, index) => (
               <div
                 key={index}
-                className='flex items-center gap-2 rounded-full bg-[#ff5b06]/10 text-[#ff5b06] border border-[#ff5b06]/20 px-3 py-2 text-sm'>
+                className='flex items-center gap-2 rounded-full bg-[#ff5b06]/10 text-[#ff5b06] border border-[#ff5b06]/20 px-3 py-2 text-md font-bold'>
                 <stat.icon className='h-4 w-4' />
                 <span className='font-semibold'>{stat.label}:</span>
                 <span className='text-[#ff5b06]'>{stat.value}</span>

@@ -21,9 +21,11 @@ export default function TourList({
   months = [],
   selectedDestination = '',
   selectedMonth = '',
+  selectedTripStatus = '',
   searchQuery = '',
   handleFilterChange = () => {},
   handleSearchChange = () => {},
+  handleResetFilters = () => {},
   handleLoadMore,
 }) {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -106,7 +108,7 @@ export default function TourList({
 
       {/* === Main Content Area === */}
       <main className='flex-1 pt-4 md:pt-6 pb-10 flex flex-col overflow-hidden'>
-        <div className='mb-6 flex items-center gap-3'>
+        <div className='mb-6 flex flex-col sm:flex-row sm:items-center gap-3'>
           <div className='relative flex-1 px-1'>
             <Search className='w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400' />
             <input
@@ -117,33 +119,53 @@ export default function TourList({
               className='w-full rounded-lg border border-gray-200 pl-10 pr-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#ff5b06]'
             />
           </div>
-          <div className='md:hidden'>
-            <Popover open={isFilterOpen} onOpenChange={setIsFilterOpen}>
-              <PopoverTrigger asChild>
-                <button
-                  type='button'
-                  className='inline-flex items-center gap-2 rounded-lg border border-gray-200 px-3 py-2 text-sm font-medium text-gray-700 hover:border-[#ff5b06] hover:text-[#ff5b06] transition-colors'>
-                  <Filter className='w-4 h-4' />
-                </button>
-              </PopoverTrigger>
-              <PopoverContent
-                align='end'
-                className='w-[90vw] max-w-sm bg-white shadow-lg border border-gray-100 rounded-xl'>
-                <div className='flex items-center justify-between mb-3'>
-                  <p className='text-sm font-semibold text-gray-900'>Filters</p>
+          <div className='flex w-full sm:w-auto items-center gap-2 sm:shrink-0'>
+            <div className='flex-1 sm:flex-none'>
+              <Select
+                value={selectedTripStatus || 'all'}
+                onValueChange={(val) =>
+                  handleFilterChange('tripStatus', val === 'all' ? '' : val)
+                }>
+                <SelectTrigger
+                  aria-label='Filter tours by trip status'
+                  className='w-full sm:w-[190px] rounded-lg border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-0 focus-visible:ring-0 focus:border-[#ff5b06] focus-visible:border-[#ff5b06]'>
+                  <SelectValue placeholder='All Tours' />
+                </SelectTrigger>
+                <SelectContent className='rounded-xl border border-gray-100 shadow-md'>
+                  <SelectItem value='all'>All Tours</SelectItem>
+                  <SelectItem value='completed'>Past Trips</SelectItem>
+                  <SelectItem value='upcoming'>Upcoming Trips</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className='md:hidden'>
+              <Popover open={isFilterOpen} onOpenChange={setIsFilterOpen}>
+                <PopoverTrigger asChild>
                   <button
                     type='button'
-                    className='text-xs text-[#ff5b06] font-medium'
-                    onClick={() => {
-                      handleFilterChange('destination', '');
-                      handleFilterChange('month', '');
-                    }}>
-                    Reset
+                    className='inline-flex items-center gap-2 rounded-lg border border-gray-200 px-3 py-2 text-sm font-medium text-gray-700 hover:border-[#ff5b06] hover:text-[#ff5b06] transition-colors'>
+                    <Filter className='w-4 h-4' />
                   </button>
-                </div>
-                {renderFilters()}
-              </PopoverContent>
-            </Popover>
+                </PopoverTrigger>
+                <PopoverContent
+                  align='end'
+                  className='w-[90vw] max-w-sm bg-white shadow-lg border border-gray-100 rounded-xl'>
+                  <div className='flex items-center justify-between mb-3'>
+                    <p className='text-sm font-semibold text-gray-900'>Filters</p>
+                    <button
+                      type='button'
+                      className='text-xs text-[#ff5b06] font-medium'
+                      onClick={() => {
+                        handleResetFilters();
+                        setIsFilterOpen(false);
+                      }}>
+                      Reset
+                    </button>
+                  </div>
+                  {renderFilters()}
+                </PopoverContent>
+              </Popover>
+            </div>
           </div>
         </div>
 
@@ -171,6 +193,7 @@ export default function TourList({
                     experiences={tour.experiences}
                     date={tour.date}
                     slug={tour.slug}
+                    tripStatus={tour.tripStatus}
                     location={tour.place}
                   />
                 );
@@ -193,3 +216,4 @@ export default function TourList({
     </section>
   );
 }
+

@@ -1,9 +1,15 @@
 import PolicyLayout from "../../components/Policy/PolicyLayout";
+import { buildPageMetadata } from "../../util/metaData";
 
-export const metadata = {
+export const metadata = buildPageMetadata({
   title: "Privacy Policy",
-  description: "Privacy Policy",
-};
+  description:
+    "Read Travel Tailor's privacy policy to understand how personal information is collected, used, and protected.",
+  path: "/privacy-policy",
+  image: "/images/logoAlt.png",
+  imageAlt: "Travel Tailor privacy policy",
+  noIndex: false,
+});
 
 function Privacy() {
   const data = [

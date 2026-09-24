@@ -1,6 +1,5 @@
 import styles from "./styles.module.css";
 
-import Image from "next/image";
 import Button from "../CustomUI/Button/Button";
 import ParallaxScrollImg from "../CustomUI/Animation/ParallaxScrollImg";
 
@@ -10,17 +9,21 @@ import parseUrl from "../../util/parseUrl";
 function Highlights({
   title = "Why India? /nUnlock a world of wonders",
   brief = "India is a country of diverse cultures, traditions, and languages. It is a melting pot of people from different backgrounds, religions, and traditions. India is also a country of innovation and progress. It has a rich history and a vibrant culture that continues to evolve and change. to explore India's diversity and uniqueness, we invite you to visit India and experience its wonders. with India, you can explore its rich history, culture, and traditions, and discover its vibrant and dynamic culture.",
-  imgUrl = "/uploads/annie_spratt_W_Cgio_Ec_EV_Nc_unsplash_b0a9e215d0.jpg",
-  img = "/uploads/annie_spratt_W_Cgio_Ec_EV_Nc_unsplash_b0a9e215d0.jpg",
+  imgUrl,
+  img,
   url = "/contact",
   noBtn,
-  parallaxSpeed = 6,
+  parallaxSpeed = 2.5,
   parallaxScale = 1,
   imagePosition = "center",
 
   ...props
 }) {
-  const highlightImage = parseUrl(imgUrl || img);
+  const highlightImage = parseUrl(
+    imgUrl ||
+      img ||
+      "/uploads/annie_spratt_W_Cgio_Ec_EV_Nc_unsplash_b0a9e215d0.jpg"
+  );
 
   return (
     <section className={styles.highlight}>
@@ -45,13 +48,15 @@ function Highlights({
         </div>
 
         <div className={styles.highlightImg}>
-          <ParallaxScrollImg speed={parallaxSpeed} direction="up" scale={parallaxScale}>
-            <Image
+          <ParallaxScrollImg
+            speed={parallaxSpeed}
+            direction="up"
+            scale={parallaxScale}>
+            <img
               src={highlightImage}
               alt="highlight"
-              fill
-              sizes='(max-width: 768px) 100vw, 790px'
-              style={{ objectFit: "cover", objectPosition: imagePosition }}
+              className={styles.highlightImgMedia}
+              style={{ objectPosition: imagePosition }}
             />
           </ParallaxScrollImg>
         </div>

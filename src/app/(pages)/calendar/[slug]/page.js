@@ -6,6 +6,7 @@ import Tours from '../../../components/Sections/Tours';
 import Experiences from '../../../components/Sections/Experiences';
 import Blogs from '../../../components/Featured/Blogs';
 import ContactFormSection from '../../../components/Shared/ContactFormSection';
+import SmoothScroll from '../../../components/Shared/SmoothScroll';
 
 export const revalidate = 300;
 
@@ -79,6 +80,7 @@ export default async function CalendarPage({ params }) {
 
   return (
     <main>
+      <SmoothScroll />
       {heroImageUrl && <MonthHero imgUrl={heroImageUrl} month={monthName} />}
       {resolvedHighlight && <Highlights {...resolvedHighlight} />}
       {calendarData.tagDestinations &&

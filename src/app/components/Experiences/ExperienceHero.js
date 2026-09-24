@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { Sparkles, User, Banknote } from 'lucide-react';
 import parseUrl from '../../util/parseUrl';
 
@@ -133,10 +134,13 @@ export default function ExperienceHero({
         {/* Right — image */}
         <div className='order-first md:order-none w-full md:flex-1 relative h-56 sm:h-72 md:h-auto max-h-screen'>
           <div className='absolute inset-0 md:rounded-r-2xl overflow-hidden'>
-            <img
+            <Image
               src={heroImg ? parseUrl(heroImg) : '/uploads/solo-hero.jpg'}
               alt={title ? `${title} hero` : 'Experience hero'}
-              className='w-full h-full object-cover'
+              fill
+              priority
+              sizes='(max-width: 768px) 100vw, 50vw'
+              className='object-cover'
             />
           </div>
         </div>

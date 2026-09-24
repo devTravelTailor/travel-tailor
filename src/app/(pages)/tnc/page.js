@@ -1,9 +1,14 @@
 import PolicyLayout from "../../components/Policy/PolicyLayout";
+import { buildPageMetadata } from "../../util/metaData";
 
-export const metadata = {
+export const metadata = buildPageMetadata({
   title: "Terms and Conditions",
-  description: "Terms and Conditions",
-};
+  description:
+    "Review Travel Tailor's terms and conditions for bookings, cancellations, payments, service use, and policies.",
+  path: "/tnc",
+  image: "/images/logoAlt.png",
+  imageAlt: "Travel Tailor terms and conditions",
+});
 
 function Tnc() {
   // {

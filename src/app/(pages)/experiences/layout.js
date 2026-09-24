@@ -1,21 +1,37 @@
-export const metadata = {
-    title: "Experinces | Discover Amazing Places | Travel Tailor",
-    description: "Experince the best places around the world and plan your next trip.",
-    openGraph: {
-      title: "Experinces | Discover Amazing Places",
-      description: "Experince the best places around the world and plan your next trip.",
-      type: "website",
-      images: [
-        {
-          url: "https://yourwebsite.com/og-image.jpg",
-          width: 1200,
-          height: 630,
-          alt: "Destinations",
-        },
-      ],
-    },
-  };
-  
+import { buildPageMetadata } from "../../util/metaData";
+import { buildCollectionPageSchema } from "../../util/schema";
+
+export const metadata = buildPageMetadata({
+  title: "Experiences",
+  description:
+    "Browse curated travel experiences for couples, families, solo travellers, wellness, wildlife, and more.",
+  path: "/experiences",
+  image: "/images/logoAlt.png",
+  imageAlt: "Travel Tailor experiences",
+  keywords: [
+    "travel experiences",
+    "solo travel experiences",
+    "family travel experiences",
+    "wellness travel",
+    "travel tailor experiences",
+  ],
+});
+
 export default function ExperiencesLayout({ children }) {
-return <>{children}</>;
+  const schema = buildCollectionPageSchema({
+    name: "Travel Tailor Experiences",
+    description:
+      "Curated travel experiences for couples, families, solo travellers, wellness, culture, and adventure.",
+    path: "/experiences",
+  });
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      />
+      {children}
+    </>
+  );
 }

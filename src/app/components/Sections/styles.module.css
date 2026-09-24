@@ -157,6 +157,10 @@
     height: 100% !important;
     filter: brightness(0.9);
     object-position: center;
+    display: block;
+    object-fit: cover;
+    transform: scale(1.25);
+    transform-origin: center center;
 }
 
 
@@ -346,6 +350,10 @@
         height: 100% !important;
         filter: brightness(0.9);
         object-position: center;
+        display: block;
+        object-fit: cover;
+        transform: scale(1.25);
+        transform-origin: center center;
     }
 
 

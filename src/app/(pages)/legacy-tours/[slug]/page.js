@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+import { getCanonicalUrl } from '../../../util/seo';
 import ToursHero from '../../../components/Hero/ToursHero';
 import ToursInfo from '../../../components/Features/TourInfo';
 import Brief from '../../../components/CustomUI/Card/Brief';
@@ -50,10 +51,10 @@ export async function generateMetadata({ params }) {
     };
   }
 
-  const canonicalUrl = `${process.env.DOMAIN}/tours/${resolvedParams.slug}`;
+  const canonicalUrl = getCanonicalUrl(`/tours/${resolvedParams.slug}`);
 
   return {
-    title: `${tour.title} | Travel Tailor`,
+    title: tour.title,
     description: tour.description || 'Description of the tour',
     alternates: {
       canonical: canonicalUrl,
@@ -233,7 +234,7 @@ export default async function TourPage({ params }) {
           <Brief
             description={tourData.brief}
             imgUrl={parseUrl(tourData.displayImg)}
-            url={`/contact?src=${resolvedParams.slug}`}
+            url={`/contact#src=${resolvedParams.slug}`}
           />
         </section>
       )}
@@ -250,7 +251,7 @@ export default async function TourPage({ params }) {
         <section id='inclusions' className='scroll-mt-28'>
           <Inclusions
             {...tourData.inclusions}
-            url={`/contact?src=${resolvedParams.slug}`}
+            url={`/contact#src=${resolvedParams.slug}`}
           />
         </section>
       )}

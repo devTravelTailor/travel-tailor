@@ -1,3 +1,10 @@
+// import { permanentRedirect } from "next/navigation";
+
+// export default function HomeRedirectPage() {
+//   permanentRedirect("/");
+// }
+
+
 // app/page.js
 import { notFound } from "next/navigation";
 import HomeHero from "../../components/Hero/HomeHero";

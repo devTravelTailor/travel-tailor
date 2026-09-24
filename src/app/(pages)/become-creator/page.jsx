@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { useState } from "react";
 import {
   Map,
@@ -107,9 +108,12 @@ export default function BecomeCreatorPage() {
           </div>
 
           <div className="relative">
-            <img
+            <Image
               src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=2232"
               alt="Travel community"
+              width={2232}
+              height={1674}
+              sizes="(max-width: 768px) 100vw, 50vw"
               className="rounded-2xl shadow-2xl w-full aspect-[4/3] object-cover"
             />
             {/* <div className="absolute -bottom-6 -left-6 bg-[#ff5b06] text-white p-6 rounded-xl shadow-lg hidden md:block">

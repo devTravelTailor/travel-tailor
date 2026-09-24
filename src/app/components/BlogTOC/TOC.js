@@ -3,18 +3,15 @@ import React from "react";
 import { slugify } from "../../util/slugify";
 import styles from "./styles.module.css";
 
-// We don't need the Heading interface in JS, but we define prop types.
-
 const TableOfContents = ({ headings }) => {
   if (!headings || headings.length === 0) {
-    return null; // Don't render if no H2s found
+    return null;
   }
 
-  // Function to clean markdown links specifically for display text
   const cleanDisplayText = (text) => {
     return text
-      .replace(/\\\./g, ".") // remove backslash before dot
-      .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1") // existing rule
+      .replace(/\\\./g, ".")
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
       .trim();
   };
 
@@ -24,13 +21,16 @@ const TableOfContents = ({ headings }) => {
         Contents
       </h3>
       <ul className={styles.tocList}>
-        {headings.map((heading) => {
-          // Slugify the raw heading text (including potential markdown)
+        {headings.map((heading, index) => {
           const slug = slugify(heading.text);
-          // Clean the text *only* for display
           const displayText = cleanDisplayText(heading.text);
+          const levelClass = styles[`level${heading.level}`] || "";
+
           return (
-            <li key={slug} className={styles.tocItem}>
+            <li
+              key={`${slug}-${index}`}
+              className={`${styles.tocItem} ${levelClass}`.trim()}
+            >
               <a href={`#${slug}`} className={styles.tocLink}>
                 {displayText}
               </a>

@@ -5,6 +5,8 @@ import Blogs from "../../../components/Featured/Blogs";
 import ContactFormSection from "../../../components/Shared/ContactFormSection";
 
 import { notFound } from "next/navigation";
+import { getCanonicalUrl, toAbsoluteUrl } from "../../../util/seo";
+import { buildBreadcrumbSchema } from "../../../util/schema";
 import Experiences from "../../../components/Sections/Experiences";
 import Destinations from "../../../components/Sections/Destinations";
 
@@ -84,16 +86,16 @@ export async function generateMetadata({ params }) {
   const metaDescription = data.seo?.metaDescription || data.description;
   // Ensure absolute URLs for images
   const shareImageUrl = data.seo?.shareImage?.startsWith("/")
-    ? `${process.env.BACK_URL_PREFIX}${data.seo.shareImage}`
+    ? toAbsoluteUrl(data.seo.shareImage)
     : data.seo?.shareImage || // Handle if it's already absolute
       (data.displayImg?.startsWith("/")
-        ? `${process.env.BACK_URL_PREFIX}${data.displayImg}`
+        ? toAbsoluteUrl(data.displayImg)
         : data.displayImg);
 
-  const canonicalUrl = `${process.env.DOMAIN}/blogs/${slug}`;
+  const canonicalUrl = getCanonicalUrl(`/blogs/${slug}`);
 
   return {
-    title: metaTitle + " | Travel Tailor",
+    title: metaTitle,
     description: metaDescription,
     // --- Canonical URL ---
     alternates: {
@@ -191,14 +193,14 @@ async function BlogPage({ params }) {
     "@type": "Article",
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `${process.env.NEXT_PUBLIC_DOMAIN}/blogs/${slug}`,
+      "@id": getCanonicalUrl(`/blogs/${slug}`),
     },
     headline: data.seo?.metaTitle || data.title,
     description: data.seo?.metaDescription || data.description,
     image: data.seo?.shareImage
-      ? `${process.env.NEXT_PUBLIC_URL_PREFIX}${data.seo.shareImage}`
+      ? toAbsoluteUrl(data.seo.shareImage)
       : data.displayImg
-      ? `${process.env.NEXT_PUBLIC_URL_PREFIX}${data.displayImg}`
+      ? toAbsoluteUrl(data.displayImg)
       : undefined,
     author: {
       "@type": "Person",
@@ -217,12 +219,19 @@ async function BlogPage({ params }) {
     datePublished: data.createdAt, // ISO 8601 format
     dateModified: data.updatedAt, // ISO 8601 format
   };
+  const breadcrumbSchema = buildBreadcrumbSchema([
+    { name: "Home", url: getCanonicalUrl("/") },
+    { name: "Blogs", url: getCanonicalUrl("/blogs") },
+    { name: data.title, url: getCanonicalUrl(`/blogs/${slug}`) },
+  ]);
 
   return (
     <article>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify([jsonLd, breadcrumbSchema]),
+        }}
       />
 
       {data?.displayImg && (

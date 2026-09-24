@@ -2,6 +2,8 @@ import Script from "next/script";
 import { Caveat } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
+import { getSiteUrl } from "./util/seo";
+import { buildOrganizationSchema, buildWebsiteSchema } from "./util/schema";
 
 const caveat = Caveat({
   subsets: ["latin"],
@@ -37,16 +39,13 @@ const filsonPro = localFont({
 });
 
 export const metadata = {
-  metadataBase: new URL(process.env.DOMAIN || "https://traveltailor.in"),
+  metadataBase: new URL(getSiteUrl()),
   title: {
     default: "Travel Tailor | Custom Travel Experiences",
     template: "%s | Travel Tailor",
   },
   description:
     "Travel Tailor crafts personalised holidays, tours, and destination experiences across India and beyond.",
-  alternates: {
-    canonical: "/",
-  },
   robots: {
     index: true,
     follow: true,
@@ -108,6 +107,53 @@ async function getSettings() {
   }
 }
 
+function renderExtraScripts(extraScripts) {
+  if (!extraScripts?.trim()) return null;
+
+  const scriptTagRegex = /<script\b([^>]*)>([\s\S]*?)<\/script>/gi;
+  const matches = [...extraScripts.matchAll(scriptTagRegex)];
+
+  if (matches.length === 0) {
+    return (
+      <Script
+        id="extra-script-inline"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: extraScripts,
+        }}
+      />
+    );
+  }
+
+  return matches.map((match, index) => {
+    const attrs = match[1] || "";
+    const inlineContent = (match[2] || "").trim();
+    const srcMatch = attrs.match(/\bsrc=(["'])(.*?)\1/i);
+    const idMatch = attrs.match(/\bid=(["'])(.*?)\1/i);
+    const strategyMatch = attrs.match(/\bdata-strategy=(["'])(.*?)\1/i);
+    const src = srcMatch?.[2]?.trim();
+    const id = idMatch?.[2]?.trim() || `extra-script-${index}`;
+    const strategy = strategyMatch?.[2]?.trim() || "afterInteractive";
+
+    if (src) {
+      return <Script key={id} id={id} src={src} strategy={strategy} />;
+    }
+
+    if (!inlineContent) return null;
+
+    return (
+      <Script
+        key={id}
+        id={id}
+        strategy={strategy}
+        dangerouslySetInnerHTML={{
+          __html: inlineContent,
+        }}
+      />
+    );
+  });
+}
+
 export default async function RootLayout({ children }) {
   const setting = await getSettings();
   const fallbackGtmId =
@@ -115,6 +161,7 @@ export default async function RootLayout({ children }) {
     process.env.NEXT_PUBLIC_GA_ID?.trim();
   const gtmId = setting?.tracking?.gtmId?.trim() || fallbackGtmId;
   const extraScripts = setting?.tracking?.extraScripts;
+  const rootSchemas = [buildOrganizationSchema(), buildWebsiteSchema()];
 
   return (
     <html
@@ -140,22 +187,20 @@ export default async function RootLayout({ children }) {
           />
         ) : null}
 
-        {extraScripts ? (
-          <Script
-            id="extra-script"
-            strategy="afterInteractive"
-            dangerouslySetInnerHTML={{
-              __html: extraScripts,
-            }}
-          />
-        ) : null}
+        {renderExtraScripts(extraScripts)}
 
         <script
           src="https://accounts.google.com/gsi/client"
           async
           defer
         ></script>
-
+        {rootSchemas.map((schema, index) => (
+          <script
+            key={`root-schema-${index}`}
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+          />
+        ))}
       </head>
       <body suppressHydrationWarning>
         {gtmId ? (

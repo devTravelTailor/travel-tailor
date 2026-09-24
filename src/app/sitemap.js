@@ -1,12 +1,6 @@
-function getBaseUrl() {
-  const rawUrl = process.env.DOMAIN || "https://traveltailor.in";
-  const withProtocol = /^https?:\/\//i.test(rawUrl)
-    ? rawUrl
-    : `https://${rawUrl}`;
-  return withProtocol.replace(/\/+$/, "");
-}
+import { getSiteUrl } from './util/seo';
 
-const baseUrl = getBaseUrl();
+const baseUrl = getSiteUrl();
 
 async function fetchSlugs(endpoint) {
   try {

@@ -1,6 +1,6 @@
 "use client";
-import { useEffect, useState } from "react";
-import { CalendarIcon, Users, Plus, Minus } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { CalendarIcon, Users, Plus, Minus, CheckCircle2, Lock } from "lucide-react";
 import { format, addDays } from "date-fns";
 import {
   Card,
@@ -36,9 +36,8 @@ export default function EnquireNow({
   tourName,
   getDateRange,
   creatorId,
+  isDisabled = false,
 }) {
-  // console.log("tourType", tourType, getDateRange);
-
   const [dateRange, setDateRange] = useState(getDateRange);
   const [guests, setGuests] = useState({ adults: 2, children: 0 });
   const [selectedTab, setSelectedTab] = useState(
@@ -46,8 +45,11 @@ export default function EnquireNow({
   );
   const [showGuestDetails, setShowGuestDetails] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
+  const [showThankYou, setShowThankYou] = useState(false);
 
-  // Contact form state
+  const originalUrlRef = useRef("");
+  const thankYouUrlAppliedRef = useRef(false);
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -83,9 +85,77 @@ export default function EnquireNow({
     }
   };
 
+  const resetContactFields = () => {
+    setName("");
+    setEmail("");
+    setPhone("");
+  };
+
+  const restoreThankYouUrl = () => {
+    if (
+      typeof window === "undefined" ||
+      !thankYouUrlAppliedRef.current ||
+      !originalUrlRef.current
+    ) {
+      return;
+    }
+
+    window.history.replaceState(window.history.state, "", originalUrlRef.current);
+    thankYouUrlAppliedRef.current = false;
+    originalUrlRef.current = "";
+  };
+
+  const applyThankYouUrl = () => {
+    if (typeof window === "undefined" || thankYouUrlAppliedRef.current) {
+      return;
+    }
+
+    const currentUrl = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+    const normalizedPath = window.location.pathname.endsWith("/")
+      ? window.location.pathname.slice(0, -1)
+      : window.location.pathname;
+
+    originalUrlRef.current = currentUrl;
+    window.history.pushState(
+      window.history.state,
+      "",
+      `${normalizedPath}/thankyou${window.location.search}${window.location.hash}`
+    );
+    thankYouUrlAppliedRef.current = true;
+  };
+
+  const getThankYouPageRoute = () => {
+    if (typeof window === "undefined") return "";
+
+    const normalizedPath = window.location.pathname.endsWith("/")
+      ? window.location.pathname.slice(0, -1)
+      : window.location.pathname;
+
+    return `${normalizedPath}/thankyou${window.location.search}${window.location.hash}`;
+  };
+
+  const handleDialogChange = (open) => {
+    setShowDialog(open);
+    if (!open) {
+      setShowThankYou(false);
+      restoreThankYouUrl();
+    }
+  };
+
+  useEffect(() => {
+    if (showThankYou) {
+      applyThankYouUrl();
+      return;
+    }
+
+    restoreThankYouUrl();
+  }, [showThankYou]);
+
+  useEffect(() => () => restoreThankYouUrl(), []);
+
   const handleSendEnquiry = async (e) => {
     e.preventDefault();
-    if (isSubmitting) return;
+    if (isSubmitting || isDisabled) return;
     setIsSubmitting(true);
     const payload = {
       name,
@@ -93,8 +163,7 @@ export default function EnquireNow({
       phone,
       sourceType: "tour",
       sourcePage: tourSlug || "",
-      pageRoute:
-        typeof window !== "undefined" ? window.location.pathname || "" : "",
+      pageRoute: getThankYouPageRoute(),
       startDate: dateRange?.startDate
         ? format(dateRange.startDate, "yyyy-MM-dd")
         : "",
@@ -111,7 +180,6 @@ export default function EnquireNow({
       tourName: tourName || "",
       tourCreatedBy: creatorId,
     };
-    // console.log("Enquiry Payload:", payload);
 
     try {
       const res = await fetch(
@@ -136,15 +204,53 @@ export default function EnquireNow({
         return;
       }
 
-      setShowDialog(false);
-      setName("");
-      setEmail("");
-      setPhone("");
+      resetContactFields();
+      setShowThankYou(true);
       toast({ title: "Success", description: "Enquiry sent successfully" });
     } finally {
       setIsSubmitting(false);
     }
   };
+
+  if (isDisabled) {
+    return (
+      <Card className="w-full max-w-2xl shadow-xs border-amber-200 bg-amber-50/80">
+        <CardHeader className="flex flex-col gap-2">
+          <div className="flex items-center gap-2 text-amber-800">
+            <Lock className="h-4 w-4" />
+            <span className="text-xs font-semibold uppercase tracking-[0.14em]">
+              Past Trip
+            </span>
+          </div>
+          <CardTitle className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-900">
+            Plan Your Journey is closed
+          </CardTitle>
+          <CardDescription className="text-sm sm:text-base text-gray-600">
+            This trip is completed, so new enquiries are disabled. The tour stays visible on the website as a past trip.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="rounded-2xl border border-amber-200 bg-white/80 p-4 text-sm text-gray-700">
+            <div className="flex items-center justify-between gap-4">
+              <span>Tour</span>
+              <span className="font-medium text-right">{tourName || "This tour"}</span>
+            </div>
+            {dateRange?.startDate && dateRange?.endDate && (
+              <div className="mt-3 flex items-center justify-between gap-4">
+                <span>Dates</span>
+                <span className="font-medium text-right">
+                  {`${format(dateRange.startDate, "MMM dd")} - ${format(
+                    dateRange.endDate,
+                    "MMM dd, yyyy"
+                  )}`}
+                </span>
+              </div>
+            )}
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <>
@@ -159,7 +265,6 @@ export default function EnquireNow({
         </CardHeader>
 
         <CardContent className="flex flex-col gap-4">
-          {/* Tab Selector */}
           {tourType === "both" && (
             <Tabs
               value={selectedTab}
@@ -173,7 +278,6 @@ export default function EnquireNow({
             </Tabs>
           )}
 
-          {/* Date Range Picker */}
           <div className="flex flex-col gap-2">
             <Label
               htmlFor="dates"
@@ -227,7 +331,6 @@ export default function EnquireNow({
             </Popover>
           </div>
 
-          {/* Guests Selector */}
           <div className="flex flex-col gap-2">
             <Label
               htmlFor="guests"
@@ -247,7 +350,6 @@ export default function EnquireNow({
 
             {showGuestDetails && (
               <div className="mt-3 p-4 border border-border rounded-lg bg-card flex flex-col gap-4">
-                {/* Adults */}
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="font-medium text-foreground text-sm sm:text-base">
@@ -282,14 +384,13 @@ export default function EnquireNow({
                   </div>
                 </div>
 
-                {/* Children */}
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="font-medium text-foreground text-sm sm:text-base">
                       Children
                     </p>
                     <p className="text-xs sm:text-sm text-muted-foreground">
-                      Ages 0–12
+                      Ages 0-12
                     </p>
                   </div>
                   <div className="flex items-center gap-3">
@@ -320,9 +421,11 @@ export default function EnquireNow({
             )}
           </div>
 
-          {/* Submit */}
           <Button
-            onClick={() => setShowDialog(true)}
+            onClick={() => {
+              setShowThankYou(false);
+              setShowDialog(true);
+            }}
             className="w-full h-11 sm:h-12 bg-[#ff5b06] hover:bg-orange-700 text-white font-medium text-sm sm:text-base transition-colors"
           >
             Continue
@@ -330,120 +433,191 @@ export default function EnquireNow({
         </CardContent>
       </Card>
 
-      {/* Dialog */}
-      <Dialog open={showDialog} onOpenChange={setShowDialog}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle className="text-xl sm:text-2xl font-semibold text-[#ff5b06]">
-              Send Enquiry
-            </DialogTitle>
-            <DialogDescription className="text-sm sm:text-base text-muted-foreground">
-              Enter your contact details to receive a personalized quote
-            </DialogDescription>
-          </DialogHeader>
-
-          <form
-            onSubmit={handleSendEnquiry}
-            className="flex flex-col gap-4 mt-4"
-          >
-            <div className="flex flex-col gap-2">
-              <Label
-                htmlFor="name"
-                className="text-sm sm:text-base text-muted-foreground"
-              >
-                Full Name
-              </Label>
-              <Input
-                id="name"
-                type="text"
-                placeholder="John Doe"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-                disabled={isSubmitting}
-                className="text-sm sm:text-base"
-              />
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <Label
-                htmlFor="email"
-                className="text-sm sm:text-base text-muted-foreground"
-              >
-                Email
-              </Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="john@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                disabled={isSubmitting}
-                className="text-sm sm:text-base"
-              />
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <Label
-                htmlFor="phone"
-                className="text-sm sm:text-base text-muted-foreground"
-              >
-                Phone
-              </Label>
-              <Input
-                id="phone"
-                type="tel"
-                placeholder="+91 00000-00000"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                required
-                disabled={isSubmitting}
-                className="text-sm sm:text-base"
-              />
-            </div>
-
-            {/* Summary */}
-            <div className="pt-4 pb-2 border-t border-border flex flex-col gap-2 text-sm sm:text-base">
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Travel Dates:</span>
-                <span className="font-medium text-foreground">
-                  {dateRange?.startDate &&
-                    dateRange?.endDate &&
-                    `${format(dateRange.startDate, "MMM dd")} - ${format(
-                      dateRange.endDate,
-                      "MMM dd, yyyy"
-                    )}`}
-                </span>
+      <Dialog open={showDialog} onOpenChange={handleDialogChange}>
+        <DialogContent
+          showCloseButton={!isSubmitting}
+          className={cn(
+            "sm:max-w-md overflow-hidden",
+            showThankYou &&
+              "sm:max-w-lg border-0 bg-gradient-to-br from-orange-50 via-white to-amber-50 p-0 shadow-2xl data-[state=open]:zoom-in-100"
+          )}
+        >
+          {showThankYou ? (
+            <div className="relative px-6 py-8 sm:px-8 sm:py-10 text-center">
+              <div className="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-[#ff5b06] via-orange-400 to-amber-400" />
+              <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-full bg-[#ff5b06]/10 animate-in zoom-in-50 duration-500">
+                <CheckCircle2 className="h-11 w-11 text-[#ff5b06]" />
               </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Total Guests:</span>
-                <span className="font-medium text-foreground">
-                  {totalGuests} {totalGuests === 1 ? "person" : "people"} (
-                  {guests.adults} {guests.adults === 1 ? "adult" : "adults"}
-                  {guests.children > 0 &&
-                    `, ${guests.children} ${
-                      guests.children === 1 ? "child" : "children"
-                    }`}
-                  )
-                </span>
+              <DialogHeader className="items-center text-center">
+                <DialogTitle className="text-2xl sm:text-3xl font-bold text-gray-900 animate-in slide-in-from-bottom-2 duration-500">
+                  Thank You!
+                </DialogTitle>
+                <DialogDescription className="max-w-md text-sm sm:text-base leading-relaxed text-gray-600 animate-in slide-in-from-bottom-3 duration-700">
+                  Your enquiry for <span className="font-semibold text-gray-900">{tourName || "this tour"}</span> has been sent successfully. Our team will review your travel details and get back to you shortly.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="mt-6 rounded-2xl border border-orange-100 bg-white/80 p-4 text-left shadow-sm animate-in slide-in-from-bottom-4 duration-700">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-gray-500">Travel Dates</span>
+                  <span className="font-medium text-gray-900">
+                    {dateRange?.startDate && dateRange?.endDate
+                      ? `${format(dateRange.startDate, "MMM dd")} - ${format(
+                          dateRange.endDate,
+                          "MMM dd, yyyy"
+                        )}`
+                      : "To be confirmed"}
+                  </span>
+                </div>
+                <div className="mt-3 flex items-center justify-between text-sm">
+                  <span className="text-gray-500">Guests</span>
+                  <span className="font-medium text-gray-900">{totalGuests}</span>
+                </div>
+                <div className="mt-3 flex items-center justify-between text-sm">
+                  <span className="text-gray-500">Estimated Total</span>
+                  <span className="font-medium text-[#ff5b06]">
+                    Rs.{totalGuests * basePrice}
+                  </span>
+                </div>
               </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Total Price:</span>
-                <span className="font-medium text-foreground">
-                  ₹{totalGuests * basePrice}
-                </span>
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center animate-in slide-in-from-bottom-5 duration-700">
+                <Button
+                  type="button"
+                  onClick={() => {
+                    setShowDialog(false);
+                    setShowThankYou(false);
+                    restoreThankYouUrl();
+                  }}
+                  className="bg-[#ff5b06] hover:bg-orange-700 text-white"
+                >
+                  Done
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => {
+                    setShowThankYou(false);
+                    restoreThankYouUrl();
+                  }}
+                  className="border-[#ff5b06]/30 text-[#ff5b06] hover:bg-orange-50"
+                >
+                  Submit Another Enquiry
+                </Button>
               </div>
             </div>
+          ) : (
+            <>
+              <DialogHeader>
+                <DialogTitle className="text-xl sm:text-2xl font-semibold text-[#ff5b06]">
+                  Send Enquiry
+                </DialogTitle>
+                <DialogDescription className="text-sm sm:text-base text-muted-foreground">
+                  Enter your contact details to receive a personalized quote
+                </DialogDescription>
+              </DialogHeader>
 
-            <Button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full h-11 sm:h-12 bg-[#ff5b06] hover:bg-orange-700 text-white font-medium text-sm sm:text-base transition-colors"
-            >
-              {isSubmitting ? "Sending..." : "Send Enquiry"}
-            </Button>
-          </form>
+              <form
+                onSubmit={handleSendEnquiry}
+                className="flex flex-col gap-4 mt-4"
+              >
+                <div className="flex flex-col gap-2">
+                  <Label
+                    htmlFor="name"
+                    className="text-sm sm:text-base text-muted-foreground"
+                  >
+                    Full Name
+                  </Label>
+                  <Input
+                    id="name"
+                    type="text"
+                    placeholder="John Doe"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required
+                    disabled={isSubmitting}
+                    className="text-sm sm:text-base"
+                  />
+                </div>
+
+                <div className="flex flex-col gap-2">
+                  <Label
+                    htmlFor="email"
+                    className="text-sm sm:text-base text-muted-foreground"
+                  >
+                    Email
+                  </Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="john@example.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    disabled={isSubmitting}
+                    className="text-sm sm:text-base"
+                  />
+                </div>
+
+                <div className="flex flex-col gap-2">
+                  <Label
+                    htmlFor="phone"
+                    className="text-sm sm:text-base text-muted-foreground"
+                  >
+                    Phone
+                  </Label>
+                  <Input
+                    id="phone"
+                    type="tel"
+                    placeholder="+91 00000-00000"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    required
+                    disabled={isSubmitting}
+                    className="text-sm sm:text-base"
+                  />
+                </div>
+
+                <div className="pt-4 pb-2 border-t border-border flex flex-col gap-2 text-sm sm:text-base">
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Travel Dates:</span>
+                    <span className="font-medium text-foreground">
+                      {dateRange?.startDate &&
+                        dateRange?.endDate &&
+                        `${format(dateRange.startDate, "MMM dd")} - ${format(
+                          dateRange.endDate,
+                          "MMM dd, yyyy"
+                        )}`}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Total Guests:</span>
+                    <span className="font-medium text-foreground">
+                      {totalGuests} {totalGuests === 1 ? "person" : "people"} (
+                      {guests.adults} {guests.adults === 1 ? "adult" : "adults"}
+                      {guests.children > 0 &&
+                        `, ${guests.children} ${
+                          guests.children === 1 ? "child" : "children"
+                        }`}
+                      )
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Total Price:</span>
+                    <span className="font-medium text-foreground">
+                      Rs.{totalGuests * basePrice}
+                    </span>
+                  </div>
+                </div>
+
+                <Button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full h-11 sm:h-12 bg-[#ff5b06] hover:bg-orange-700 text-white font-medium text-sm sm:text-base transition-colors"
+                >
+                  {isSubmitting ? "Sending..." : "Send Enquiry"}
+                </Button>
+              </form>
+            </>
+          )}
         </DialogContent>
       </Dialog>
     </>

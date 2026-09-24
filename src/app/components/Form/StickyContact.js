@@ -78,12 +78,15 @@ const StickyContact = () => {
         </span>
         <h3 className={styles.title}>OFFICE HOURS</h3>
         <ul className={styles.hoursList}>
-          <li>Monday: 9am - 10pm</li>
+          {/* <li>Monday: 9am - 10pm</li>
           <li>Tuesday: 9am - 10pm</li>
           <li>Wednesday: 9am - 10pm</li>
           <li>Thursday: 9am - 10pm</li>
           <li>Friday: 9am - 10pm</li>
           <li>Saturday: Closed</li>
+          <li>Sunday: Closed</li> */}
+          <li>Monday - Saturday</li>
+          <li>10:30am - 6:30pm</li>
           <li>Sunday: Closed</li>
         </ul>
         <p className={styles.subText}>(excluding national holidays)</p>

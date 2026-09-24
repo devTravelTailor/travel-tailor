@@ -1,4 +1,6 @@
 import { notFound } from 'next/navigation';
+import { getCanonicalUrl } from '../../../util/seo';
+import { buildBreadcrumbSchema, buildServiceSchema } from '../../../util/schema';
 
 import parseUrl from '../../../util/parseUrl';
 import SmoothScroll from '../../../components/Shared/SmoothScroll';
@@ -33,7 +35,7 @@ async function fetchExperienceData(slug) {
 
 // ── SEO ──────────────────────────────────────────────────────────────────────
 const DEFAULT_SEO = {
-  title: 'Travel Experiences | Travel Tailor',
+  title: 'Travel Experiences',
   description:
     'Discover curated travel experiences crafted for the independent traveller. Bespoke itineraries, cultural depth, and total freedom.',
 };
@@ -44,18 +46,18 @@ export async function generateMetadata({ params }) {
 
   if (!data) {
     return {
-      title: 'Experience Not Found | Travel Tailor',
+      title: 'Experience Not Found',
       description: DEFAULT_SEO.description,
     };
   }
 
   const title = data.title
-    ? `${data.title} | Travel Tailor`
+    ? data.title
     : DEFAULT_SEO.title;
   const description =
     data.highlight?.brief || data.metaDescription || DEFAULT_SEO.description;
   const imageUrl = data.heroImg ? parseUrl(data.heroImg) : null;
-  const canonicalUrl = `${process.env.DOMAIN}/experiences/${slug}`;
+  const canonicalUrl = getCanonicalUrl(`/experiences/${slug}`);
 
   return {
     title,
@@ -140,9 +142,30 @@ export default async function ExperiencePage({ params }) {
         )
         .filter(Boolean)
     : null;
+  const experienceSchema = buildServiceSchema({
+    name: data.title || 'Travel Experience',
+    description:
+      data.highlight?.brief || data.metaDescription || DEFAULT_SEO.description,
+    path: `/experiences/${slug}`,
+    image: data.heroImg || '',
+  });
+  const breadcrumbSchema = buildBreadcrumbSchema([
+    { name: 'Home', url: getCanonicalUrl('/') },
+    { name: 'Experiences', url: getCanonicalUrl('/experiences') },
+    {
+      name: data.title || 'Travel Experience',
+      url: getCanonicalUrl(`/experiences/${slug}`),
+    },
+  ]);
 
   return (
     <main className='font-sans antialiased bg-white pb-0'>
+      <script
+        type='application/ld+json'
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify([experienceSchema, breadcrumbSchema]),
+        }}
+      />
       <SmoothScroll />
       <ExperienceHero
         heroImg={data.heroImg}

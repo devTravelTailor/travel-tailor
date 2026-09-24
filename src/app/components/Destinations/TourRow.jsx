@@ -69,6 +69,7 @@ export default function TourRow({
                   tour.date,
               )}
               slug={tour.slug}
+              tripStatus={tour.tripStatus}
               duration={
                 tour.details?.totalDays ||
                 tour.details?.duration ||
@@ -105,3 +106,4 @@ export default function TourRow({
     </section>
   );
 }
+

@@ -1,21 +1,15 @@
-export const metadata = {
-    title: "Calendar | Discover Amazing Places | Travel Tailor",
-    description: "Explore top tours around the world and plan your next trip.",
-    openGraph: {
-      title: "Calendar | Discover Amazing Places",
-      description: "Explore top tours around the world and plan your next trip.",
-      type: "website",
-      images: [
-        {
-          url: "https://yourwebsite.com/og-image.jpg",
-          width: 1200,
-          height: 630,
-          alt: "Calendar",
-        },
-      ],
-    },
-  };
-  
+import { buildPageMetadata } from "../../util/metaData";
+
+export const metadata = buildPageMetadata({
+  title: "Travel Calendar",
+  description:
+    "Browse Travel Tailor's travel calendar for upcoming travel ideas and seasonal inspiration.",
+  path: "/calendar",
+  image: "/images/logoAlt.png",
+  imageAlt: "Travel Tailor calendar",
+  noIndex: true,
+});
+
 export default function CalendarLayout({ children }) {
 return <>{children}</>;
 }

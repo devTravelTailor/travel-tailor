@@ -1,13 +1,5 @@
 "use client";
-import {
-  Calendar,
-  MapPin,
-  Clock,
-  Users,
-  ArrowBigRight,
-  Mountain,
-  MoveRight,
-} from "lucide-react";
+import { Calendar, MapPin, Clock, Users, MoveRight } from "lucide-react";
 import { Badge } from "../ui/badge";
 import { Card } from "../ui/card";
 import { MdHiking, MdOutlineCardTravel } from "react-icons/md";
@@ -24,8 +16,11 @@ export function TourCard({
   groupSize,
   experiences,
   location = "Multiple Locations",
+  tripStatus,
 }) {
   const isFixedDate = tourType === "fixed_date";
+  const isCompletedTrip = tripStatus === "completed";
+  const isUpcomingTrip = tripStatus === "upcoming";
   const getExperienceLabel = (experience) =>
     (typeof experience === "string" ? experience.trim() : "") ||
     experience?.title ||
@@ -42,7 +37,7 @@ export function TourCard({
     },
     selectable_date: {
       label: "Smith-Curated",
-      icon: MdOutlineCardTravel, // NO string, NO spaces
+      icon: MdOutlineCardTravel,
       variant: "secondary",
     },
   };
@@ -75,11 +70,27 @@ export function TourCard({
           {badge?.icon && (
             <Badge
               variant={badge.variant}
-              className="absolute top-3 left-3 font-semibold bg-[#ff5b06]/90 text-white group-hover:bg-white/90 group-hover:text-[#ff5b06] backdrop-blur-sm   border-0 shadow-lg"
+              className="absolute top-3 left-3 font-semibold bg-[#ff5b06]/90 text-white group-hover:bg-white/90 group-hover:text-[#ff5b06] backdrop-blur-sm border-0 shadow-lg"
             >
               <badge.icon className="w-4 h-4 mr-1" />
-
               {badge.label}
+            </Badge>
+          )}
+
+          {isUpcomingTrip && !isCompletedTrip && (
+            <Badge
+              variant="outline"
+              className="absolute top-3 right-3 font-semibold bg-white/95 text-emerald-800 border-emerald-200 shadow-lg"
+            >
+              Upcoming
+            </Badge>
+          )}
+          {isCompletedTrip && (
+            <Badge
+              variant="outline"
+              className="absolute top-3 right-3 font-semibold bg-white/95 text-amber-800 border-amber-200 shadow-lg"
+            >
+              Past Trip
             </Badge>
           )}
 
@@ -129,7 +140,7 @@ export function TourCard({
             <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-border/50">
               {experiences.slice(0, 2).map((experience, idx) => (
                 <span
-                  key={`${experience?._id || experience?.id || experience?.slug || experience?.title || experience?.name || 'experience'}-${idx}`}
+                  key={`${experience?._id || experience?.id || experience?.slug || experience?.title || experience?.name || "experience"}-${idx}`}
                   className="px-3 py-1 text-xs font-medium bg-[#ff5b06]/70 text-white rounded-full"
                 >
                   {getExperienceLabel(experience)}
@@ -140,7 +151,9 @@ export function TourCard({
         </div>
 
         <div className="px-5 py-3 bg-muted/30 border-t border-border/50 flex items-center justify-between">
-          <span className="text-xs text-muted-foreground">View Details</span>
+          <span className="text-xs text-muted-foreground">
+            {isCompletedTrip ? "View Past Trip" : "View Details"}
+          </span>
           <div className="w-6 h-6 rounded-full p-1 bg-[#ff5b06]/10 flex items-center justify-center group-hover:bg-[#ff5b06] group-hover:text-[#ff5b06]-foreground transition-all duration-300">
             <MoveRight className="text-xs group-hover:translate-x-0.5 group-hover:text-white transition-transform" />
           </div>
@@ -149,3 +162,4 @@ export function TourCard({
     </Link>
   );
 }
+

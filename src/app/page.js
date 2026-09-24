@@ -5,8 +5,24 @@ import ContactFormSection from './components/Shared/ContactFormSection';
 import Image from 'next/image';
 import { TourCard } from './components/TourList/TourCard';
 import GroupHome from './components/Featured/GroupHome';
+import { buildPageMetadata } from './util/metaData';
 
 export const revalidate = 300;
+export const metadata = buildPageMetadata({
+  title: 'Custom Travel Experiences',
+  description:
+    'Travel Tailor crafts personalised holidays, tours, destination guides, and bespoke itineraries across India and beyond.',
+  path: '/',
+  image: '/images/logoAlt.png',
+  imageAlt: 'Travel Tailor',
+  keywords: [
+    'custom travel experiences',
+    'personalised holidays',
+    'bespoke itineraries',
+    'travel tailor india',
+    'custom trip planner',
+  ],
+});
 
 export default async function Main() {
   // ✅ Fetch on the server (SSR)
@@ -96,7 +112,8 @@ export default async function Main() {
             muted
             loop
             playsInline
-            poster='/bg.jpg'>
+            poster='/bg.jpg'
+            preload='metadata'>
             <source src='/bg.mp4' type='video/mp4' />
             Your browser does not support the video tag.
           </video>
@@ -106,13 +123,13 @@ export default async function Main() {
 
         {/* Center Content */}
         <div className='relative z-10 text-center max-w-4xl mx-auto px-6'>
-          <h2 className='text-6xl mb-4 font-light text-white tracking-tight leading-tight'>
+          <h1 className='text-6xl mb-4 font-light text-white tracking-tight leading-tight'>
             <span className='text-[#ff5b06] font-handwriting'>{heroLine1}</span>
             <br />
             <span className='text-white font-sans text-6xl xl:text-8xl'>
               {heroLine2}
             </span>
-          </h2>
+          </h1>
 
           <p className='text-md md:text-2xl xl:text-3xl text-white/90 mb-6 xl:mb-12 font-light'>
             {heroTagline}
@@ -209,11 +226,13 @@ export default async function Main() {
           <div className='text-center mb-12 animate-fade-in px-2'>
             <div className='text-3xl flex w-full h-fit flex-col justify-center gap-4 items-center md:text-5xl font-bold mb-2'>
               <Link href='/home'>
-                <img
+                <Image
                   src='/images/Traveltailorliner.png'
                   width={280}
                   height={150}
                   alt='logo'
+                  sizes='280px'
+                  priority
                   style={{ height: 'auto' }}
                 />
               </Link>
@@ -242,11 +261,12 @@ export default async function Main() {
             <div className='text-center mb-12 w-full animate-fade-in'>
               <div className='text-3xl flex w-full h-fit flex-col justify-center gap-4 items-center md:text-5xl font-bold mb-2'>
                 <Link href='/creator'>
-                  <img
+                  <Image
                     src='/images/Trailsmith.png'
                     width={250}
                     height={100}
                     alt='logo'
+                    sizes='250px'
                     style={{ height: 'auto' }}
                   />
                 </Link>
@@ -323,9 +343,7 @@ export default async function Main() {
             {/* Grid Section */}
             {upcomingTrips.length > 0 && (
               <div className=' pt-8 md:p-5 mt-4 max-md:text-center w-full'>
-                <Link
-                  href='/tours
-                '>
+                <Link href='/tours'>
                   <h3 className='text-2xl font-bold mb-6 px-3 cursor-pointer transition-colors duration-200 hover:text-[#ff5b06]'>
                     Upcoming Trips
                   </h3>
@@ -360,3 +378,4 @@ export default async function Main() {
     </section>
   );
 }
+

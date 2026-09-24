@@ -168,7 +168,7 @@ export default function TourPage() {
   const handlePlanJourney = useCallback(
     (e) => {
       e?.preventDefault();
-      scrollToSection('contact-form');
+      scrollToSection('plan-your-journey');
     },
     [scrollToSection],
   );
@@ -218,6 +218,13 @@ export default function TourPage() {
     (tour?.itinerary?.length
       ? `${tour.itinerary.length} day${tour.itinerary.length === 1 ? '' : 's'}`
       : '');
+  const today = new Date('2026-07-22T00:00:00+05:30');
+  const tripEndDate = tour?.dateRange?.endDate instanceof Date ? tour.dateRange.endDate : null;
+  const isCompletedTrip =
+    tour?.tripStatus === 'completed' ||
+    (tripEndDate instanceof Date &&
+      !Number.isNaN(tripEndDate.getTime()) &&
+      tripEndDate < today);
 
   return (
     <>
@@ -240,6 +247,8 @@ export default function TourPage() {
               badges={badge}
               heroImage={tour.images.hero}
               onPlanJourney={handlePlanJourney}
+              tripStatus={tour.tripStatus}
+              isEnquiryDisabled={isCompletedTrip}
             />
           </div>
         )}
@@ -259,11 +268,10 @@ export default function TourPage() {
                         e.preventDefault();
                         scrollToSection(item.id);
                       }}
-                      className={`px-4 max-lg:py-1 py-2 max-lg:my-1 rounded-full border text-sm font-medium transition-colors whitespace-nowrap ${
-                        active === item.id
-                          ? 'border-[#ff5b06] text-[#ff5b06]'
-                          : 'border-gray-200 text-gray-700 hover:text-[#ff5b06] hover:border-[#ff5b06]'
-                      }`}>
+                      className={`px-4 max-lg:py-1 py-2 max-lg:my-1 rounded-full border text-sm font-medium transition-colors whitespace-nowrap ${active === item.id
+                        ? 'border-[#ff5b06] text-[#ff5b06]'
+                        : 'border-gray-200 text-gray-700 hover:text-[#ff5b06] hover:border-[#ff5b06]'
+                        }`}>
                       {item.label}
                     </a>
                   ))}
@@ -276,7 +284,7 @@ export default function TourPage() {
               <div className='flex flex-col items-stretch md:items-end gap-2 shrink-0'>
                 <button
                   onClick={handlePlanJourney}
-                  className='w-full md:w-auto whitespace-nowrap inline-flex items-center justify-center gap-2 rounded-sm border border-[#ff5b06] bg-white text-[#ff5b06] px-5 py-2.5 shadow-[0_10px_30px_-12px_rgba(0,0,0,0.25)] hover:bg-[#ff5b06] hover:text-white hover:shadow-[0_16px_38px_-14px_rgba(255,91,6,0.5)] hover:-translate-y-0.5 transition-all duration-200'>
+                  className='w-full md:w-auto whitespace-nowrap inline-flex items-center justify-center gap-2 rounded-sm border border-[#ff5b06] bg-white text-[#ff5b06] text-lg font-bold px-5 py-2.5 shadow-[0_10px_30px_-12px_rgba(0,0,0,0.25)] hover:bg-[#ff5b06] hover:text-white hover:shadow-[0_16px_38px_-14px_rgba(255,91,6,0.5)] hover:-translate-y-0.5 transition-all duration-200'>
                   Plan your journey
                   <ArrowRight className='w-4 h-4' />
                 </button>
@@ -407,7 +415,9 @@ export default function TourPage() {
             </div>
 
             {/* Booking Sidebar */}
-            <div className='lg:col-span-1'>
+            <section
+              id='plan-your-journey'
+              className='lg:col-span-1 scroll-mt-80'>
               {/* Mobile: Show booking at top */}
               <div id='enquire-mobile' className='lg:hidden top-40'>
                 <EnquireNow
@@ -420,6 +430,7 @@ export default function TourPage() {
                   tourName={tour.title}
                   getDateRange={tour.dateRange}
                   creatorId={tour.creator.id}
+                  isDisabled={isCompletedTrip}
                 />
               </div>
 
@@ -437,6 +448,7 @@ export default function TourPage() {
                   tourName={tour.title}
                   getDateRange={tour.dateRange}
                   creatorId={tour.creator.id}
+                  isDisabled={isCompletedTrip}
                 />
                 <div className='w-full mt-4  shadow-xs transition-shadow duration-300'>
                   <UserCard
@@ -448,8 +460,8 @@ export default function TourPage() {
                   />
                 </div>
               </div>
-            </div>
-            {showStickyBooking && (
+            </section>
+            {showStickyBooking && !isCompletedTrip && (
               <div className='fixed bottom-4 left-0 right-0 px-4 md:hidden z-40'>
                 <div className='max-w-4xl mx-auto bg-white shadow-lg border border-gray-200 rounded-2xl px-4 py-3 flex items-center justify-between gap-3'>
                   <div>
@@ -465,7 +477,7 @@ export default function TourPage() {
                   </div>
                   <button
                     type='button'
-                    onClick={() => scrollToSection('enquire')}
+                    onClick={() => scrollToSection('plan-your-journey')}
                     className='flex-1 flex justify-center items-center px-4 py-3 rounded-xl bg-[#ff5b06] text-white font-semibold shadow-md hover:bg-[#ff5b06]/90 transition-colors'>
                     Book / Enquire
                   </button>
@@ -631,6 +643,7 @@ function simplifyTour(t) {
     place: t?.place,
     image: t?.heroImg || t?.image || FALLBACK_IMG,
     status: t?.status,
+    tripStatus: t?.tripStatus,
   };
 }
 
@@ -728,12 +741,12 @@ function toTourModel(api) {
     tours: Array.isArray(api?.tours) ? api.tours.map(simplifyTour) : [],
     tagMonths: Array.isArray(api?.tagMonths)
       ? api.tagMonths.map((m) => ({
-          id: m?._id || m?.id,
-          month: m?.month,
-          monthTag: m?.monthTag,
-          heroImg: m?.heroImg || '',
-          displayImg: m?.displayImg || '',
-        }))
+        id: m?._id || m?.id,
+        month: m?.month,
+        monthTag: m?.monthTag,
+        heroImg: m?.heroImg || '',
+        displayImg: m?.displayImg || '',
+      }))
       : [],
   };
 
@@ -797,6 +810,7 @@ function toTourModel(api) {
     slug: api?.slug,
     id: api?._id || api?.id,
     status: api?.status,
+    tripStatus: api?.tripStatus,
     createdAt: api?.createdAt,
     updatedAt: api?.updatedAt,
 
@@ -808,3 +822,15 @@ function toTourModel(api) {
     video: Array.isArray(api?.video) ? api.video : [],
   };
 }
+
+
+
+
+
+
+
+
+
+
+
+

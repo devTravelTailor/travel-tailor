@@ -11,7 +11,7 @@ import Spinner from "../CustomUI/Spinner/Spinner";
 const Contact = () => {
   // Wrap serchParams in Suspense to prevent SSR errors
   const searchParams = useSearchParams();
-  const src = searchParams.get("src");
+  const [sourceParam, setSourceParam] = useState("");
 
   // ... (useState, handlers, validation logic - ALL SAME AS BEFORE) ...
   const [formData, setFormData] = useState({
@@ -32,6 +32,27 @@ const Contact = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [formMessage, setFormMessage] = useState({ type: "", text: "" });
   const [budgetDisplay, setBudgetDisplay] = useState("₹10,000"); // For displaying the slider value
+
+  useEffect(() => {
+    const querySource = searchParams.get("src");
+
+    if (querySource) {
+      setSourceParam(querySource);
+      return;
+    }
+
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const hash = window.location.hash.replace(/^#/, "");
+    const hashParams = new URLSearchParams(hash);
+    const hashSource = hashParams.get("src");
+
+    if (hashSource) {
+      setSourceParam(hashSource);
+    }
+  }, [searchParams]);
 
   // Budget slider settings
   const minBudget = 10000;
@@ -127,7 +148,7 @@ const Contact = () => {
     setIsLoading(true);
 
     // check ?src=website based on router
-    const source = src ? src : "Website";
+    const source = sourceParam ? sourceParam : "Website";
     const apiData = {
       ...formData,
       comment: `${formData.comment}`,

@@ -3,15 +3,22 @@ import Highlights from "../../components/Sections/Highlights";
 import DreamVacaySteps from "../../components/Steps/DreamVacaySteps";
 import FoundersSection from "../../components/Sections/Founders/FoundersSection";
 import ContactFormSection from "../../components/Shared/ContactFormSection";
+import { buildPageMetadata } from "../../util/metaData";
 
-export const metadata = {
-  title: "About | Travel Tailor",
-  description: "About us",
-  openGraph: {
-    title: "About | Travel Tailor",
-    description: "About us",
-  },
-};
+export const metadata = buildPageMetadata({
+  title: "About Travel Tailor",
+  description:
+    "Learn about Travel Tailor, our journey, founders, and the travel philosophy behind our curated experiences.",
+  path: "/about",
+  image: "/images/aboutHero.jpg",
+  imageAlt: "About Travel Tailor",
+  keywords: [
+    "about travel tailor",
+    "travel tailor founders",
+    "travel company india",
+    "curated travel brand",
+  ],
+});
 
 export default function about() {
   return (

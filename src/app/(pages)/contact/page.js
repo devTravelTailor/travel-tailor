@@ -10,6 +10,7 @@ const EnquiryPage = () => {
   return (
     <Suspense fallback={<div>Loading contact page...</div>}>
       <div className={styles.pageWrapper}>
+        <h1 className="sr-only">Contact Us</h1>
         {/* Use a wrapper class */}
         <div className={styles.pageContainer}>
           {/* Use a container for max-width and padding */}

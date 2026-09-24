@@ -316,7 +316,7 @@ function BlogsList() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder='Search blogs by title, keyword, or creator'
-                  className='w-full rounded-lg border border-gray-200 pl-10 pr-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#ff5b06]'
+                  className='w-full rounded-lg border border-gray-200 pl-10 pr-3 py-2 text-sm focus:outline-none focus:ring-0 focus-visible:ring-0 focus:border-[#ff5b06] focus-visible:border-[#ff5b06]'
                 />
               </div>
               <div className='md:hidden'>
